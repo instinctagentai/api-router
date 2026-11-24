@@ -273,7 +273,7 @@ Base URL: ${BASE}
 
 ## Comparison pages (HTML, live status)
 - ${BASE}/compare
-- ${BASE}/compare/llm , /compare/scraping , /compare/proxy , /compare/gpu
+- ${BASE}/compare/llm , /compare/scraping , /compare/proxy , /compare/gpu , /compare/pdf , /compare/monitoring
 - Each category page also has a plain markdown version: add .md (for example ${BASE}/compare/scraping.md) or send Accept: text/markdown
 - Pages start with a short answer, show when the data was last checked, and mark referral links
 
