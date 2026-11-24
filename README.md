@@ -25,3 +25,10 @@ Example client config:
 ```
 
 Daily benchmark: benchmarks/latest.md
+
+## Where it is listed
+- npm: https://www.npmjs.com/package/mcp-api-router
+- Official MCP Registry: io.github.instinctagentai/mcp-api-router (https://registry.modelcontextprotocol.io/v0/servers?search=instinctagentai)
+- GitHub topics: mcp, mcp-server, model-context-protocol, a2a, ai-agents
+- Discovery files: /llms.txt, /.well-known/agent-card.json
+- Planned: Glama, awesome-mcp-servers (needs a Glama backlink first), other directories that follow their own rules
