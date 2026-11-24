@@ -27,13 +27,13 @@ const worker = {
     if (u.pathname === "/v1/stats") { const c = counter(env); return c ? c.fetch("https://counter/stats?days=" + (u.searchParams.get("days") || "14")) : J({ error: "counters not enabled" }, 503); }
     // Count only top-level requests (ctx is set); internal self-dispatch calls carry no ctx. Known paths only, no IPs or user agents stored.
     let evt = null;
-    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || /^\/compare(\/(llm|scraping|proxy|gpu))?$/.test(u.pathname.replace(/\/+$/, "")))) {
+    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || /^\/compare(\/(llm|scraping|proxy|gpu))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
       record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: family(ua) }]);
       evt = (key) => record(env, ctx, [{ kind: "mcp:" + who, key }]);
     }
-    if (u.pathname === "/compare" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth); if (pg) return pg; }
+    if (u.pathname === "/compare" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
     const extra = routeExtras(req, u); if (extra) return extra;
     if (u.pathname === "/" || u.pathname === "/v1/status") return J({ name: "api-router", endpoints: ["/v1/best-route", "/v1/catalog", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/mcp", "/llms.txt", "/.well-known/agent-card.json"], x402_mode: "standby" });
