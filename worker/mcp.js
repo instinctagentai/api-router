@@ -25,11 +25,12 @@ async function one(m, dispatch, ip) {
   if (m.id !== undefined && m.id !== null) return { jsonrpc: "2.0", id: m.id, error: { code: -32601, message: "method not found" } };
   return null;
 }
-export async function handleMcp(req, dispatch) {
+export async function handleMcp(req, dispatch, onEvent) {
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (req.method !== "POST") return new Response("Method Not Allowed", { status: 405, headers: { ...CORS, allow: "POST, OPTIONS" } });
   let body; try { body = await req.json(); } catch { return out({ jsonrpc: "2.0", id: null, error: { code: -32700, message: "parse error" } }, 400); }
   const ip = req.headers.get("cf-connecting-ip");
+  if (onEvent) { try { for (const m of (Array.isArray(body) ? body : [body])) onEvent(m && m.method === "tools/call" ? "tool:" + String(m.params && m.params.name).slice(0, 40) : "method:" + String(m && m.method).slice(0, 40)); } catch {} }
   if (Array.isArray(body)) {
     const rs = (await Promise.all(body.map((m) => one(m, dispatch, ip)))).filter(Boolean);
     return rs.length ? out(rs) : new Response(null, { status: 202, headers: CORS });
