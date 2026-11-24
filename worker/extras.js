@@ -271,6 +271,10 @@ Base URL: ${BASE}
 - MCP server (remote, streamable HTTP, no auth): ${BASE}/mcp
 - Source: https://github.com/instinctagentai/api-router
 
+## Comparison pages (HTML, live status)
+- ${BASE}/compare
+- ${BASE}/compare/llm , /compare/scraping , /compare/proxy , /compare/gpu
+
 ## Notes
 Some provider links are referral links of the operator. Each provider entry says whether a user bonus is verified (bonus_verified).
 `;
