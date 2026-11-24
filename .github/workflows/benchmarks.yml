@@ -13,7 +13,7 @@ jobs:
       - name: Build benchmark files from the live worker
         run: |
           mkdir -p benchmarks
-          curl -sf https://api-router.instinctagentai.workers.dev/v1/catalog -o benchmarks/latest.json
+          curl -sf -A api-router-internal-benchmark https://api-router.instinctagentai.workers.dev/v1/catalog -o benchmarks/latest.json
           {
             echo "# State of AI APIs (auto-updated daily)"
             echo
