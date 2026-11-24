@@ -230,6 +230,72 @@ export async function handleMarkdown(req, u) {
 }
 
 // ---------- discovery ----------
+
+// ---------- Deterministic checkers (free, no LLM) ----------
+const normTxt = (s) => String(s).normalize("NFKC").toLowerCase().replace(/[\u2018\u2019\u201B]/g, "'").replace(/[\u201C\u201D]/g, '"').replace(/[*_`#>\[\]()]/g, " ").replace(/[^\p{L}\p{N}%.$,']+/gu, " ").replace(/(?<![\p{N}])[.,']+|[.,']+(?![\p{N}])/gu, " ").replace(/\s+/g, " ").trim();
+export function checkQuote(quote, source) {
+  const q = normTxt(quote), s = normTxt(source);
+  if (!q) return { verdict: "invalid", error: "empty quote" };
+  if (s.includes(q)) { const i = s.indexOf(q); return { verdict: "exact", coverage: 1, missing_numbers: [], best_match: s.slice(Math.max(0, i - 60), i + q.length + 60) }; }
+  const qw = q.split(" "), sw = s.split(" "), need = new Map();
+  for (const w of qw) need.set(w, (need.get(w) || 0) + 1);
+  const win = Math.min(sw.length, Math.ceil(qw.length * 1.3) + 2), have = new Map();
+  let matched = 0, best = -1, bestAt = 0;
+  const add = (w) => { if (need.has(w)) { const h = have.get(w) || 0; if (h < need.get(w)) matched++; have.set(w, h + 1); } };
+  const del = (w) => { if (need.has(w)) { const h = have.get(w); if (h <= need.get(w)) matched--; have.set(w, h - 1); } };
+  for (let i = 0; i < sw.length; i++) { add(sw[i]); if (i >= win) del(sw[i - win]); if (i >= win - 1 || i === sw.length - 1) { if (matched > best) { best = matched; bestAt = Math.max(0, i - win + 1); } } }
+  const coverage = Math.round((Math.max(best, 0) / qw.length) * 100) / 100;
+  const region = sw.slice(bestAt, bestAt + win);
+  const set = new Set(region);
+  const nums = [...new Set(qw.filter((w) => /\p{N}/u.test(w)))];
+  const missing_numbers = nums.filter((n) => !set.has(n));
+  let verdict = coverage >= 0.9 && !missing_numbers.length ? "near" : coverage >= 0.6 ? "partial" : "not_found";
+  return { verdict, coverage, missing_numbers, best_match: region.join(" ").slice(0, 400) };
+}
+export async function handleCheckQuote(req) {
+  if (req.method !== "POST") return J({ usage: "POST /v1/check-quote {\"quote\": \"...\", \"text\": \"source text\"} or {\"quote\": \"...\", \"url\": \"https://...\"}. verdict: exact|near|partial|not_found. Compares after normalizing case, spacing, quotes and markdown. Deterministic, free. url mode uses the page-to-markdown daily limit.", free: true });
+  let b; try { b = await req.json(); } catch (e) { return J({ error: "send JSON" }, 400); }
+  if (!b || typeof b.quote !== "string") return J({ error: "quote (string) required" }, 400);
+  if (b.quote.length > 5000) return J({ error: "quote too long (max 5000 chars)" }, 413);
+  let text = typeof b.text === "string" ? b.text : null, source = "text";
+  if (text !== null && text.length > 1500000) return J({ error: "text too large (max 1.5M chars)" }, 413);
+  if (text === null && typeof b.url === "string") {
+    const r = await handleMarkdown(new Request(BASE + "/v1/page-to-markdown", { method: "POST", headers: { "content-type": "application/json", "cf-connecting-ip": req.headers.get("cf-connecting-ip") || "unknown" }, body: JSON.stringify({ url: b.url }) }), new URL(BASE + "/v1/page-to-markdown"));
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) return J({ error: "could not fetch url: " + (j.error || r.status) }, r.status === 429 ? 429 : 502);
+    text = j.markdown || ""; source = j.url;
+  }
+  if (text === null) return J({ error: "provide text or url" }, 400);
+  return J({ source, ...checkQuote(b.quote, text), note: "Matches wording, not truth. A page can contain a quote and still be wrong." });
+}
+export async function handleCheckUrl(req, u) {
+  let target = u.searchParams.get("url");
+  if (!target && req.method === "POST") { try { target = (await req.json()).url; } catch (e) {} }
+  if (!target) return J({ usage: "GET /v1/check-url?url=https://example.com : does it resolve, final status, redirects, content type, title. Free, shares the " + DAILY_LIMIT + "/day limit." }, 400);
+  let t; try { t = new URL(target); } catch (e) { return J({ error: "invalid url" }, 400); }
+  const ok = (x) => /^https?:$/.test(x.protocol) && !x.username && !x.password && !blockedHost(x.hostname) && (!x.port || ["80", "443"].includes(x.port));
+  if (!ok(t)) return J({ error: "url not allowed (public http/https hosts on default ports only)" }, 400);
+  const rl = await rateLimit(req);
+  if (!rl.ok) return J({ error: "daily free limit reached", limit_per_day: DAILY_LIMIT }, 429);
+  const chain = []; let r, cur = t, t0 = Date.now();
+  for (let i = 0; i < 4; i++) {
+    try { r = await fetch(cur.href, { redirect: "manual", headers: { "user-agent": "api-router-check/1.0 (+" + BASE + ")", accept: "text/html,*/*" }, signal: AbortSignal.timeout(8000) }); }
+    catch (e) { return J({ url: t.href, resolves: false, error: "fetch failed", redirects: chain }, 200); }
+    if (r.status >= 300 && r.status < 400 && r.headers.get("location")) {
+      let nx; try { nx = new URL(r.headers.get("location"), cur.href); } catch (e) { return J({ url: t.href, resolves: false, error: "bad redirect", redirects: chain }); }
+      chain.push({ status: r.status, to: nx.href });
+      if (!ok(nx)) return J({ url: t.href, resolves: false, error: "redirect target not allowed", redirects: chain });
+      cur = nx; continue;
+    }
+    break;
+  }
+  if (r.status >= 300 && r.status < 400) return J({ url: t.href, resolves: false, error: "too many redirects", redirects: chain });
+  const ct = r.headers.get("content-type") || "";
+  let title = null;
+  if (/text\/html/i.test(ct)) { const txt = (await r.text()).slice(0, 200000); const m = txt.match(/<title[^>]*>([\s\S]*?)<\/title>/i); if (m) title = m[1].replace(/\s+/g, " ").trim().slice(0, 200); }
+  return J({ url: t.href, resolves: r.status < 400, status: r.status, final_url: cur.href, redirects: chain, content_type: ct.split(";")[0] || null, title, ms: Date.now() - t0, checked_at: new Date().toISOString(), remaining_today: rl.remaining });
+}
+
 export const agentCard = () => ({
   protocolVersion: "0.3.0",
   name: "API Router",
@@ -248,6 +314,8 @@ export const agentCard = () => ({
     { id: "catalog", name: "Provider catalog", description: "List providers with free tier notes and health.", tags: ["catalog", "api"], examples: ["GET /v1/catalog"] },
     { id: "health-route", name: "Fastest healthy provider", description: "Fastest healthy provider in a category (llm|scraping|proxy|gpu).", tags: ["health", "latency"], examples: ["GET /v1/health-route?category=llm"] },
     { id: "json-repair", name: "JSON repair and validate", description: "Fix broken JSON (comments, trailing commas, single quotes, fences, truncation) and optionally validate against a JSON Schema subset.", tags: ["json", "validation"], inputModes: ["application/json", "text/plain"], examples: ["POST /v1/json-repair {\"text\":\"{a:1,}\"}"] },
+    { id: "check-quote", name: "Quote checker", description: "Check whether a quote appears in a source text or URL. Returns exact, near, partial or not_found, with missing numbers. Matches wording only, not truth.", tags: ["verification", "citation", "hallucination"], inputModes: ["application/json"], examples: ["POST /v1/check-quote {\"quote\":\"...\",\"url\":\"https://example.com\"}"] },
+    { id: "check-url", name: "URL checker", description: "Does a URL resolve: final status, redirect chain, content type and title. Free, 30 per IP per day.", tags: ["verification", "links"], examples: ["GET /v1/check-url?url=https://example.com"] },
     { id: "page-to-markdown", name: "Page to markdown", description: "Fetch a public web page and return clean markdown. Free, 30 requests per IP per day.", tags: ["web", "markdown", "extraction"], examples: ["GET /v1/page-to-markdown?url=https://example.com"] },
   ],
 });
@@ -264,6 +332,9 @@ Base URL: ${BASE}
 - GET /v1/health-route?category=llm|scraping|proxy|gpu : fastest healthy provider
 - POST /v1/json-repair : body {"text": "...", "schema": {optional}} returns repaired JSON and validation errors
 - GET /v1/page-to-markdown?url=...&format=md : clean markdown of a public page (30 per IP per day)
+
+- POST /v1/check-quote : body {"quote": "...", "text": "..."} or {"quote": "...", "url": "..."} returns exact|near|partial|not_found (wording match only, not truth)
+- GET /v1/check-url?url=... : does a URL resolve, status, redirects, content type, title (30 per IP per day, shared)
 
 ## Discovery
 - Agent card: ${BASE}/.well-known/agent-card.json
@@ -288,5 +359,7 @@ export function routeExtras(req, u) {
   if (p === "/llms.txt") return T(llmsTxt(), "text/plain; charset=utf-8");
   if (p === "/v1/json-repair") return handleJsonRepair(req);
   if (p === "/v1/page-to-markdown") return handleMarkdown(req, u);
+  if (p === "/v1/check-quote") return handleCheckQuote(req);
+  if (p === "/v1/check-url") return handleCheckUrl(req, u);
   return null;
 }
