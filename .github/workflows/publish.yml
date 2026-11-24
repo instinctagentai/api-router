@@ -1,0 +1,25 @@
+name: publish-mcp
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/publish.yml"
+      - "mcp/package.json"
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Publish if this version is not on npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          V=$(node -p "require('./package.json').version")
+          if npm view mcp-api-router@$V version >/dev/null 2>&1; then echo "already published"; else npm publish --access public; fi
