@@ -1,4 +1,5 @@
 import partners from "../partners.json";
+import { routeExtras } from "./extras.js";
 const J = (o, s = 200) => new Response(JSON.stringify(o, null, 2), { status: s, headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
 const CATS = ["llm", "scraping", "proxy", "gpu"];
 const TASK = { inference: "llm", scraping: "scraping", gpu: "gpu", proxy: "proxy", storage: "gpu" };
@@ -15,7 +16,8 @@ async function probe(p) {
 export default {
   async fetch(req, env) {
     const u = new URL(req.url);
-    if (u.pathname === "/" || u.pathname === "/v1/status") return J({ name: "api-router", endpoints: ["/v1/best-route", "/v1/catalog", "/v1/health-route"], x402_mode: "standby" });
+    const extra = routeExtras(req, u); if (extra) return extra;
+    if (u.pathname === "/" || u.pathname === "/v1/status") return J({ name: "api-router", endpoints: ["/v1/best-route", "/v1/catalog", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/llms.txt", "/.well-known/agent-card.json"], x402_mode: "standby" });
     if (u.pathname === "/v1/catalog") {
       const out = []; for (const p of partners.providers) out.push(shape(p, await getHealth(env, p.id)));
       return J({ providers: out });
