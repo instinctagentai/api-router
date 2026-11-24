@@ -97,6 +97,42 @@
       "bonus_verified": false,
       "pricing_note": "Per-second serverless GPU",
       "halal_screen": "ok"
+    },
+    {
+      "id": "pdfco",
+      "name": "PDF.co",
+      "category": "pdf",
+      "probe_url": "https://api.pdf.co",
+      "signup_url": "https://pdf.co",
+      "referral_url": "https://app.pdf.co/?via=instinct",
+      "user_bonus_description": "Free tier details not verified, check the provider page (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Subscription plans with API credits; see provider page",
+      "halal_screen": "ok"
+    },
+    {
+      "id": "pdfops",
+      "name": "PDFops",
+      "category": "pdf",
+      "probe_url": "https://pdfops.dev",
+      "signup_url": "https://pdfops.dev",
+      "referral_url": "https://pdfops.dev/?atp=instinctagentai",
+      "user_bonus_description": "Free API key with 250 requests per month and no card; 100 requests per IP per month with no key (per pdfops.dev, read 2026-11-24)",
+      "bonus_verified": true,
+      "pricing_note": "Flat monthly tiers by request count; see provider page",
+      "halal_screen": "ok"
+    },
+    {
+      "id": "uptimerobot",
+      "name": "UptimeRobot",
+      "category": "monitoring",
+      "probe_url": "https://uptimerobot.com",
+      "signup_url": "https://uptimerobot.com",
+      "referral_url": "https://uptimerobot.com/?red=instin",
+      "user_bonus_description": "Free plan with 50 monitors and 5-minute checks (per UptimeRobot's affiliate listing, unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan plus paid subscriptions; see provider page",
+      "halal_screen": "ok"
     }
   ]
 }
