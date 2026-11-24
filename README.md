@@ -32,6 +32,11 @@ Daily benchmark: benchmarks/latest.md
 
 Streamable HTTP, no auth: https://api-router.instinctagentai.workers.dev/mcp
 
+## Live comparison pages and examples
+
+- https://api-router.instinctagentai.workers.dev/compare (LLM, scraping, proxy, GPU: pricing model, free-tier notes, live status; referral links are marked)
+- examples/ : Claude Desktop, Cursor, curl, Python and LangChain
+
 ## Where it is listed
 - npm: https://www.npmjs.com/package/mcp-api-router
 - Official MCP Registry: io.github.instinctagentai/mcp-api-router (https://registry.modelcontextprotocol.io/v0/servers?search=instinctagentai)
