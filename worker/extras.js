@@ -236,6 +236,7 @@ export const agentCard = () => ({
   description: "Free, deterministic API directory and utilities for AI agents: compare LLM, scraping, proxy and GPU providers by free tier, health and latency; repair broken JSON; convert web pages to clean markdown. No LLM runs in the request path.",
   url: BASE + "/",
   preferredTransport: "HTTP+JSON",
+  additionalInterfaces: [{ url: BASE + "/mcp", transport: "MCP-STREAMABLE-HTTP" }],
   version: "0.2.0",
   provider: { organization: "instinctagentai", url: "https://github.com/instinctagentai/api-router" },
   documentationUrl: "https://github.com/instinctagentai/api-router#readme",
@@ -266,7 +267,8 @@ Base URL: ${BASE}
 
 ## Discovery
 - Agent card: ${BASE}/.well-known/agent-card.json
-- MCP server: npx mcp-api-router
+- MCP server (local, stdio): npx mcp-api-router
+- MCP server (remote, streamable HTTP, no auth): ${BASE}/mcp
 - Source: https://github.com/instinctagentai/api-router
 
 ## Notes
