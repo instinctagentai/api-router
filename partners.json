@@ -48,7 +48,10 @@
       "user_bonus_description": "New users get 10% off their first purchase (per Firecrawl partner program page)",
       "bonus_verified": true,
       "pricing_note": "Credit-based plans",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Hobby $19/month ($16/month billed annually); free plan $0, no card",
+      "price_source": "https://www.firecrawl.dev/pricing",
+      "price_checked": "2026-11-24"
     },
     {
       "id": "scraperapi",
@@ -60,7 +63,10 @@
       "user_bonus_description": "Free trial requests (unverified)",
       "bonus_verified": false,
       "pricing_note": "Request-based plans",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Lowest listed plan $49/month ($44.10/month shown for annual)",
+      "price_source": "https://www.scraperapi.com/pricing/",
+      "price_checked": "2026-11-24"
     },
     {
       "id": "brightdata",
@@ -108,7 +114,10 @@
       "user_bonus_description": "Free tier details not verified, check the provider page (unverified)",
       "bonus_verified": false,
       "pricing_note": "Subscription plans with API credits; see provider page",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Lowest listed plan $8.99/month when billed annually",
+      "price_source": "https://pdf.co/pricing",
+      "price_checked": "2026-11-24"
     },
     {
       "id": "pdfops",
@@ -120,7 +129,10 @@
       "user_bonus_description": "Free API key with 250 requests per month and no card; 100 requests per IP per month with no key (per pdfops.dev, read 2026-11-24)",
       "bonus_verified": true,
       "pricing_note": "Flat monthly tiers by request count; see provider page",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Indie $16/month (4,000 requests); Pro $79/month (25,000); free key 250 requests/month",
+      "price_source": "https://pdfops.dev/pricing",
+      "price_checked": "2026-11-24"
     },
     {
       "id": "uptimerobot",
@@ -132,7 +144,10 @@
       "user_bonus_description": "Free plan with 50 monitors and 5-minute checks (per UptimeRobot's affiliate listing, unverified)",
       "bonus_verified": false,
       "pricing_note": "Free plan plus paid subscriptions; see provider page",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Free $0/month; Solo from $144/year",
+      "price_source": "https://uptimerobot.com/pricing/",
+      "price_checked": "2026-11-24"
     }
   ]
 }
