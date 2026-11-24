@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "note": "referral_url equals the plain signup URL until a real affiliate/referral ID is approved. bonus_verified stays false until checked on the provider page.",
+  "providers": [
+    {"id":"openrouter","name":"OpenRouter","category":"llm","probe_url":"https://openrouter.ai/api/v1/models","signup_url":"https://openrouter.ai","referral_url":"https://openrouter.ai","user_bonus_description":"Several models available free with rate limits (unverified)","bonus_verified":false,"pricing_note":"Pay-per-token, varies by model; see provider page","halal_screen":"ok"},
+    {"id":"groq","name":"Groq","category":"llm","probe_url":"https://api.groq.com/openai/v1/models","signup_url":"https://console.groq.com","referral_url":"https://console.groq.com","user_bonus_description":"Free tier with rate limits, no card (unverified)","bonus_verified":false,"pricing_note":"Free tier plus pay-per-token","halal_screen":"ok"},
+    {"id":"together","name":"Together AI","category":"llm","probe_url":"https://api.together.xyz/v1/models","signup_url":"https://api.together.ai","referral_url":"https://api.together.ai","user_bonus_description":"Signup credits may apply (unverified)","bonus_verified":false,"pricing_note":"Pay-per-token","halal_screen":"ok"},
+    {"id":"firecrawl","name":"Firecrawl","category":"scraping","probe_url":"https://api.firecrawl.dev","signup_url":"https://www.firecrawl.dev","referral_url":"https://www.firecrawl.dev","user_bonus_description":"Free starter credits (unverified)","bonus_verified":false,"pricing_note":"Credit-based plans","halal_screen":"ok"},
+    {"id":"scraperapi","name":"ScraperAPI","category":"scraping","probe_url":"https://api.scraperapi.com","signup_url":"https://www.scraperapi.com","referral_url":"https://www.scraperapi.com","user_bonus_description":"Free trial requests (unverified)","bonus_verified":false,"pricing_note":"Request-based plans","halal_screen":"ok"},
+    {"id":"brightdata","name":"Bright Data","category":"proxy","probe_url":"https://brightdata.com","signup_url":"https://brightdata.com","referral_url":"https://brightdata.com","user_bonus_description":"Trial credit may apply (unverified)","bonus_verified":false,"pricing_note":"Per-GB / per-request","halal_screen":"ok"},
+    {"id":"runpod","name":"RunPod","category":"gpu","probe_url":"https://api.runpod.io/graphql","signup_url":"https://www.runpod.io","referral_url":"https://www.runpod.io","user_bonus_description":"Referral credit program exists (unverified)","bonus_verified":false,"pricing_note":"Per-hour GPU pricing","halal_screen":"ok"},
+    {"id":"modal","name":"Modal","category":"gpu","probe_url":"https://modal.com","signup_url":"https://modal.com","referral_url":"https://modal.com","user_bonus_description":"Monthly free compute credit (unverified)","bonus_verified":false,"pricing_note":"Per-second serverless GPU","halal_screen":"ok"}
+  ]
+}
