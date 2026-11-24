@@ -9,8 +9,8 @@ const family = (ua) => /bot|crawl|spider|slurp/i.test(ua) ? "bot" : /mcp|claude|
 const counter = (env) => env.COUNTER && env.COUNTER.get(env.COUNTER.idFromName("global"));
 const record = (env, ctx, items) => { const c = counter(env); if (c && ctx) ctx.waitUntil(c.fetch("https://counter/hit", { method: "POST", body: JSON.stringify(items) }).catch(() => {})); };
 const J = (o, s = 200) => new Response(JSON.stringify(o, null, 2), { status: s, headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
-const CATS = ["llm", "scraping", "proxy", "gpu"];
-const TASK = { inference: "llm", scraping: "scraping", gpu: "gpu", proxy: "proxy", storage: "gpu" };
+const CATS = ["llm", "scraping", "proxy", "gpu", "pdf", "monitoring"];
+const TASK = { inference: "llm", scraping: "scraping", gpu: "gpu", proxy: "proxy", storage: "gpu", pdf: "pdf", monitoring: "monitoring" };
 const shape = (p, h) => ({ id: p.id, name: p.name, category: p.category, signup_url: p.signup_url, referral_url: p.referral_url, user_bonus_description: p.user_bonus_description, bonus_verified: p.bonus_verified, pricing_note: p.pricing_note, health: h || null });
 async function getHealth(env, id) { if (!env.HEALTH) return null; const v = await env.HEALTH.get("h:" + id); return v ? JSON.parse(v) : null; }
 async function probe(p) {
@@ -27,7 +27,7 @@ const worker = {
     if (u.pathname === "/v1/stats") { const c = counter(env); return c ? c.fetch("https://counter/stats?days=" + (u.searchParams.get("days") || "14")) : J({ error: "counters not enabled" }, 503); }
     // Count only top-level requests (ctx is set); internal self-dispatch calls carry no ctx. Known paths only, no IPs or user agents stored.
     let evt = null;
-    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || /^\/compare(\/(llm|scraping|proxy|gpu))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
+    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
       record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: family(ua) }]);
@@ -42,7 +42,7 @@ const worker = {
       return J({ providers: out });
     }
     if (u.pathname === "/v1/best-route") {
-      const cat = TASK[u.searchParams.get("task")]; if (!cat) return J({ error: "task must be one of inference|scraping|gpu|storage|proxy" }, 400);
+      const cat = TASK[u.searchParams.get("task")]; if (!cat) return J({ error: "task must be one of inference|scraping|gpu|storage|proxy|pdf|monitoring" }, 400);
       const scored = [];
       for (const p of partners.providers.filter((x) => x.category === cat)) scored.push(shape(p, await getHealth(env, p.id)));
       const budget = u.searchParams.get("budget") || "low";
