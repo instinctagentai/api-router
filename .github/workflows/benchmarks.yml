@@ -1,0 +1,31 @@
+name: daily-benchmarks
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build benchmark files from the live worker
+        run: |
+          mkdir -p benchmarks
+          curl -sf https://api-router.instinctagentai.workers.dev/v1/catalog -o benchmarks/latest.json
+          {
+            echo "# State of AI APIs (auto-updated daily)"
+            echo
+            echo "| Provider | Category | Status | Latency ms | Free-credit link |"
+            echo "|---|---|---|---|---|"
+            jq -r '.providers[] | "| \(.name) | \(.category) | \(if .health == null then "no data" elif .health.is_healthy then "up" else "down or limited" end) | \(.health.latency_ms // "n/a") | [\(.user_bonus_description)](\(.referral_url)) |"' benchmarks/latest.json
+            echo
+            echo "Generated $(date -u +%Y-%m-%dT%H:%M:%SZ). Bonus descriptions are unverified unless bonus_verified is true."
+          } > benchmarks/latest.md
+      - name: Commit
+        run: |
+          git config user.name "api-router-bot"
+          git config user.email "instinctagentai@users.noreply.github.com"
+          git add benchmarks
+          git diff --staged --quiet || git commit -m "chore: daily benchmark" && git push
