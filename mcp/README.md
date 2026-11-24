@@ -8,6 +8,8 @@ MCP server that helps AI agents pick an API provider (LLM inference, scraping, p
 - find_fastest_healthy_provider: lowest-latency healthy provider in a category, for outage failover
 - json_repair: fix broken or LLM-produced JSON and optionally validate it against a JSON Schema subset
 - page_to_markdown: clean markdown from a public web page (30 requests per IP per day)
+- check_quote: check whether a quote appears in a given text or URL (exact, near, partial or not_found; wording only, not truth)
+- check_url: check whether a public URL resolves (status, redirects, content type, title; shares the 30 per day limit)
 
 ## Use
 ```json
