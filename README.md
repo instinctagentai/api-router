@@ -1,5 +1,7 @@
 # api-router
 
+[![mcp-api-router MCP server](https://glama.ai/mcp/servers/instinctagentai/api-router/badges/score.svg)](https://glama.ai/mcp/servers/instinctagentai/api-router)
+
 Free JSON API and MCP server that compares AI and developer API providers (LLM inference, scraping, proxies, GPU) by free tier, health and latency, plus two free utilities for agents. Some signup links are referral links. No LLM runs in the request path.
 
 Base URL: https://api-router.instinctagentai.workers.dev
@@ -31,4 +33,6 @@ Daily benchmark: benchmarks/latest.md
 - Official MCP Registry: io.github.instinctagentai/mcp-api-router (https://registry.modelcontextprotocol.io/v0/servers?search=instinctagentai)
 - GitHub topics: mcp, mcp-server, model-context-protocol, a2a, ai-agents
 - Discovery files: /llms.txt, /.well-known/agent-card.json
-- Planned: Glama, awesome-mcp-servers (needs a Glama backlink first), other directories that follow their own rules
+- Glama: https://glama.ai/mcp/servers/instinctagentai/api-router
+- mcp.so: free submission comment posted on https://github.com/chatmcp/mcpso/issues/1 (pending their review)
+- Planned: awesome-mcp-servers (Glama backlink now in place), other directories that follow their own rules
