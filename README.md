@@ -28,6 +28,10 @@ Example client config:
 
 Daily benchmark: benchmarks/latest.md
 
+## Remote MCP endpoint
+
+Streamable HTTP, no auth: https://api-router.instinctagentai.workers.dev/mcp
+
 ## Where it is listed
 - npm: https://www.npmjs.com/package/mcp-api-router
 - Official MCP Registry: io.github.instinctagentai/mcp-api-router (https://registry.modelcontextprotocol.io/v0/servers?search=instinctagentai)
@@ -35,4 +39,6 @@ Daily benchmark: benchmarks/latest.md
 - Discovery files: /llms.txt, /.well-known/agent-card.json
 - Glama: https://glama.ai/mcp/servers/instinctagentai/api-router
 - mcp.so: free submission comment posted on https://github.com/chatmcp/mcpso/issues/1 (pending their review)
+- mcpservers.org: free submission sent (review up to 2 weeks)
+- Docker MCP Catalog: pull request open (remote entry): https://github.com/docker/mcp-registry/pull/7644
 - awesome-mcp-servers: pull request open, awaiting maintainers: https://github.com/punkpeye/awesome-mcp-servers/pull/20588
