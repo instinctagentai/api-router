@@ -1,0 +1,1 @@
+{"name":"mcp-api-router","version":"0.1.0","description":"MCP server: compare AI/developer API pricing, health and free-credit signup links","bin":{"mcp-api-router":"bin/server.js"},"type":"module","license":"MIT","files":["bin"]}
