@@ -6,6 +6,8 @@ const CATS = {
   scraping: { title: "Web scraping APIs", task: "scraping", blurb: "APIs that fetch and render web pages for you." },
   proxy: { title: "Proxy networks", task: "proxy", blurb: "Rotating and residential proxy providers." },
   gpu: { title: "GPU cloud and serverless compute", task: "gpu", blurb: "GPU rentals and serverless GPU platforms." },
+  pdf: { title: "PDF APIs", task: "pdf", blurb: "APIs that fill, merge, extract and generate PDFs." },
+  monitoring: { title: "Uptime monitoring", task: "monitoring", blurb: "Services that watch your site or API and alert you when it goes down." },
 };
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const CSS = "body{font:16px/1.5 system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;color:#1a1a1a}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:.5rem;text-align:left;vertical-align:top}th{background:#f5f5f5}.note{background:#fff8e1;border:1px solid #f0d98c;padding:.75rem 1rem;border-radius:6px}.up{color:#0a7a2f}.down{color:#b00020}small{color:#555}.skip{position:absolute;left:-999px}.skip:focus{left:.5rem;top:.5rem;background:#fff;padding:.4rem .6rem;border:2px solid #1a1a1a}a:focus-visible{outline:3px solid #1a5fd0;outline-offset:2px}caption{text-align:left;font-weight:600;padding:.25rem 0}";
@@ -41,7 +43,7 @@ export async function handlePages(u, env, getHealth, req) {
     if (wantMd) return md(`# API provider comparisons with live status\n\n${Object.entries(CATS).map(([k, c]) => `- ${c.title}: ${BASE}/compare/${k}`).join("\n")}\n\nStatus and latency come from a probe that runs every 15 minutes. Some signup links are referral links and are marked.\n`);
     return page("API provider comparisons with live status | api-router", "Free-tier notes plus live uptime and latency for LLM, scraping, proxy and GPU APIs.", "/compare", `<h1>API provider comparisons with live status</h1><p><strong>Short answer:</strong> pick a category below. Each page lists providers with their pricing model, free-tier notes and a live up/down and latency reading refreshed every 15 minutes.</p>${DISCLOSURE}<ul aria-label="Comparison categories">${li}</ul><p>The probe checks that the provider's endpoint answers. It does not measure real workloads, price or quality.</p>`);
   }
-  const m = p.match(/^\/compare\/(llm|scraping|proxy|gpu)$/);
+  const m = p.match(/^\/compare\/(llm|scraping|proxy|gpu|pdf|monitoring)$/);
   if (!m) return null;
   const k = m[1], c = CATS[k];
   const d = await load(env, getHealth, k);
