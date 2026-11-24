@@ -9,3 +9,11 @@ crons = ["*/15 * * * *"]
 [[kv_namespaces]]
 binding = "HEALTH"
 id = "e4207a6bdb9a4b5a8babd126c49781cb"
+
+[[durable_objects.bindings]]
+name = "COUNTER"
+class_name = "Counter"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Counter"]
