@@ -56,7 +56,7 @@
       "category": "scraping",
       "probe_url": "https://api.scraperapi.com",
       "signup_url": "https://www.scraperapi.com",
-      "referral_url": "https://www.scraperapi.com",
+      "referral_url": "https://www.scraperapi.com/?fp_ref=instinct-7f1897",
       "user_bonus_description": "Free trial requests (unverified)",
       "bonus_verified": false,
       "pricing_note": "Request-based plans",
