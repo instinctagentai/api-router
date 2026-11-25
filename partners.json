@@ -793,6 +793,51 @@
       "price_summary": "No free cloud plan on the page: Cloud starts at $20/month with a 14-day free trial. The open-source engine can be self-hosted for free",
       "price_source": "https://www.meilisearch.com/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "circleci",
+      "name": "CircleCI (CI/CD)",
+      "category": "ci",
+      "probe_url": "https://circleci.com",
+      "signup_url": "https://circleci.com/signup/",
+      "referral_url": "https://circleci.com/signup/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, no credit card",
+      "halal_screen": "ok",
+      "price_summary": "Free plan: up to 6,000 build minutes on a small Docker resource class, up to 5 active users a month, no credit card required. Other limits not verified",
+      "price_source": "https://circleci.com/pricing/",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "github-actions",
+      "name": "GitHub Actions (CI/CD)",
+      "category": "ci",
+      "probe_url": "https://github.com",
+      "signup_url": "https://github.com/features/actions",
+      "referral_url": "https://github.com/features/actions",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free on public repos; $12 included usage on private repos",
+      "halal_screen": "ok",
+      "price_summary": "Standard GitHub-hosted runners are free in public repositories. GitHub Free accounts get $12 of included compute usage a month for private repositories, counted in dollars and not minutes",
+      "price_source": "https://docs.github.com/en/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "cloudflare-cdn",
+      "name": "Cloudflare (CDN and DNS)",
+      "category": "cdn",
+      "probe_url": "https://www.cloudflare.com",
+      "signup_url": "https://dash.cloudflare.com/sign-up",
+      "referral_url": "https://dash.cloudflare.com/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan $0/month",
+      "halal_screen": "ok",
+      "price_summary": "Free plan at $0 a month, described as for personal or hobby projects that are not business-critical. Individual limits not verified",
+      "price_source": "https://www.cloudflare.com/plans/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
