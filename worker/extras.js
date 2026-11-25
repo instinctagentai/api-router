@@ -421,7 +421,7 @@ export const agentCard = () => ({
   url: BASE + "/",
   preferredTransport: "HTTP+JSON",
   additionalInterfaces: [{ url: BASE + "/mcp", transport: "MCP-STREAMABLE-HTTP" }, { url: BASE + "/mcp/ask", transport: "MCP-STREAMABLE-HTTP" }],
-  version: "0.2.4",
+  version: "0.2.7",
   provider: { organization: "instinctagentai", url: "https://github.com/instinctagentai/api-router" },
   documentationUrl: "https://github.com/instinctagentai/api-router#readme",
   capabilities: { streaming: false, pushNotifications: false },
@@ -451,6 +451,9 @@ export const aiCatalog = () => ({
     { type: "mcp-server", name: "api-router (agent tool names)", url: BASE + "/mcp", transport: "streamable-http", auth: "none" },
     { type: "mcp-server", name: "api-router (question-style tool names)", url: BASE + "/mcp/ask", transport: "streamable-http", auth: "none" },
     { type: "dataset", name: "Provider catalog (JSON)", url: BASE + "/v1/catalog", media_type: "application/json" },
+    { type: "feed", name: "New and re-verified rows (JSON)", url: BASE + "/v1/changes", media_type: "application/json" },
+    { type: "feed", name: "New and re-verified rows (Atom)", url: BASE + "/feed.xml", media_type: "application/atom+xml" },
+    { type: "openapi", name: "OpenAPI description", url: BASE + "/openapi.json", media_type: "application/json" },
     { type: "document", name: "Free-tier cheat sheet", url: BASE + "/free-tiers", markdown: BASE + "/free-tiers.md" },
     { type: "document", name: "Free stack for vibe-coded apps", url: BASE + "/best/free-stack-for-vibe-coded-apps", markdown: BASE + "/best/free-stack-for-vibe-coded-apps.md" },
     { type: "agent-card", name: "Agent card", url: BASE + "/.well-known/agent-card.json" },
@@ -466,6 +469,8 @@ Base URL: ${BASE}
 
 ## Endpoints
 - GET /v1/catalog : all providers with free-tier notes and health
+- GET /v1/changes and /feed.xml : newest and re-verified catalog rows (JSON and Atom)
+- GET /openapi.json : OpenAPI description of the main endpoints
 - GET /v1/best-route?task=inference|scraping|gpu|storage|proxy&budget=low|fast : best provider for a task
 - GET /v1/health-route?category=llm|scraping|proxy|gpu : fastest healthy provider
 - POST /v1/json-repair : body {"text": "...", "schema": {optional}} returns repaired JSON and validation errors
@@ -514,11 +519,28 @@ Provider status uses four states: up (HTTP 200-399), degraded (4xx on the probe 
 Some provider links are referral links of the operator. Each provider entry says whether a user bonus is verified (bonus_verified).
 `;
 
+
+const recentItems = () => partners.providers.slice().reverse().slice(0, 40).map((x) => ({ id: x.id, name: x.name, category: x.category, price_summary: x.price_summary, price_source: x.price_source, checked: x.price_checked, referral_link_is_ours: !!(x.referral_url && x.referral_url !== x.signup_url) }));
+export const changesDoc = () => ({ note: "Most recently added or re-verified catalog rows, newest first. checked is the date we read price_source. Rows with referral_link_is_ours true use an affiliate link of the operator.", count: recentItems().length, items: recentItems() });
+const xe = (s) => String(s == null ? "" : s).replace(/[<>&"']/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" }[c]));
+export const feedXml = () => { const it = recentItems(); const upd = it.map((i) => i.checked).filter(Boolean).sort().pop() || "2026-11-25"; return `<?xml version="1.0" encoding="utf-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom"><title>api-router: new and re-verified free-tier rows</title><id>${BASE}/feed.xml</id><link href="${BASE}/feed.xml" rel="self"/><link href="${BASE}/free-tiers"/><updated>${upd}T00:00:00Z</updated>` + it.map((i) => `<entry><title>${xe(i.name)}</title><id>${BASE}/v1/changes#${xe(i.id)}</id><link href="${xe(i.price_source)}"/><updated>${xe(i.checked)}T00:00:00Z</updated><summary>${xe(i.price_summary)}</summary></entry>`).join("") + `</feed>`; };
+export const openApi = () => ({ openapi: "3.0.3", info: { title: "api-router", version: "0.2.7", description: "Free, source-linked free-tier facts for AI and developer API providers, plus small utilities. No API key. Daily free limits apply to some utilities." }, servers: [{ url: BASE }], paths: {
+  "/v1/catalog": { get: { summary: "All providers with free-tier notes, source links and health", responses: { 200: { description: "JSON catalog" } } } },
+  "/v1/best-route": { get: { summary: "Pick a provider for a task", parameters: [{ name: "task", in: "query", schema: { type: "string" } }, { name: "budget", in: "query", schema: { type: "string", enum: ["low", "fast"] } }], responses: { 200: { description: "Recommendation" } } } },
+  "/v1/health-route": { get: { summary: "Fastest healthy provider in a category", parameters: [{ name: "category", in: "query", schema: { type: "string" } }], responses: { 200: { description: "Provider" } } } },
+  "/v1/changes": { get: { summary: "Newest and re-verified catalog rows", responses: { 200: { description: "JSON list" } } } },
+  "/feed.xml": { get: { summary: "Atom feed of the same changes", responses: { 200: { description: "Atom" } } } },
+  "/v1/json-repair": { post: { summary: "Repair broken JSON", responses: { 200: { description: "Repaired JSON" } } } },
+  "/v1/convert-units": { get: { summary: "Convert units", responses: { 200: { description: "Result" } } } } } });
+
 export function routeExtras(req, u) {
   const p = u.pathname;
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (p === "/.well-known/agent-card.json" || p === "/.well-known/agent.json") return J(agentCard());
   if (p === "/.well-known/ai-catalog.json") return J(aiCatalog());
+  if (p === "/v1/changes") return J(changesDoc(), 200, { "cache-control": "public, max-age=900" });
+  if (p === "/feed.xml") return T(feedXml(), "application/atom+xml; charset=utf-8");
+  if (p === "/openapi.json") return J(openApi());
   if (p === "/llms.txt") return T(llmsTxt(), "text/plain; charset=utf-8");
   if (p === "/v1/json-repair") return handleJsonRepair(req);
   if (p === "/v1/page-to-markdown") return handleMarkdown(req, u);
