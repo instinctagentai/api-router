@@ -12,7 +12,10 @@
       "user_bonus_description": "Several models available free with rate limits (unverified)",
       "bonus_verified": false,
       "pricing_note": "Pay-per-token, varies by model; see provider page",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Pay per token, model prices vary. Free models (ID ends in :free): 20 requests/min and 50 requests/day; 1,000/day after buying 10 credits",
+      "price_source": "https://openrouter.ai/docs/api-reference/limits",
+      "price_checked": "2026-11-25"
     },
     {
       "id": "groq",
@@ -24,7 +27,10 @@
       "user_bonus_description": "Free tier with rate limits, no card (unverified)",
       "bonus_verified": false,
       "pricing_note": "Free tier plus pay-per-token",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Docs list base limits per model, for example openai/gpt-oss-20b: 30 requests/min, 1,000/day, 200K tokens/day. Your account's limits page is the exact source",
+      "price_source": "https://console.groq.com/docs/rate-limits",
+      "price_checked": "2026-11-25"
     },
     {
       "id": "together",
@@ -78,7 +84,10 @@
       "user_bonus_description": "Trial credit may apply (unverified)",
       "bonus_verified": false,
       "pricing_note": "Per-GB / per-request",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Residential proxies pay as you go listed at $4/GB after a 50% promotion (shown as $8/GB before); monthly plans from $499/month. Promotional prices change",
+      "price_source": "https://brightdata.com/pricing/proxy-network/residential-proxies",
+      "price_checked": "2026-11-25"
     },
     {
       "id": "runpod",
@@ -90,7 +99,10 @@
       "user_bonus_description": "New users get a one-time credit of $5-$500 after adding $10 for the first time (per Runpod referral page)",
       "bonus_verified": true,
       "pricing_note": "Per-hour GPU pricing",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "GPU cloud billed per hour as listed: H100 PCIe $2.89/hr, H100 SXM $4.39/hr",
+      "price_source": "https://www.runpod.io/pricing",
+      "price_checked": "2026-11-25"
     },
     {
       "id": "modal",
@@ -102,7 +114,10 @@
       "user_bonus_description": "Monthly free compute credit (unverified)",
       "bonus_verified": false,
       "pricing_note": "Per-second serverless GPU",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "price_summary": "Starter plan includes $30/month free credits (per-second billing beyond that)",
+      "price_source": "https://modal.com/pricing",
+      "price_checked": "2026-11-25"
     },
     {
       "id": "pdfco",
