@@ -1929,6 +1929,21 @@
       "price_summary": "Starter: free monthly allowance of 25 GiB row storage, 25 GiB columnar storage and 250M Request Units, per organization across up to five eligible instances. Rates beyond the allowance are listed on the page",
       "price_source": "https://www.pingcap.com/tidb-cloud-pricing/",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "imagekit",
+      "name": "ImageKit (image and video CDN and API)",
+      "category": "image",
+      "probe_url": "https://imagekit.io",
+      "signup_url": "https://imagekit.io",
+      "referral_url": "https://imagekit.io",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Forever free plan, $0 per month",
+      "halal_screen": "ok",
+      "price_summary": "Forever free plan $0 per month lists 20 GB bandwidth and 3 GB DAM storage. Other limits (such as purge requests) were not read reliably, not verified",
+      "price_source": "https://imagekit.io/plans/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
