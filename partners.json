@@ -15,7 +15,12 @@
       "halal_screen": "ok",
       "price_summary": "Pay per token, model prices vary. Free models (ID ends in :free): 20 requests/min and 50 requests/day; 1,000/day after buying 10 credits",
       "price_source": "https://openrouter.ai/docs/api-reference/limits",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "groq",
@@ -30,7 +35,12 @@
       "halal_screen": "ok",
       "price_summary": "Docs list base limits per model, for example openai/gpt-oss-20b: 30 requests/min, 1,000/day, 200K tokens/day. Your account's limits page is the exact source",
       "price_source": "https://console.groq.com/docs/rate-limits",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "together",
@@ -57,7 +67,12 @@
       "halal_screen": "ok",
       "price_summary": "Hobby $19/month ($16/month billed annually); free plan $0, no card",
       "price_source": "https://www.firecrawl.dev/pricing",
-      "price_checked": "2026-11-24"
+      "price_checked": "2026-11-24",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "scraperapi",
@@ -72,7 +87,12 @@
       "halal_screen": "ok",
       "price_summary": "Lowest listed plan $49/month ($44.10/month shown for annual)",
       "price_source": "https://www.scraperapi.com/pricing/",
-      "price_checked": "2026-11-24"
+      "price_checked": "2026-11-24",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "brightdata",
@@ -87,7 +107,12 @@
       "halal_screen": "ok",
       "price_summary": "Residential proxies pay as you go listed at $4/GB after a 50% promotion (shown as $8/GB before); monthly plans from $499/month. Promotional prices change",
       "price_source": "https://brightdata.com/pricing/proxy-network/residential-proxies",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "runpod",
@@ -102,7 +127,12 @@
       "halal_screen": "ok",
       "price_summary": "GPU cloud billed per hour as listed: H100 PCIe $2.89/hr, H100 SXM $4.39/hr",
       "price_source": "https://www.runpod.io/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "modal",
@@ -117,7 +147,12 @@
       "halal_screen": "ok",
       "price_summary": "Starter plan includes $30/month free credits (per-second billing beyond that)",
       "price_source": "https://modal.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "pdfco",
@@ -132,7 +167,12 @@
       "halal_screen": "ok",
       "price_summary": "Lowest listed plan $8.99/month when billed annually",
       "price_source": "https://pdf.co/pricing",
-      "price_checked": "2026-11-24"
+      "price_checked": "2026-11-24",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "pdfops",
@@ -147,7 +187,12 @@
       "halal_screen": "ok",
       "price_summary": "Indie $16/month (4,000 requests); Pro $79/month (25,000); free key 250 requests/month",
       "price_source": "https://pdfops.dev/pricing",
-      "price_checked": "2026-11-24"
+      "price_checked": "2026-11-24",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "uptimerobot",
@@ -162,7 +207,12 @@
       "halal_screen": "ok",
       "price_summary": "Free $0/month; Solo from $144/year",
       "price_source": "https://uptimerobot.com/pricing/",
-      "price_checked": "2026-11-24"
+      "price_checked": "2026-11-24",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "gemini",
@@ -177,7 +227,12 @@
       "halal_screen": "ok",
       "price_summary": "Free tier with free input and output tokens on some models; some newer models (for example Gemini 4 Carbon and Gemini 4 Argon) are not available on the free tier. Per-model free limits not verified here",
       "price_source": "https://ai.google.dev/gemini-api/docs/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cloudflare-workers-ai",
@@ -192,7 +247,12 @@
       "halal_screen": "ok",
       "price_summary": "Free allocation of 10,000 Neurons per day on the Workers Free plan; Workers Paid is $0.011 per 1,000 Neurons above that",
       "price_source": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cerebras",
@@ -207,7 +267,12 @@
       "halal_screen": "ok",
       "price_summary": "No permanent free tier. New accounts get a $5 Free Trial credit after adding a verified payment method; credits expire 30 days after grant",
       "price_source": "https://inference-docs.cerebras.ai/support/rate-limits",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "supabase",
@@ -222,7 +287,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month: 500 MB database, 50,000 monthly active users for auth; free projects are paused after 1 week of inactivity",
       "price_source": "https://supabase.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "neon",
@@ -237,7 +307,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0, no time limit and no credit card: 100 projects, 100 CU-hours per month per project, 1 GB storage per project",
       "price_source": "https://neon.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "upstash-redis",
@@ -252,7 +327,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month: 250 MB max data size and 10 GB max bandwidth listed; pay as you go is $0.20 per 100K commands",
       "price_source": "https://upstash.com/pricing/redis",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "pinecone",
@@ -267,7 +347,12 @@
       "halal_screen": "ok",
       "price_summary": "Starter plan is free; Builder is $20/month flat; Standard has a $50/month minimum. Starter usage limits not verified here",
       "price_source": "https://www.pinecone.io/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "resend",
@@ -282,7 +367,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month with 3,000 emails per month for transactional email; Pro is $20/month for 50,000. Any daily cap not verified",
       "price_source": "https://resend.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "tavily",
@@ -297,7 +387,12 @@
       "halal_screen": "ok",
       "price_summary": "Free Researcher plan: 1,000 API credits per month, no credit card required",
       "price_source": "https://www.tavily.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cohere",
@@ -312,7 +407,12 @@
       "halal_screen": "ok",
       "price_summary": "Free evaluation (trial) keys, limited to 1,000 API calls a month; rerank trial limit 10 requests/min. Production keys are paid",
       "price_source": "https://docs.cohere.com/docs/rate-limits",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "deepgram",
@@ -327,7 +427,12 @@
       "halal_screen": "ok",
       "price_summary": "$200 free credit, no credit card, does not expire per the page (about 43,000 minutes of Nova-3 transcription), then pay as you go",
       "price_source": "https://deepgram.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "assemblyai",
@@ -342,7 +447,12 @@
       "halal_screen": "ok",
       "price_summary": "$50 in free credits, no credit card required; free-tier and pay-as-you-go differ on concurrency",
       "price_source": "https://www.assemblyai.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "elevenlabs",
@@ -357,7 +467,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan includes 10,000 characters on Eleven v4, v3 and Multilingual v2, 20,000 on Turbo-class models, 4.5 hours of Scribe batch and 2.5 hours of realtime. Voice Library voices are not usable through the API on Free. Billing period not verified",
       "price_source": "https://elevenlabs.io/pricing/api",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "ocrspace",
@@ -372,7 +487,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 25,000 conversions for Engine 1/2 plus 1,000 for Engine 3 (monthly limits per the page); PRO is 300,000 plus 30,000",
       "price_source": "https://ocr.space/ocrapi",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "huggingface-spaces",
@@ -387,7 +507,12 @@
       "halal_screen": "ok",
       "price_summary": "CPU Basic hardware (2 vCPU, 16 GB) and ZeroGPU are listed as FREE on the pricing page; paid GPUs start at $0.40 per hour listed. Free usage limits not verified",
       "price_source": "https://huggingface.co/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "vercel",
@@ -402,7 +527,12 @@
       "halal_screen": "ok",
       "price_summary": "Hobby plan is free ($0/mo); Pro and Enterprise are paid. Hobby usage limits not verified here",
       "price_source": "https://vercel.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "netlify",
@@ -417,7 +547,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan is $0 forever with a 300 credit limit; the next plan has 1,000 credits. Credit period not verified",
       "price_source": "https://www.netlify.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cloudflare-r2",
@@ -432,7 +567,12 @@
       "halal_screen": "ok",
       "price_summary": "Free each month: 10 GB-month storage, 1 million Class A and 10 million Class B operations; egress to the internet is free",
       "price_source": "https://developers.cloudflare.com/r2/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "backblaze-b2",
@@ -447,7 +587,12 @@
       "halal_screen": "ok",
       "price_summary": "The first 10 GB of storage is always free, and Class A, B and C API calls are free for pay-as-you-go customers. Beyond that, pay as you go from $6.95 per TB per month is listed, with free egress up to 3x storage",
       "price_source": "https://backblaze.com/cloud-storage/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "clerk",
@@ -462,7 +607,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan includes 50,000 monthly retained users per app (users count only if they return after their first 24 hours); Pro is $25/mo ($20/mo annual)",
       "price_source": "https://clerk.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "exa",
@@ -477,7 +627,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: $10 of credits per month (about 2,500 Lite searches) plus a $10 bonus, no payment method required",
       "price_source": "https://exa.ai/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "railway",
@@ -492,7 +647,12 @@
       "halal_screen": "ok",
       "price_summary": "Free Trial: $5 one-time credit for 30 days, no card. Free plan: $0 with $1/month usage credit, services sleep after inactivity. Hobby $5/month, Pro $20/month per workspace",
       "price_source": "https://railway.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "voyage-ai",
@@ -507,7 +667,12 @@
       "halal_screen": "ok",
       "price_summary": "The first 200 million tokens for voyage-4-large, voyage-4, voyage-4-lite, voyage-context-4 and voyage-code-3 (or 50 million for older listed models) are free for every account, then priced per token. Rerank 2.5 models also list 200 million free tokens",
       "price_source": "https://docs.voyageai.com/docs/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "qdrant-cloud",
@@ -522,7 +687,12 @@
       "halal_screen": "ok",
       "price_summary": "Free tier, free forever per the page: 0.5 vCPU, 1 GB RAM, 4 GB disk, with free cloud inference on selected models",
       "price_source": "https://qdrant.tech/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "turso",
@@ -537,7 +707,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month, no credit card required. Exact free-plan limits not verified: the pricing table could not be read cleanly",
       "price_source": "https://turso.tech/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "mongodb-atlas",
@@ -552,7 +727,12 @@
       "halal_screen": "ok",
       "price_summary": "Free cluster M0: 512 MB storage, shared RAM and vCPU, free forever per the page",
       "price_source": "https://www.mongodb.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "firebase",
@@ -567,7 +747,12 @@
       "halal_screen": "ok",
       "price_summary": "Spark plan has no-cost usage limits and needs no payment method; Blaze is pay as you go and, if eligible, may include $300 in free credit. Per-product quotas not verified here",
       "price_source": "https://firebase.google.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "auth0",
@@ -582,7 +767,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month for up to 25,000 monthly active users; Essentials starts at $35/month (B2C)",
       "price_source": "https://auth0.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "brevo",
@@ -597,7 +787,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan, no credit card: up to 300 emails per day once your account is approved for sending",
       "price_source": "https://www.brevo.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "render",
@@ -612,7 +807,12 @@
       "halal_screen": "ok",
       "price_summary": "Hobby workspace is $0/month plus compute; a free instance type with 512 MB RAM is listed. Free instance limits not verified",
       "price_source": "https://render.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "stability-ai",
@@ -627,7 +827,12 @@
       "halal_screen": "ok",
       "price_summary": "New accounts get 25 free credits (1 credit = $0.01, so about $0.25); more credits are bought on the account page",
       "price_source": "https://platform.stability.ai/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "apify",
@@ -642,7 +847,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month with $5 of included usage per month; paid plans bill compute units at $0.2 per CU (Free and Starter) down to $0.13 (Business)",
       "price_source": "https://apify.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "scrapingbee",
@@ -657,7 +867,12 @@
       "halal_screen": "ok",
       "price_summary": "Paid plans listed from $49/month (Freelance) to $249/month; API credits are valid for one month and do not roll over; JS rendering costs 5 credits per request. A free trial is not verified here",
       "price_source": "https://www.scrapingbee.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "deno-deploy",
@@ -672,7 +887,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month: 1M requests per month, 20 GiB egress, 10 hours of active CPU; Pro is $20/month",
       "price_source": "https://deno.com/deploy/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "postmark",
@@ -687,7 +907,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan to test your integration: 100 emails per month",
       "price_source": "https://postmarkapp.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "mailgun",
@@ -702,7 +927,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 emails per day; paid plans start with a free first month, then $35/month",
       "price_source": "https://www.mailgun.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "posthog",
@@ -717,7 +947,12 @@
       "halal_screen": "ok",
       "price_summary": "Free every month, resets monthly, same allowance with or without a card: 1M analytics events and 5K session recordings listed; more than that needs a card",
       "price_source": "https://posthog.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "sentry",
@@ -732,7 +967,12 @@
       "halal_screen": "ok",
       "price_summary": "Developer plan is free for solo developers (one user, error monitoring and tracing). Event quotas not verified here",
       "price_source": "https://sentry.io/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cloudinary",
@@ -747,7 +987,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 3 users, 1 account, 25 monthly credits",
       "price_source": "https://cloudinary.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "upstash-qstash",
@@ -762,7 +1007,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan $0/month: 1,000 messages per day, 50 GB bandwidth, 1 MB max message size; pay as you go is $1 per 100K messages",
       "price_source": "https://upstash.com/pricing/qstash",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "algolia",
@@ -777,7 +1027,12 @@
       "halal_screen": "ok",
       "price_summary": "A Free plan exists (\"start for free\"). Its request and record limits were not verified from the page",
       "price_source": "https://www.algolia.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "meilisearch",
@@ -792,7 +1047,12 @@
       "halal_screen": "ok",
       "price_summary": "No free cloud plan on the page: Cloud starts at $20/month with a 14-day free trial. The open-source engine can be self-hosted for free",
       "price_source": "https://www.meilisearch.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "circleci",
@@ -807,7 +1067,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: up to 6,000 build minutes on a small Docker resource class, up to 5 active users a month, no credit card required. Other limits not verified",
       "price_source": "https://circleci.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "github-actions",
@@ -822,7 +1087,12 @@
       "halal_screen": "ok",
       "price_summary": "Standard GitHub-hosted runners are free in public repositories. GitHub Free accounts get $12 of included compute usage a month for private repositories, counted in dollars and not minutes",
       "price_source": "https://docs.github.com/en/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cloudflare-cdn",
@@ -837,7 +1107,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan at $0 a month, described as for personal or hobby projects that are not business-critical. Individual limits not verified",
       "price_source": "https://www.cloudflare.com/plans/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "mixedbread",
@@ -852,7 +1127,12 @@
       "halal_screen": "ok",
       "price_summary": "Starter plan is free with $5 in one-time credits and no card required. Paid plan is $20 a month, then pay-as-you-go. Per-model rates not copied here",
       "price_source": "https://www.mixedbread.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "scrapingdog",
@@ -867,7 +1147,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 request credits, no credit card required. Lite is $40 a month with 200,000 request credits",
       "price_source": "https://www.scrapingdog.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "grafana-cloud",
@@ -882,7 +1167,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan is listed as always $0, with all Grafana Cloud services under usage limits and 14 days retention for metrics, logs, traces and profiles. Exact usage limits not verified",
       "price_source": "https://grafana.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "checkly",
@@ -897,7 +1187,12 @@
       "halal_screen": "ok",
       "price_summary": "Hobby plan is $0 a month: 10 uptime monitors at a 2 minute maximum frequency from 6 locations, with 1,000 browser/Playwright checks and 10,000 API checks listed. The billing period for those check counts is not verified",
       "price_source": "https://www.checklyhq.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "healthchecks",
@@ -912,7 +1207,12 @@
       "halal_screen": "ok",
       "price_summary": "Hobbyist plan is $0 a month. Its check limits were not read from the page, so they are not verified. The page says Hobbyist and Supporter have the same limits, and multiple accounts to get around them count as abuse",
       "price_source": "https://healthchecks.io/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cloudflare-queues",
@@ -927,7 +1227,12 @@
       "halal_screen": "ok",
       "price_summary": "On the Workers Free plan: 10,000 standard operations a day, up to 10,000 queues per account and 24 hour message retention (not configurable). Paid plan has 1,000,000 operations a month then $0.40 per million",
       "price_source": "https://developers.cloudflare.com/queues/platform/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "scrapestack",
@@ -942,7 +1247,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 API requests per month with basic API functionality. Concurrent requests and premium proxies need a paid plan. Paid prices not read, not verified",
       "price_source": "https://scrapestack.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "serpstack",
@@ -957,7 +1267,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 searches per month with basic API functionality. Other search engines than Google and HTTPS need a paid plan. Paid prices not verified",
       "price_source": "https://serpstack.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "mediastack",
@@ -972,7 +1287,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: $0 a month, listed as free forever, 100 calls a month. Paid plans not verified",
       "price_source": "https://mediastack.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "positionstack",
@@ -987,7 +1307,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: $0 a month, 100 requests, listed for personal use. Commercial use needs a paid plan, details not verified",
       "price_source": "https://positionstack.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "ipapi",
@@ -1002,7 +1327,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: $0 a month, 100 lookups, with limited requests per the page. Whether the 100 resets monthly is not verified",
       "price_source": "https://ipapi.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "formspree",
@@ -1017,7 +1347,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: $0 a month, limited to 50 submissions a month, listed for testing and development. Paid prices not verified",
       "price_source": "https://formspree.io/plans",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "web3forms",
@@ -1032,7 +1367,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: unlimited forms and domains, 250 submissions a month, with spam protection and hCaptcha integration. Paid prices not verified",
       "price_source": "https://web3forms.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "cloudflare-vectorize",
@@ -1047,7 +1387,12 @@
       "halal_screen": "ok",
       "price_summary": "On the Workers Free plan: 30 million queried vector dimensions a month and 5 million stored vector dimensions. Cloudflare says the free tier will always allow prototyping",
       "price_source": "https://developers.cloudflare.com/vectorize/platform/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "crawio",
@@ -1062,7 +1407,12 @@
       "halal_screen": "ok",
       "price_summary": "Free trial of 500 credits, no card needed (a trial, not a recurring free plan). Paid plan prices not verified",
       "price_source": "https://crawio.com/affiliates/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "pdflayer",
@@ -1077,7 +1427,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 API requests a month, with no time limit and a limited feature set. Paid prices not verified",
       "price_source": "https://pdflayer.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "screenshotlayer",
@@ -1092,7 +1447,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 snapshots a month, with no time limit and a limited feature set. Paid prices not verified",
       "price_source": "https://screenshotlayer.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "weatherstack",
@@ -1107,7 +1467,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 lookups a month with basic API functionality. Paid prices not verified",
       "price_source": "https://weatherstack.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "mailboxlayer",
@@ -1122,7 +1487,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 API requests a month, with no time limit. Paid prices not verified",
       "price_source": "https://mailboxlayer.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "numverify",
@@ -1137,7 +1507,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 100 API requests a month, with no time limit. Paid prices not verified",
       "price_source": "https://numverify.com/product",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "stytch",
@@ -1152,7 +1527,12 @@
       "halal_screen": "ok",
       "price_summary": "Free tier is listed as always free and includes 10,000 monthly active members, 5 SSO or SCIM connections, 1,000 M2M tokens and 10,000 fingerprints. Past that you pay only for usage, per Stytch. Per-unit rates not verified",
       "price_source": "https://stytch.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "kinde",
@@ -1167,7 +1547,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 10,500 monthly active users, no credit card required. Paid plan prices not verified",
       "price_source": "https://kinde.com/pricing/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "geoapify",
@@ -1182,7 +1567,12 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: 3,000 credits a day. What one credit buys per API and whether commercial use is allowed on the free plan were not verified",
       "price_source": "https://www.geoapify.com/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "pexels",
@@ -1197,7 +1587,12 @@
       "halal_screen": "ok",
       "price_summary": "The API is free. Pexels says rate limits can be lifted free of charge if you show acceptable attribution to Pexels and its contributors. The default rate limit was not verified",
       "price_source": "https://www.pexels.com/api/",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "watch": {
+        "monitored_since": "2026-11-25",
+        "method": "price and limit text of price_source compared between reads",
+        "last_change": null
+      }
     },
     {
       "id": "sanity",
