@@ -1,4 +1,5 @@
 // Remote MCP endpoint (Streamable HTTP, stateless, JSON responses). Same tools as the npm package. /mcp uses the agent names; /mcp/ask serves the same tools under human-phrased names.
+const BASE = "https://api-router.instinctagentai.workers.dev";
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "GET, POST, DELETE, OPTIONS", "access-control-allow-headers": "content-type, accept, mcp-session-id, mcp-protocol-version" };
 const TOOLS = [
   { name: "best_route", description: "Best API provider for a task (inference|scraping|gpu|storage|proxy). Returns referral_url together with user_bonus_description.", inputSchema: { type: "object", properties: { task: { type: "string", enum: ["inference", "scraping", "gpu", "storage", "proxy"] }, budget: { type: "string", enum: ["low", "fast"] } }, required: ["task"] }, annotations: { title: "Best API provider route", readOnlyHint: true, openWorldHint: false } },
@@ -18,10 +19,12 @@ const withDescs = (s, d) => ({ ...s, properties: Object.fromEntries(Object.entri
 const ASK_TOOLS = TOOLS.map((t) => ({ ...t, name: HUMAN[t.name][0], description: HUMAN[t.name][1], inputSchema: withDescs(t.inputSchema, HUMAN[t.name][2]), annotations: { ...t.annotations, title: HUMAN[t.name][0].replace(/_/g, " ") } }));
 const BACK = Object.fromEntries(Object.entries(HUMAN).map(([k, v]) => [v[0], k]));
 const GETR = { check_email: (a) => `/v1/check-email?email=${encodeURIComponent(a.email)}`, convert_time: (a) => `/v1/convert-time?time=${encodeURIComponent(a.time || "")}&from=${encodeURIComponent(a.from || "")}&to=${encodeURIComponent(a.to)}`, convert_units: (a) => `/v1/convert-units?value=${encodeURIComponent(a.value)}&from=${encodeURIComponent(a.from)}&to=${encodeURIComponent(a.to)}`, convert_currency: (a) => `/v1/convert-currency?amount=${encodeURIComponent(a.amount)}&from=${encodeURIComponent(a.from)}&to=${encodeURIComponent(a.to)}` };
+const SOURCE = { name: "api-router (free, no API key)", url: BASE };
+const withSource = (t) => { try { const j = JSON.parse(t); if (j && typeof j === "object" && !Array.isArray(j) && !j.source) { j.source = SOURCE; return JSON.stringify(j); } } catch {} return t; };
 const route = (n, a) => GETR[n] ? GETR[n](a) : n === "best_route" ? `/v1/best-route?task=${encodeURIComponent(a.task)}&budget=${a.budget || "low"}` : n === "catalog" ? "/v1/catalog" : n === "check_url" ? `/v1/check-url?url=${encodeURIComponent(a.url)}` : n === "page_to_markdown" ? `/v1/page-to-markdown?url=${encodeURIComponent(a.url)}&format=md` : `/v1/health-route?category=${encodeURIComponent(a.category)}`;
 const out = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { "content-type": "application/json", ...CORS } });
 async function one(m, dispatch, ip, ask) {
-  if (m.method === "initialize") return { jsonrpc: "2.0", id: m.id, result: { protocolVersion: (m.params && m.params.protocolVersion) || "2025-03-26", capabilities: { tools: {} }, serverInfo: { name: "mcp-api-router", version: "0.2.0" }, instructions: "Compare AI and developer API providers by free tier, health and latency, plus free json_repair, page_to_markdown, check_quote, check_url, check_email and simple converters for time zones, units and currency. Some provider links are referral links; they are labelled in referral_url." } };
+  if (m.method === "initialize") return { jsonrpc: "2.0", id: m.id, result: { protocolVersion: (m.params && m.params.protocolVersion) || "2025-03-26", capabilities: { tools: {} }, serverInfo: { name: "mcp-api-router", version: "0.2.4" }, instructions: "Compare AI and developer API providers by free tier, health and latency, plus free json_repair, page_to_markdown, check_quote, check_url, check_email and simple converters for time zones, units and currency. Some provider links are referral links; they are labelled in referral_url." } };
   if (m.method === "ping") return { jsonrpc: "2.0", id: m.id, result: {} };
   if (m.method === "tools/list") return { jsonrpc: "2.0", id: m.id, result: { tools: ask ? ASK_TOOLS : TOOLS } };
   if (m.method === "tools/call") {
@@ -30,7 +33,7 @@ async function one(m, dispatch, ip, ask) {
     try {
       const h = ip ? { "cf-connecting-ip": ip } : {};
       const r = name === "check_quote" ? await dispatch("/v1/check-quote", { method: "POST", headers: { "content-type": "application/json", ...h }, body: JSON.stringify({ quote: a.quote, ...(a.text ? { text: a.text } : {}), ...(a.url ? { url: a.url } : {}) }) }) : name === "json_repair" ? await dispatch("/v1/json-repair", { method: "POST", headers: { "content-type": "application/json", ...h }, body: JSON.stringify({ text: a.text, ...(a.schema ? { schema: a.schema } : {}) }) }) : await dispatch(route(name, a), { headers: h });
-      return { jsonrpc: "2.0", id: m.id, result: { content: [{ type: "text", text: await r.text() }], isError: !r.ok } };
+      return { jsonrpc: "2.0", id: m.id, result: { content: [{ type: "text", text: withSource(await r.text()) }], isError: !r.ok } };
     } catch (e) { return { jsonrpc: "2.0", id: m.id, result: { isError: true, content: [{ type: "text", text: String(e) }] } }; }
   }
   if (m.id !== undefined && m.id !== null) return { jsonrpc: "2.0", id: m.id, error: { code: -32601, message: "method not found" } };
