@@ -498,7 +498,7 @@ Base URL: ${BASE}
 
 ## Comparison roundups (dated, source-linked, no rankings)
 - ${BASE}/best/free-llm-api , /best/free-gpu-cloud , /best/web-scraping-api , /best/pdf-api , /best/free-uptime-monitoring (add .md for markdown)
-- More categories: ${BASE}/best/free-database , /best/free-auth , /best/free-app-hosting , /best/free-speech-api , /best/free-object-storage , /best/free-search-api , /best/free-vector-database , /best/free-email-api , /best/free-ocr-api , /best/free-embeddings-api , /best/free-image-api , /best/free-analytics , /best/free-error-monitoring , /best/free-message-queue
+- More categories: ${BASE}/best/free-database , /best/free-auth , /best/free-app-hosting , /best/free-speech-api , /best/free-object-storage , /best/free-search-api , /best/free-vector-database , /best/free-email-api , /best/free-ocr-api , /best/free-embeddings-api , /best/free-image-api , /best/free-analytics , /best/free-error-monitoring , /best/free-message-queue , /best/free-ci-cd
 - For vibe coders (people building apps with AI tools): ${BASE}/best/free-stack-for-vibe-coded-apps (includes copy-paste prompts for your AI coding tool)
 - Machine-readable index of these resources: ${BASE}/.well-known/ai-catalog.json
 
