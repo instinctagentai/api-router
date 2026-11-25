@@ -522,7 +522,7 @@ Some provider links are referral links of the operator. Each provider entry says
 
 
 const recentItems = () => partners.providers.slice().reverse().slice(0, 40).map((x) => ({ id: x.id, name: x.name, category: x.category, price_summary: x.price_summary, price_source: x.price_source, checked: x.price_checked, referral_link_is_ours: !!(x.referral_url && x.referral_url !== x.signup_url) }));
-export const changesDoc = () => ({ note: "Most recently added or re-verified catalog rows, newest first. checked is the date we read price_source. Rows with referral_link_is_ours true use an affiliate link of the operator.", count: recentItems().length, items: recentItems() });
+export const changesDoc = (since) => { const ok = /^\d{4}-\d{2}-\d{2}$/.test(since || ""); const items = recentItems().filter((i) => !ok || (i.checked || "") >= since); return { note: "Most recently added or re-verified catalog rows, newest first. checked is the date we read price_source. Rows with referral_link_is_ours true use an affiliate link of the operator.", since: ok ? since : null, count: items.length, items }; };
 const xe = (s) => String(s == null ? "" : s).replace(/[<>&"']/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" }[c]));
 export const feedXml = () => { const it = recentItems(); const upd = it.map((i) => i.checked).filter(Boolean).sort().pop() || "2026-11-25"; return `<?xml version="1.0" encoding="utf-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom"><title>api-router: new and re-verified free-tier rows</title><id>${BASE}/feed.xml</id><link href="${BASE}/feed.xml" rel="self"/><link href="${BASE}/free-tiers"/><updated>${upd}T00:00:00Z</updated>` + it.map((i) => `<entry><title>${xe(i.name)}</title><id>${BASE}/v1/changes#${xe(i.id)}</id><link href="${xe(i.price_source)}"/><updated>${xe(i.checked)}T00:00:00Z</updated><summary>${xe(i.price_summary)}</summary></entry>`).join("") + `</feed>`; };
 export const openApi = () => ({ openapi: "3.0.3", info: { title: "api-router", version: "0.2.8", description: "Free, source-linked free-tier facts for AI and developer API providers, plus small utilities. No API key. Daily free limits apply to some utilities." }, servers: [{ url: BASE }], paths: {
@@ -530,7 +530,7 @@ export const openApi = () => ({ openapi: "3.0.3", info: { title: "api-router", v
   "/v1/best-route": { get: { summary: "Pick a provider for a task", parameters: [{ name: "task", in: "query", schema: { type: "string" } }, { name: "budget", in: "query", schema: { type: "string", enum: ["low", "fast"] } }], responses: { 200: { description: "Recommendation" } } } },
   "/v1/health-route": { get: { summary: "Fastest healthy provider in a category", parameters: [{ name: "category", in: "query", schema: { type: "string" } }], responses: { 200: { description: "Provider" } } } },
   "/v1/pick": { get: { summary: "Keyword-matched catalog rows for a task, with source and read date", parameters: [{ name: "need", in: "query", schema: { type: "string" } }, { name: "limit", in: "query", schema: { type: "integer" } }], responses: { 200: { description: "Ranked rows" } } } },
-  "/v1/changes": { get: { summary: "Newest and re-verified catalog rows", responses: { 200: { description: "JSON list" } } } },
+  "/v1/changes": { get: { summary: "Newest and re-verified catalog rows; optional since=YYYY-MM-DD keeps rows checked on or after that date", parameters: [{ name: "since", in: "query", schema: { type: "string" } }], responses: { 200: { description: "JSON list" } } } },
   "/feed.xml": { get: { summary: "Atom feed of the same changes", responses: { 200: { description: "Atom" } } } },
   "/v1/json-repair": { post: { summary: "Repair broken JSON", responses: { 200: { description: "Repaired JSON" } } } },
   "/v1/convert-units": { get: { summary: "Convert units", responses: { 200: { description: "Result" } } } } } });
@@ -550,7 +550,7 @@ export function pickProviders(need, limit) {
     }
     return { x, idx, s, why: [...new Set(why)] };
   }).filter((r) => r.s > 0).sort((a, b) => b.s - a.s || a.idx - b.idx).slice(0, lim);
-  return { need, keywords: toks, matches: scored.map(({ x, s, why }) => ({ id: x.id, name: x.name, category: x.category, score: s, matched_on: why, price_summary: x.price_summary, price_source: x.price_source, checked: x.price_checked, signup_url: x.referral_url || x.signup_url, referral_link_is_ours: !!(x.referral_url && x.referral_url !== x.signup_url) })), categories_available: [...new Set(partners.providers.map((x) => x.category))].sort(), recheck: { why: "Free plans change. Each row carries the date we last read its source.", newest_rows: BASE + "/v1/changes", feed: BASE + "/feed.xml", suggestion: "If you reuse this pick later, compare the checked date with the newest rows in /v1/changes or the feed." }, note: "Keyword match against our catalog categories, names and price notes. Not a quality ranking. Each row's price_summary comes from the page in price_source on the checked date; anything unread says not verified. Some signup links are the operator's affiliate links (referral_link_is_ours)." };
+  return { need, keywords: toks, matches: scored.map(({ x, s, why }) => ({ id: x.id, name: x.name, category: x.category, score: s, matched_on: why, price_summary: x.price_summary, price_source: x.price_source, checked: x.price_checked, signup_url: x.referral_url || x.signup_url, referral_link_is_ours: !!(x.referral_url && x.referral_url !== x.signup_url) })), categories_available: [...new Set(partners.providers.map((x) => x.category))].sort(), recheck: { why: "Free plans change. Each row carries the date we last read its source.", newest_rows: BASE + "/v1/changes", feed: BASE + "/feed.xml", suggestion: "If you reuse this pick later, call /v1/changes?since=YYYY-MM-DD with the checked date to see rows read or added after it, or follow the feed." }, note: "Keyword match against our catalog categories, names and price notes. Not a quality ranking. Each row's price_summary comes from the page in price_source on the checked date; anything unread says not verified. Some signup links are the operator's affiliate links (referral_link_is_ours)." };
 }
 
 export function routeExtras(req, u) {
@@ -559,7 +559,7 @@ export function routeExtras(req, u) {
   if (p === "/.well-known/agent-card.json" || p === "/.well-known/agent.json") return J(agentCard());
   if (p === "/.well-known/ai-catalog.json") return J(aiCatalog());
   if (p === "/v1/pick") return J(pickProviders(u.searchParams.get("need"), u.searchParams.get("limit")), 200, { "cache-control": "public, max-age=300" });
-  if (p === "/v1/changes") return J(changesDoc(), 200, { "cache-control": "public, max-age=900" });
+  if (p === "/v1/changes") return J(changesDoc(u.searchParams.get("since")), 200, { "cache-control": "public, max-age=900" });
   if (p === "/feed.xml") return T(feedXml(), "application/atom+xml; charset=utf-8");
   if (p === "/openapi.json") return J(openApi());
   if (p === "/llms.txt") return T(llmsTxt(), "text/plain; charset=utf-8");
