@@ -1,5 +1,10 @@
+import partners from "../partners.json";
+// Probe budget: Cloudflare free plan allows 50 subrequests per run. Each run uses at most MAX_PROBES HEAD probes (redirects are not followed) plus about 8 KV and GitHub calls.
+export const MAX_PROBES = 36;
+export const PROBE_GROUPS = Math.max(1, Math.ceil(partners.providers.length / MAX_PROBES));
+export const REFRESH_MIN = 15 * PROBE_GROUPS;
 // Deterministic helpers: JSON repair/validate, page-to-markdown, agent card, llms.txt. No LLM, no paid services.
-export const HEALTH_RULE = "One HEAD request per provider every 30 minutes from a Cloudflare Worker. state=up: HTTP 200-399. state=degraded: the host answered but the probe URL returned a 4xx status (for example 401, 403, 404 or 405). That often just means the root path needs a key or does not exist, so it is a warning, not proof the API is broken. state=rate_limited: HTTP 429. state=down: HTTP 500 or higher, a timeout or no answer. is_healthy is true only for state=up. This measures whether the API host answers, not real workload success, price or quality.";
+export const HEALTH_RULE = "One HEAD request per provider every " + REFRESH_MIN + " minutes from a Cloudflare Worker. state=up: HTTP 200-399. state=degraded: the host answered but the probe URL returned a 4xx status (for example 401, 403, 404 or 405). That often just means the root path needs a key or does not exist, so it is a warning, not proof the API is broken. state=rate_limited: HTTP 429. state=down: HTTP 500 or higher, a timeout or no answer. is_healthy is true only for state=up. This measures whether the API host answers, not real workload success, price or quality.";
 export const BASE = "https://api-router.instinctagentai.workers.dev";
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "GET,POST,OPTIONS", "access-control-allow-headers": "content-type" };
 export const J = (o, s = 200, extra = {}) => new Response(JSON.stringify(o, null, 2), { status: s, headers: { "content-type": "application/json", ...CORS, ...extra } });
