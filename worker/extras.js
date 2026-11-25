@@ -421,7 +421,7 @@ export const agentCard = () => ({
   url: BASE + "/",
   preferredTransport: "HTTP+JSON",
   additionalInterfaces: [{ url: BASE + "/mcp", transport: "MCP-STREAMABLE-HTTP" }, { url: BASE + "/mcp/ask", transport: "MCP-STREAMABLE-HTTP" }],
-  version: "0.2.7",
+  version: "0.2.8",
   provider: { organization: "instinctagentai", url: "https://github.com/instinctagentai/api-router" },
   documentationUrl: "https://github.com/instinctagentai/api-router#readme",
   capabilities: { streaming: false, pushNotifications: false },
@@ -525,7 +525,7 @@ const recentItems = () => partners.providers.slice().reverse().slice(0, 40).map(
 export const changesDoc = () => ({ note: "Most recently added or re-verified catalog rows, newest first. checked is the date we read price_source. Rows with referral_link_is_ours true use an affiliate link of the operator.", count: recentItems().length, items: recentItems() });
 const xe = (s) => String(s == null ? "" : s).replace(/[<>&"']/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;", "'": "&apos;" }[c]));
 export const feedXml = () => { const it = recentItems(); const upd = it.map((i) => i.checked).filter(Boolean).sort().pop() || "2026-11-25"; return `<?xml version="1.0" encoding="utf-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom"><title>api-router: new and re-verified free-tier rows</title><id>${BASE}/feed.xml</id><link href="${BASE}/feed.xml" rel="self"/><link href="${BASE}/free-tiers"/><updated>${upd}T00:00:00Z</updated>` + it.map((i) => `<entry><title>${xe(i.name)}</title><id>${BASE}/v1/changes#${xe(i.id)}</id><link href="${xe(i.price_source)}"/><updated>${xe(i.checked)}T00:00:00Z</updated><summary>${xe(i.price_summary)}</summary></entry>`).join("") + `</feed>`; };
-export const openApi = () => ({ openapi: "3.0.3", info: { title: "api-router", version: "0.2.7", description: "Free, source-linked free-tier facts for AI and developer API providers, plus small utilities. No API key. Daily free limits apply to some utilities." }, servers: [{ url: BASE }], paths: {
+export const openApi = () => ({ openapi: "3.0.3", info: { title: "api-router", version: "0.2.8", description: "Free, source-linked free-tier facts for AI and developer API providers, plus small utilities. No API key. Daily free limits apply to some utilities." }, servers: [{ url: BASE }], paths: {
   "/v1/catalog": { get: { summary: "All providers with free-tier notes, source links and health", responses: { 200: { description: "JSON catalog" } } } },
   "/v1/best-route": { get: { summary: "Pick a provider for a task", parameters: [{ name: "task", in: "query", schema: { type: "string" } }, { name: "budget", in: "query", schema: { type: "string", enum: ["low", "fast"] } }], responses: { 200: { description: "Recommendation" } } } },
   "/v1/health-route": { get: { summary: "Fastest healthy provider in a category", parameters: [{ name: "category", in: "query", schema: { type: "string" } }], responses: { 200: { description: "Provider" } } } },
