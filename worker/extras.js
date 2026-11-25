@@ -475,6 +475,9 @@ Base URL: ${BASE}
 - ${BASE}/answers/<provider>-free-tier-and-pricing : one page per provider, for example ${BASE}/answers/openrouter-free-tier-and-pricing (add .md for markdown)
 - Only providers with a price read from their own page are listed; each row has a source link and read date
 
+## Comparison roundups (dated, source-linked, no rankings)
+- ${BASE}/best/free-llm-api , /best/free-gpu-cloud , /best/web-scraping-api , /best/pdf-api , /best/free-uptime-monitoring (add .md for markdown)
+
 ## Questions people ask (HTML + .md, with example calls)
 - ${BASE}/ask : index (also /ask.md)
 - ${BASE}/ask/how-do-i-fix-broken-json-from-an-llm , /ask/is-this-url-working , /ask/is-this-email-address-valid , /ask/how-do-i-convert-time-zones , /ask/how-do-i-convert-units , /ask/what-is-the-exchange-rate-between-two-currencies , /ask/which-ai-api-has-a-free-tier
