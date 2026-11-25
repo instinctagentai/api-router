@@ -6,7 +6,7 @@ import { handlePages } from "./pages.js";
 import { handleAnswers } from "./answers.js";
 import { handleAsk } from "./asks.js";
 export { Counter };
-const KNOWN = new Set(["/", "/v1/status", "/v1/catalog", "/v1/best-route", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/mcp/ask", "/v1/stats", "/v1/changes", "/feed.xml", "/openapi.json", "/llms.txt", "/.well-known/agent-card.json", "/.well-known/agent.json"]);
+const KNOWN = new Set(["/", "/v1/status", "/v1/catalog", "/v1/best-route", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/mcp/ask", "/v1/stats", "/v1/changes", "/v1/pick", "/feed.xml", "/openapi.json", "/llms.txt", "/.well-known/agent-card.json", "/.well-known/agent.json"]);
 const family = (ua) => /bot|crawl|spider|slurp/i.test(ua) ? "bot" : /mcp|claude|cursor|smithery|glama|docker|a2a|agent|openai|anthropic|gemini/i.test(ua) ? "agent-client" : /curl|wget|python|node|undici|axios|go-http|okhttp|java|ruby|php|deno|bun/i.test(ua) ? "script" : /mozilla|safari|chrome|firefox/i.test(ua) ? "browser" : ua ? "other" : "no-ua";
 const counter = (env) => env.COUNTER && env.COUNTER.get(env.COUNTER.idFromName("global"));
 const record = (env, ctx, items) => { const c = counter(env); if (c && ctx) ctx.waitUntil(c.fetch("https://counter/hit", { method: "POST", body: JSON.stringify(items) }).catch(() => {})); };
