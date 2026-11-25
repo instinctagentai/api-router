@@ -3,6 +3,7 @@ import { routeExtras, BASE, HEALTH_RULE } from "./extras.js";
 import { handleMcp } from "./mcp.js";
 import { Counter } from "./counter.js";
 import { handlePages } from "./pages.js";
+import { handleAnswers } from "./answers.js";
 export { Counter };
 const KNOWN = new Set(["/", "/v1/status", "/v1/catalog", "/v1/best-route", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/v1/stats", "/llms.txt", "/.well-known/agent-card.json", "/.well-known/agent.json"]);
 const family = (ua) => /bot|crawl|spider|slurp/i.test(ua) ? "bot" : /mcp|claude|cursor|smithery|glama|docker|a2a|agent|openai|anthropic|gemini/i.test(ua) ? "agent-client" : /curl|wget|python|node|undici|axios|go-http|okhttp|java|ruby|php|deno|bun/i.test(ua) ? "script" : /mozilla|safari|chrome|firefox/i.test(ua) ? "browser" : ua ? "other" : "no-ua";
@@ -28,7 +29,7 @@ const worker = {
     if (u.pathname === "/v1/stats") { const c = counter(env); return c ? c.fetch("https://counter/stats?days=" + (u.searchParams.get("days") || "14")) : J({ error: "counters not enabled" }, 503); }
     // Count only top-level requests (ctx is set); internal self-dispatch calls carry no ctx. Known paths only, no IPs or user agents stored.
     let evt = null;
-    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
+    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/answers/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
       const cip = req.headers.get("cf-connecting-ip") || "", cls = family(ua);
@@ -36,6 +37,7 @@ const worker = {
       record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: cls }, ...caller(1, 0)]);
       evt = (key) => record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : [])]);
     }
+    if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/")) { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
     if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
     const extra = routeExtras(req, u); if (extra) return extra;
