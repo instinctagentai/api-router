@@ -19,7 +19,9 @@ jobs:
             echo
             echo "| Provider | Category | Status | Latency ms | Free-credit link |"
             echo "|---|---|---|---|---|"
-            jq -r '.providers[] | "| \(.name) | \(.category) | \(if .health == null then "no data" elif .health.is_healthy then "up" else "down or limited" end) | \(.health.latency_ms // "n/a") | [\(.user_bonus_description)](\(.referral_url)) |"' benchmarks/latest.json
+            jq -r '.providers[] | "| \(.name) | \(.category) | \(if .health == null then "no data" else (.health.state // (if .health.is_healthy then "up" else "down" end)) end) | \(.health.latency_ms // "n/a") | [\(.user_bonus_description)](\(.referral_url)) |"' benchmarks/latest.json
+            echo
+            echo "Status rule: up = HTTP 200-399; degraded = the host answered but the probe URL returned a 4xx (often just a path that needs a key); rate_limited = 429; down = 5xx or no answer. Full rule: https://api-router.instinctagentai.workers.dev/uptime"
             echo
             echo "Generated $(date -u +%Y-%m-%dT%H:%M:%SZ). Bonus descriptions are unverified unless bonus_verified is true."
           } > benchmarks/latest.md
