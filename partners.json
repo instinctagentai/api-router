@@ -105,28 +105,6 @@
       "terms_url_read": "2026-11-25"
     },
     {
-      "id": "brightdata",
-      "name": "Bright Data",
-      "category": "proxy",
-      "probe_url": "https://brightdata.com",
-      "signup_url": "https://brightdata.com",
-      "referral_url": "https://brightdata.com",
-      "user_bonus_description": "Trial credit may apply (unverified)",
-      "bonus_verified": false,
-      "pricing_note": "Per-GB / per-request",
-      "halal_screen": "ok",
-      "price_summary": "Residential proxies pay as you go listed at $4/GB after a 50% promotion (shown as $8/GB before); monthly plans from $499/month. Promotional prices change",
-      "price_source": "https://brightdata.com/pricing/proxy-network/residential-proxies",
-      "price_checked": "2026-11-25",
-      "watch": {
-        "monitored_since": "2026-11-25",
-        "method": "price and limit text of price_source compared between reads",
-        "last_change": null
-      },
-      "terms_url": "https://brightdata.com/legal-governance",
-      "terms_url_read": "2026-11-25"
-    },
-    {
       "id": "runpod",
       "name": "RunPod",
       "category": "gpu",
@@ -404,28 +382,6 @@
         "last_change": null
       },
       "terms_url": "https://resend.com/legal/terms-of-service",
-      "terms_url_read": "2026-11-25"
-    },
-    {
-      "id": "tavily",
-      "name": "Tavily (search API for agents)",
-      "category": "search",
-      "probe_url": "https://api.tavily.com",
-      "signup_url": "https://app.tavily.com",
-      "referral_url": "https://app.tavily.com",
-      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
-      "bonus_verified": false,
-      "pricing_note": "Free plan, pay as you go and subscriptions",
-      "halal_screen": "ok",
-      "price_summary": "Free Researcher plan: 1,000 API credits per month, no credit card required",
-      "price_source": "https://www.tavily.com/pricing",
-      "price_checked": "2026-11-25",
-      "watch": {
-        "monitored_since": "2026-11-25",
-        "method": "price and limit text of price_source compared between reads",
-        "last_change": null
-      },
-      "terms_url": "https://www.tavily.com/terms",
       "terms_url_read": "2026-11-25"
     },
     {
@@ -1060,28 +1016,6 @@
         "last_change": null
       },
       "terms_url": "https://sentry.io/terms/",
-      "terms_url_read": "2026-11-25"
-    },
-    {
-      "id": "cloudinary",
-      "name": "Cloudinary (image and video API)",
-      "category": "image",
-      "probe_url": "https://api.cloudinary.com",
-      "signup_url": "https://cloudinary.com/users/register_free",
-      "referral_url": "https://cloudinary.com/users/register_free",
-      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
-      "bonus_verified": false,
-      "pricing_note": "Free plan, then credit-based plans",
-      "halal_screen": "ok",
-      "price_summary": "Free plan: 3 users, 1 account, 25 monthly credits",
-      "price_source": "https://cloudinary.com/pricing",
-      "price_checked": "2026-11-25",
-      "watch": {
-        "monitored_since": "2026-11-25",
-        "method": "price and limit text of price_source compared between reads",
-        "last_change": null
-      },
-      "terms_url": "https://cloudinary.com/tou",
       "terms_url_read": "2026-11-25"
     },
     {
