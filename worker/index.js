@@ -47,7 +47,7 @@ const worker = {
       const cip = req.headers.get("cf-connecting-ip") || "", cls = family(ua);
       const caller = (calls, mcp) => who === "outside" && cip ? [{ kind: "caller", cls, ip: cip, ua: ua.slice(0, 200), calls, mcp }] : [];
       record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: cls }, ...caller(1, 0)]);
-      evt = (key) => record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : []), ...(key.startsWith("tool:") ? [{ kind: "toolcalls:" + who + ":client", key: cls }] : [])]);
+      evt = (key) => key.startsWith("feedback:") ? record(env, ctx, [{ kind: who === "outside" ? "feedback" : "feedback_internal", key: key.slice(9) }]) : record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : []), ...(key.startsWith("tool:") ? [{ kind: "toolcalls:" + who + ":client", key: cls }] : [])]);
     }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/")) { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/ask" || u.pathname.startsWith("/ask/")) { const as = await handleAsk(u, req); if (as) return as; }
