@@ -1,5 +1,5 @@
 import partners from "../partners.json";
-import { routeExtras, BASE } from "./extras.js";
+import { routeExtras, BASE, HEALTH_RULE } from "./extras.js";
 import { handleMcp } from "./mcp.js";
 import { Counter } from "./counter.js";
 import { handlePages } from "./pages.js";
@@ -18,8 +18,9 @@ async function probe(p) {
   try {
     const r = await fetch(p.probe_url, { method: "HEAD", signal: AbortSignal.timeout(8000), redirect: "follow" });
     const s = r.status;
-    return { status_code: s, latency_ms: Date.now() - t, is_healthy: s < 500 && s !== 429, rate_limited: s === 429, last_checked_utc: new Date().toISOString() };
-  } catch (e) { return { status_code: 0, latency_ms: Date.now() - t, is_healthy: false, rate_limited: false, last_checked_utc: new Date().toISOString() }; }
+    const state = s === 429 ? "rate_limited" : s >= 500 ? "down" : s >= 200 && s < 400 ? "up" : "degraded";
+    return { state, status_code: s, latency_ms: Date.now() - t, is_healthy: state === "up", reachable: s < 500 && s !== 429, rate_limited: s === 429, last_checked_utc: new Date().toISOString() };
+  } catch (e) { return { state: "down", status_code: 0, latency_ms: Date.now() - t, is_healthy: false, reachable: false, rate_limited: false, last_checked_utc: new Date().toISOString() }; }
 }
 const worker = {
   async fetch(req, env, ctx) {
@@ -30,8 +31,10 @@ const worker = {
     if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
-      record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: family(ua) }]);
-      evt = (key) => record(env, ctx, [{ kind: "mcp:" + who, key }]);
+      const cip = req.headers.get("cf-connecting-ip") || "", cls = family(ua);
+      const caller = (calls, mcp) => who === "outside" && cip ? [{ kind: "caller", cls, ip: cip, ua: ua.slice(0, 200), calls, mcp }] : [];
+      record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: cls }, ...caller(1, 0)]);
+      evt = (key) => record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : [])]);
     }
     if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
@@ -39,7 +42,7 @@ const worker = {
     if (u.pathname === "/" || u.pathname === "/v1/status") return J({ name: "api-router", endpoints: ["/v1/best-route", "/v1/catalog", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/llms.txt", "/.well-known/agent-card.json"], x402_mode: "standby" });
     if (u.pathname === "/v1/catalog") {
       const out = []; for (const p of partners.providers) out.push(shape(p, await getHealth(env, p.id)));
-      return J({ providers: out });
+      return J({ health_rule: HEALTH_RULE, providers: out });
     }
     if (u.pathname === "/v1/best-route") {
       const cat = TASK[u.searchParams.get("task")]; if (!cat) return J({ error: "task must be one of inference|scraping|gpu|storage|proxy|pdf|monitoring" }, 400);
@@ -54,7 +57,8 @@ const worker = {
       const c = [];
       for (const p of partners.providers.filter((x) => x.category === cat)) c.push(shape(p, await getHealth(env, p.id)));
       const ok = c.filter((x) => x.health?.is_healthy).sort((a, b) => a.health.latency_ms - b.health.latency_ms);
-      return J({ category: cat, fastest_healthy: ok[0] || null, others: c.filter((x) => x !== ok[0]), note: ok.length ? undefined : "no healthy data yet; telemetry runs every 15 minutes" });
+      const deg = c.filter((x) => x.health?.state === "degraded").sort((a, b) => a.health.latency_ms - b.health.latency_ms);
+      return J({ category: cat, fastest_healthy: ok[0] || null, others: c.filter((x) => x !== ok[0]), fallback_degraded: ok.length ? undefined : deg[0] || null, health_rule: HEALTH_RULE, note: ok.length ? undefined : deg.length ? "no provider is fully up; fallback_degraded answered with a 4xx on the probe URL, see health_rule" : "no healthy data yet; telemetry runs every 15 minutes" });
     }
     if (u.pathname === "/v2/metered-proxy") return J({ error: "not active", x402_mode: "standby" }, 501);
     return J({ error: "not found" }, 404);
@@ -63,10 +67,10 @@ const worker = {
     if (!env.HEALTH) return;
     const all = [];
     for (const p of partners.providers) { const h = await probe(p); await env.HEALTH.put("h:" + p.id, JSON.stringify(h)); all.push({ id: p.id, ...h }); }
-    try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of all) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.is_healthy ? 1 : 0; c.lat += h.latency_ms; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
+    try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of all) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.reachable ? 1 : 0; c.n2 = (c.n2 || 0) + 1; c.ok = (c.ok || 0) + (h.is_healthy ? 1 : 0); c.lat += h.latency_ms; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
     if (evt.cron === "0 3 * * *" && env.GITHUB_TOKEN && env.GITHUB_REPO) {
       const md = ["# State of AI APIs (auto-updated daily)", "", "| Provider | Category | Status | Latency ms | Free-credit link |", "|---|---|---|---|---|"]
-        .concat(partners.providers.map((p) => { const h = all.find((x) => x.id === p.id); return `| ${p.name} | ${p.category} | ${h.is_healthy ? "up" : "down/limited"} | ${h.latency_ms} | [${p.user_bonus_description}](${p.referral_url}) |`; })).join("\n") + `\n\nGenerated ${new Date().toISOString()}\n`;
+        .concat(partners.providers.map((p) => { const h = all.find((x) => x.id === p.id); return `| ${p.name} | ${p.category} | ${h.state} | ${h.latency_ms} | [${p.user_bonus_description}](${p.referral_url}) |`; })).join("\n") + `\n\nGenerated ${new Date().toISOString()}\n`;
       const put = async (path, content) => {
         const api = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${path}`; const hd = { authorization: "Bearer " + env.GITHUB_TOKEN, "user-agent": "api-router", accept: "application/vnd.github+json" };
         const cur = await fetch(api, { headers: hd }); const sha = cur.ok ? (await cur.json()).sha : undefined;
