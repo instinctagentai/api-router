@@ -1,0 +1,191 @@
+{
+  "providers": [
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "category": "llm",
+      "signup_url": "https://openrouter.ai",
+      "referral_url": "https://openrouter.ai",
+      "user_bonus_description": "Several models available free with rate limits (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Pay-per-token, varies by model; see provider page",
+      "health": {
+        "status_code": 200,
+        "latency_ms": 7,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:03.304Z"
+      }
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "category": "llm",
+      "signup_url": "https://console.groq.com",
+      "referral_url": "https://console.groq.com",
+      "user_bonus_description": "Free tier with rate limits, no card (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Free tier plus pay-per-token",
+      "health": {
+        "status_code": 404,
+        "latency_ms": 169,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:03.816Z"
+      }
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "category": "llm",
+      "signup_url": "https://api.together.ai",
+      "referral_url": "https://api.together.ai",
+      "user_bonus_description": "Signup credits may apply (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Pay-per-token",
+      "health": {
+        "status_code": 401,
+        "latency_ms": 234,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:04.413Z"
+      }
+    },
+    {
+      "id": "firecrawl",
+      "name": "Firecrawl",
+      "category": "scraping",
+      "signup_url": "https://www.firecrawl.dev",
+      "referral_url": "https://firecrawl.link/instinct-agent-ai",
+      "user_bonus_description": "New users get 10% off their first purchase (per Firecrawl partner program page)",
+      "bonus_verified": true,
+      "pricing_note": "Credit-based plans",
+      "health": {
+        "status_code": 200,
+        "latency_ms": 968,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:05.721Z"
+      }
+    },
+    {
+      "id": "scraperapi",
+      "name": "ScraperAPI",
+      "category": "scraping",
+      "signup_url": "https://www.scraperapi.com",
+      "referral_url": "https://www.scraperapi.com/?fp_ref=instinct-7f1897",
+      "user_bonus_description": "Free trial requests (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Request-based plans",
+      "health": {
+        "status_code": 404,
+        "latency_ms": 266,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:06.334Z"
+      }
+    },
+    {
+      "id": "brightdata",
+      "name": "Bright Data",
+      "category": "proxy",
+      "signup_url": "https://brightdata.com",
+      "referral_url": "https://brightdata.com",
+      "user_bonus_description": "Trial credit may apply (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Per-GB / per-request",
+      "health": {
+        "status_code": 200,
+        "latency_ms": 334,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:07.013Z"
+      }
+    },
+    {
+      "id": "runpod",
+      "name": "RunPod",
+      "category": "gpu",
+      "signup_url": "https://www.runpod.io",
+      "referral_url": "https://runpod.io?ref=fadcvasl",
+      "user_bonus_description": "New users get a one-time credit of $5-$500 after adding $10 for the first time (per Runpod referral page)",
+      "bonus_verified": true,
+      "pricing_note": "Per-hour GPU pricing",
+      "health": {
+        "status_code": 404,
+        "latency_ms": 251,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:07.600Z"
+      }
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "category": "gpu",
+      "signup_url": "https://modal.com",
+      "referral_url": "https://modal.com",
+      "user_bonus_description": "Monthly free compute credit (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Per-second serverless GPU",
+      "health": {
+        "status_code": 200,
+        "latency_ms": 982,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:08.929Z"
+      }
+    },
+    {
+      "id": "pdfco",
+      "name": "PDF.co",
+      "category": "pdf",
+      "signup_url": "https://pdf.co",
+      "referral_url": "https://app.pdf.co/?via=instinct",
+      "user_bonus_description": "Free tier details not verified, check the provider page (unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Subscription plans with API credits; see provider page",
+      "health": {
+        "status_code": 404,
+        "latency_ms": 733,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:10.007Z"
+      }
+    },
+    {
+      "id": "pdfops",
+      "name": "PDFops",
+      "category": "pdf",
+      "signup_url": "https://pdfops.dev",
+      "referral_url": "https://pdfops.dev/?atp=instinctagentai",
+      "user_bonus_description": "Free API key with 250 requests per month and no card; 100 requests per IP per month with no key (per pdfops.dev, read 2026-11-24)",
+      "bonus_verified": true,
+      "pricing_note": "Flat monthly tiers by request count; see provider page",
+      "health": {
+        "status_code": 200,
+        "latency_ms": 661,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:11.028Z"
+      }
+    },
+    {
+      "id": "uptimerobot",
+      "name": "UptimeRobot",
+      "category": "monitoring",
+      "signup_url": "https://uptimerobot.com",
+      "referral_url": "https://uptimerobot.com/?red=instin",
+      "user_bonus_description": "Free plan with 50 monitors and 5-minute checks (per UptimeRobot's affiliate listing, unverified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan plus paid subscriptions; see provider page",
+      "health": {
+        "status_code": 200,
+        "latency_ms": 385,
+        "is_healthy": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-25T04:15:11.764Z"
+      }
+    }
+  ]
+}
