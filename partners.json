@@ -853,6 +853,21 @@
       "price_summary": "Starter plan is free with $5 in one-time credits and no card required. Paid plan is $20 a month, then pay-as-you-go. Per-model rates not copied here",
       "price_source": "https://www.mixedbread.com/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "scrapingdog",
+      "name": "Scrapingdog (web scraping API)",
+      "category": "scraping",
+      "probe_url": "https://www.scrapingdog.com",
+      "signup_url": "https://www.scrapingdog.com",
+      "referral_url": "https://www.scrapingdog.com/?deal=instinctagentai-9d007f",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan 100 request credits, no card; Lite $40/month",
+      "halal_screen": "ok",
+      "price_summary": "Free plan: 100 request credits, no credit card required. Lite is $40 a month with 200,000 request credits",
+      "price_source": "https://www.scrapingdog.com/pricing",
+      "price_checked": "2026-11-25"
     }
   ]
 }
