@@ -41,6 +41,7 @@ const BEST = [
   { slug: "free-analytics", cat: "analytics", title: "Product analytics compared (2026): free plans", q: "Which product analytics tool has a free plan?", intro: "analytics tools we check" },
   { slug: "free-error-monitoring", cat: "error_monitoring", title: "Error monitoring compared (2026): free plans", q: "Which error monitoring tool has a free plan?", intro: "error monitoring tools we check" },
   { slug: "free-ci-cd", cat: "ci", title: "CI/CD services compared (2026): free plans", q: "Which CI/CD service has a free plan?", intro: "CI/CD services we check" },
+  { slug: "free-form-backend", cat: "forms", title: "Form backends compared (2026): free plans for static sites", q: "Which form backend has a free plan?", intro: "form backends we check" },
   { slug: "free-message-queue", cat: "queue", title: "Message queues and schedulers compared (2026): free plans", q: "Which serverless message queue has a free plan?", intro: "message queues we check" },
   { slug: "free-stack-for-vibe-coded-apps", cats: ["hosting", "database", "auth", "email", "llm", "storage", "search", "analytics", "error_monitoring", "queue", "image"], title: "Which free APIs and services should my vibe-coded app use? (2026)", q: "Which free API should my vibe-coded app use?", intro: "services we check for vibe-coded apps", prompts: true },
 ];
