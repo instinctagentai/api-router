@@ -14,7 +14,16 @@ const J = (o, s = 200) => new Response(JSON.stringify(o, null, 2), { status: s, 
 const CATS = ["llm", "scraping", "proxy", "gpu", "pdf", "monitoring"];
 const TASK = { inference: "llm", scraping: "scraping", gpu: "gpu", proxy: "proxy", storage: "gpu", pdf: "pdf", monitoring: "monitoring" };
 const shape = (p, h) => ({ id: p.id, name: p.name, category: p.category, signup_url: p.signup_url, referral_url: p.referral_url, user_bonus_description: p.user_bonus_description, bonus_verified: p.bonus_verified, pricing_note: p.pricing_note, health: h || null });
-async function getHealth(env, id) { if (!env.HEALTH) return null; const v = await env.HEALTH.get("h:" + id); return v ? JSON.parse(v) : null; }
+let HC = { t: 0, v: null };
+async function getHealth(env, id) {
+  if (!env.HEALTH) return null;
+  try {
+    if (!HC.v || Date.now() - HC.t > 60000) { const a = await env.HEALTH.get("h:all"); HC = { t: Date.now(), v: a ? JSON.parse(a) : {}, legacy: !a }; }
+    if (HC.v[id]) return HC.v[id];
+    if (HC.legacy) { const v = await env.HEALTH.get("h:" + id); return v ? JSON.parse(v) : null; }
+  } catch (e) {}
+  return null;
+}
 async function probe(p) {
   const t = Date.now();
   try {
@@ -70,12 +79,20 @@ const worker = {
   },
   async scheduled(evt, env) {
     if (!env.HEALTH) return;
-    const all = [];
-    for (const p of partners.providers) { const h = await probe(p); await env.HEALTH.put("h:" + p.id, JSON.stringify(h)); all.push({ id: p.id, ...h }); }
-    try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of all) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.reachable ? 1 : 0; c.n2 = (c.n2 || 0) + 1; c.ok = (c.ok || 0) + (h.is_healthy ? 1 : 0); c.lat += h.latency_ms; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
+    // Free plan limits: 50 subrequests per run and 1,000 KV writes per day. Probe one rotating group per 15-minute run, keep all statuses in one KV key.
+    const prev = JSON.parse((await env.HEALTH.get("h:all")) || "{}");
+    const G = Math.max(1, Math.ceil(partners.providers.length / 36)), slot = Math.floor(Date.now() / 900000) % G;
+    const batch = partners.providers.filter((_, i) => i % G === slot);
+    const results = await Promise.all(batch.map(async (p) => [p.id, await probe(p)]));
+    const map = { ...prev };
+    for (const [id, h] of results) map[id] = h;
+    await env.HEALTH.put("h:all", JSON.stringify(map));
+    const fresh = results.map(([id, h]) => ({ id, ...h }));
+    const all = partners.providers.filter((p) => map[p.id]).map((p) => ({ id: p.id, ...map[p.id] }));
+    try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of fresh) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.reachable ? 1 : 0; c.n2 = (c.n2 || 0) + 1; c.ok = (c.ok || 0) + (h.is_healthy ? 1 : 0); c.lat += h.latency_ms; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
     if (evt.cron === "0 3 * * *" && env.GITHUB_TOKEN && env.GITHUB_REPO) {
       const md = ["# State of AI APIs (auto-updated daily)", "", "| Provider | Category | Status | Latency ms | Free-credit link |", "|---|---|---|---|---|"]
-        .concat(partners.providers.map((p) => { const h = all.find((x) => x.id === p.id); return `| ${p.name} | ${p.category} | ${h.state} | ${h.latency_ms} | [${p.user_bonus_description}](${p.referral_url}) |`; })).join("\n") + `\n\nGenerated ${new Date().toISOString()}\n`;
+        .concat(partners.providers.map((p) => { const h = all.find((x) => x.id === p.id) || { state: "no data", latency_ms: 0 }; return `| ${p.name} | ${p.category} | ${h.state} | ${h.latency_ms} | [${p.user_bonus_description}](${p.referral_url}) |`; })).join("\n") + `\n\nGenerated ${new Date().toISOString()}\n`;
       const put = async (path, content) => {
         const api = `https://api.github.com/repos/${env.GITHUB_REPO}/contents/${path}`; const hd = { authorization: "Bearer " + env.GITHUB_TOKEN, "user-agent": "api-router", accept: "application/vnd.github+json" };
         const cur = await fetch(api, { headers: hd }); const sha = cur.ok ? (await cur.json()).sha : undefined;
