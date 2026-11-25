@@ -1,5 +1,5 @@
 import partners from "../partners.json";
-import { routeExtras, BASE, HEALTH_RULE } from "./extras.js";
+import { routeExtras, BASE, HEALTH_RULE, MAX_PROBES, PROBE_GROUPS } from "./extras.js";
 import { handleMcp } from "./mcp.js";
 import { Counter } from "./counter.js";
 import { handlePages } from "./pages.js";
@@ -27,11 +27,13 @@ async function getHealth(env, id) {
 async function probe(p) {
   const t = Date.now();
   try {
-    const r = await fetch(p.probe_url, { method: "HEAD", signal: AbortSignal.timeout(8000), redirect: "follow" });
+    const r = await fetch(p.probe_url, { method: "HEAD", signal: AbortSignal.timeout(8000), redirect: "manual" });
     const s = r.status;
     const state = s === 429 ? "rate_limited" : s >= 500 ? "down" : s >= 200 && s < 400 ? "up" : "degraded";
     return { state, status_code: s, latency_ms: Date.now() - t, is_healthy: state === "up", reachable: s < 500 && s !== 429, rate_limited: s === 429, last_checked_utc: new Date().toISOString() };
-  } catch (e) { return { state: "down", status_code: 0, latency_ms: Date.now() - t, is_healthy: false, reachable: false, rate_limited: false, last_checked_utc: new Date().toISOString() }; }
+  } catch (e) {
+    if (/subrequest|too many/i.test(String(e && e.message))) return { state: "unknown", status_code: 0, latency_ms: 0, is_healthy: false, reachable: false, rate_limited: false, skipped: true, last_checked_utc: new Date().toISOString() };
+    return { state: "down", status_code: 0, latency_ms: Date.now() - t, is_healthy: false, reachable: false, rate_limited: false, last_checked_utc: new Date().toISOString() }; }
 }
 const worker = {
   async fetch(req, env, ctx) {
@@ -81,13 +83,13 @@ const worker = {
     if (!env.HEALTH) return;
     // Free plan limits: 50 subrequests per run and 1,000 KV writes per day. Probe one rotating group per 15-minute run, keep all statuses in one KV key.
     const prev = JSON.parse((await env.HEALTH.get("h:all")) || "{}");
-    const G = Math.max(1, Math.ceil(partners.providers.length / 36)), slot = Math.floor(Date.now() / 900000) % G;
-    const batch = partners.providers.filter((_, i) => i % G === slot);
+    const G = PROBE_GROUPS, slot = Math.floor(Date.now() / 900000) % G;
+    const batch = partners.providers.filter((_, i) => i % G === slot).slice(0, MAX_PROBES);
     const results = await Promise.all(batch.map(async (p) => [p.id, await probe(p)]));
     const map = { ...prev };
-    for (const [id, h] of results) map[id] = h;
+    for (const [id, h] of results) { if (h.skipped) { if (map[id]) map[id] = { ...map[id], stale: true }; continue; } map[id] = h; }
     await env.HEALTH.put("h:all", JSON.stringify(map));
-    const fresh = results.map(([id, h]) => ({ id, ...h }));
+    const fresh = results.filter(([, h]) => !h.skipped).map(([id, h]) => ({ id, ...h }));
     const all = partners.providers.filter((p) => map[p.id]).map((p) => ({ id: p.id, ...map[p.id] }));
     try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of fresh) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.reachable ? 1 : 0; c.n2 = (c.n2 || 0) + 1; c.ok = (c.ok || 0) + (h.is_healthy ? 1 : 0); c.lat += h.latency_ms; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
     if (evt.cron === "0 3 * * *" && env.GITHUB_TOKEN && env.GITHUB_REPO) {
