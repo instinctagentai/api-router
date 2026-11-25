@@ -1198,6 +1198,36 @@
       "price_summary": "The API is free. Pexels says rate limits can be lifted free of charge if you show acceptable attribution to Pexels and its contributors. The default rate limit was not verified",
       "price_source": "https://www.pexels.com/api/",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "sanity",
+      "name": "Sanity (headless CMS)",
+      "category": "cms",
+      "probe_url": "https://www.sanity.io/pricing",
+      "signup_url": "https://www.sanity.io/pricing",
+      "referral_url": "https://www.sanity.io/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0 forever",
+      "halal_screen": "ok",
+      "price_summary": "Free plan lists up to 20 user seats, 2 public datasets, 10k documents, 1M API CDN requests per month, 250k API requests per month and 100GB assets. Bandwidth on the free plan was not verified",
+      "price_source": "https://www.sanity.io/pricing",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "convex",
+      "name": "Convex (reactive backend and database)",
+      "category": "backend",
+      "probe_url": "https://www.convex.dev/pricing",
+      "signup_url": "https://www.convex.dev/pricing",
+      "referral_url": "https://www.convex.dev/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free & Starter plan, $0/month then pay as you go",
+      "halal_screen": "ok",
+      "price_summary": "Free & Starter includes 1M function calls, 0.5 GB database storage, 1 GB file storage, 1 GB database I/O and 1 GB data egress per month, with pay-as-you-go overage rates listed on the page. Overage can be billed, so check the page before enabling it",
+      "price_source": "https://www.convex.dev/pricing",
+      "price_checked": "2026-11-25"
     }
   ]
 }
