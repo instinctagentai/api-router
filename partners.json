@@ -171,28 +171,6 @@
       "terms_url_read": "2026-11-25"
     },
     {
-      "id": "pdfops",
-      "name": "PDFops",
-      "category": "pdf",
-      "probe_url": "https://pdfops.dev",
-      "signup_url": "https://pdfops.dev",
-      "referral_url": "https://pdfops.dev/?atp=instinctagentai",
-      "user_bonus_description": "Free API key with 250 requests per month and no card; 100 requests per IP per month with no key (per pdfops.dev, read 2026-11-24)",
-      "bonus_verified": true,
-      "pricing_note": "Flat monthly tiers by request count; see provider page",
-      "halal_screen": "ok",
-      "price_summary": "Indie $16/month (4,000 requests); Pro $79/month (25,000); free key 250 requests/month",
-      "price_source": "https://pdfops.dev/pricing",
-      "price_checked": "2026-11-24",
-      "watch": {
-        "monitored_since": "2026-11-25",
-        "method": "price and limit text of price_source compared between reads",
-        "last_change": null
-      },
-      "terms_url": "https://pdfops.dev/terms",
-      "terms_url_read": "2026-11-25"
-    },
-    {
       "id": "uptimerobot",
       "name": "UptimeRobot",
       "category": "monitoring",
@@ -338,28 +316,6 @@
         "last_change": null
       },
       "terms_url": "https://upstash.com/trust/terms.pdf",
-      "terms_url_read": "2026-11-25"
-    },
-    {
-      "id": "pinecone",
-      "name": "Pinecone (vector database)",
-      "category": "vector_db",
-      "probe_url": "https://api.pinecone.io",
-      "signup_url": "https://app.pinecone.io",
-      "referral_url": "https://app.pinecone.io",
-      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
-      "bonus_verified": false,
-      "pricing_note": "Free Starter, then subscription plans",
-      "halal_screen": "ok",
-      "price_summary": "Starter plan is free; Builder is $20/month flat; Standard has a $50/month minimum. Starter usage limits not verified here",
-      "price_source": "https://www.pinecone.io/pricing/",
-      "price_checked": "2026-11-25",
-      "watch": {
-        "monitored_since": "2026-11-25",
-        "method": "price and limit text of price_source compared between reads",
-        "last_change": null
-      },
-      "terms_url": "https://www.pinecone.io/terms/",
       "terms_url_read": "2026-11-25"
     },
     {
@@ -1907,23 +1863,6 @@
       "price_summary": "Free plan lists 1 project (paused after 1 week of inactivity), 1 GB database, 1 GB storage and 5 GB egress. Other limits were not verified",
       "price_source": "https://nhost.io/pricing",
       "price_checked": "2026-11-25"
-    },
-    {
-      "id": "tavily",
-      "name": "Tavily (search API for agents)",
-      "category": "search",
-      "probe_url": "https://api.tavily.com",
-      "signup_url": "https://app.tavily.com",
-      "referral_url": "https://app.tavily.com",
-      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
-      "bonus_verified": false,
-      "pricing_note": "Free plan, pay as you go and subscriptions",
-      "halal_screen": "ok",
-      "price_summary": "Free Researcher plan: 1,000 API credits per month, no credit card required",
-      "price_source": "https://www.tavily.com/pricing",
-      "price_checked": "2026-11-25",
-      "terms_url": "https://www.tavily.com/terms",
-      "terms_url_read": "2026-11-25"
     },
     {
       "id": "scrapingant",
