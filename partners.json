@@ -1003,6 +1003,66 @@
       "price_summary": "Free plan: $0 a month, 100 lookups, with limited requests per the page. Whether the 100 resets monthly is not verified",
       "price_source": "https://ipapi.com/product",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "formspree",
+      "name": "Formspree (form backend)",
+      "category": "forms",
+      "probe_url": "https://formspree.io",
+      "signup_url": "https://formspree.io",
+      "referral_url": "https://formspree.io",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 50 submissions per month",
+      "halal_screen": "ok",
+      "price_summary": "Free plan: $0 a month, limited to 50 submissions a month, listed for testing and development. Paid prices not verified",
+      "price_source": "https://formspree.io/plans",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "web3forms",
+      "name": "Web3Forms (form backend)",
+      "category": "forms",
+      "probe_url": "https://web3forms.com",
+      "signup_url": "https://web3forms.com",
+      "referral_url": "https://web3forms.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 250 submissions per month",
+      "halal_screen": "ok",
+      "price_summary": "Free plan: unlimited forms and domains, 250 submissions a month, with spam protection and hCaptcha integration. Paid prices not verified",
+      "price_source": "https://web3forms.com/pricing",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "backblaze-b2",
+      "name": "Backblaze B2 (object storage)",
+      "category": "storage",
+      "probe_url": "https://www.backblaze.com/cloud-storage",
+      "signup_url": "https://www.backblaze.com/cloud-storage",
+      "referral_url": "https://www.backblaze.com/cloud-storage",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "First 10 GB of storage free",
+      "halal_screen": "ok",
+      "price_summary": "The first 10 GB of storage is always free, and Class A, B and C API calls are free for pay-as-you-go customers. Rates above the free amount not verified",
+      "price_source": "https://backblaze.com/cloud-storage/pricing",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "cloudflare-vectorize",
+      "name": "Cloudflare Vectorize (vector database)",
+      "category": "vector_db",
+      "probe_url": "https://developers.cloudflare.com/vectorize/",
+      "signup_url": "https://developers.cloudflare.com/vectorize/",
+      "referral_url": "https://developers.cloudflare.com/vectorize/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Included on Workers Free",
+      "halal_screen": "ok",
+      "price_summary": "On the Workers Free plan: 30 million queried vector dimensions a month and 5 million stored vector dimensions. Cloudflare says the free tier will always allow prototyping",
+      "price_source": "https://developers.cloudflare.com/vectorize/platform/pricing/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
