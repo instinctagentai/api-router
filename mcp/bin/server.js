@@ -24,7 +24,7 @@ const SOURCE={name:"api-router (free, no API key)",url:BASE};const withSource=t=
 const send = (o)=>process.stdout.write(JSON.stringify(o)+"\n");
 let buf="";
 process.stdin.on("data",async d=>{buf+=d;let i;while((i=buf.indexOf("\n"))>=0){const l=buf.slice(0,i).trim();buf=buf.slice(i+1);if(!l)continue;let m;try{m=JSON.parse(l)}catch{continue}
- if(m.method==="initialize")send({jsonrpc:"2.0",id:m.id,result:{protocolVersion:"2024-11-05",capabilities:{tools:{}},serverInfo:{name:"mcp-api-router",version:"0.2.5"}}});
+ if(m.method==="initialize")send({jsonrpc:"2.0",id:m.id,result:{protocolVersion:"2024-11-05",capabilities:{tools:{}},serverInfo:{name:"mcp-api-router",version:"0.2.7"}}});
  else if(m.method==="tools/list")send({jsonrpc:"2.0",id:m.id,result:{tools:listed}});
  else if(m.method==="tools/call"){try{const a=m.params.arguments||{};const nm=BACK[m.params.name]||m.params.name;const r=nm==="check_quote"?await fetch(BASE+"/v1/check-quote",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({quote:a.quote,...(a.text?{text:a.text}:{}),...(a.url?{url:a.url}:{})})}):nm==="json_repair"?await fetch(BASE+"/v1/json-repair",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({text:a.text,...(a.schema?{schema:a.schema}:{})})}):await fetch(BASE+path(nm,a));send({jsonrpc:"2.0",id:m.id,result:{content:[{type:"text",text:withSource(await r.text())}]}})}catch(e){send({jsonrpc:"2.0",id:m.id,result:{isError:true,content:[{type:"text",text:String(e)}]}})}}
  else if(m.id!==undefined)send({jsonrpc:"2.0",id:m.id,error:{code:-32601,message:"unknown method"}});}});
