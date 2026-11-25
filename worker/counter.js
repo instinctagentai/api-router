@@ -35,6 +35,6 @@ export class Counter {
     const callers = { by_class: {}, distinct_seen: 0, returning_on_2plus_days: 0, tool_callers: 0, returning_tool_callers: 0, distinct_today: 0 };
     for (const r of cr) { callers.by_class[r.cls] = { seen: r.seen, returning: r.repeat_n, tool_callers: r.tool_callers, returning_tool_callers: r.repeat_tool_callers }; callers.distinct_seen += r.seen; callers.returning_on_2plus_days += r.repeat_n; callers.tool_callers += r.tool_callers; callers.returning_tool_callers += r.repeat_tool_callers; callers.distinct_today += r.today; }
     callers.note = "Outside traffic only (our own tests excluded). A caller is a keyed hash of IP plus user agent, so people behind a shared IP merge into one and cloud agents that change IP split into several. Treat counts as rough. Raw IPs are not stored; hashes are deleted after 60 days without activity. class: bot, agent-client, script, browser, other.";
-    return new Response(JSON.stringify({ since, today_utc: day, totals, by_day, callers }, null, 2), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
+    return new Response(JSON.stringify({ since, first_day_with_data: Object.keys(by_day).sort()[0] || null, window_note: "since is only the start of the requested window, not a launch date. first_day_with_data is the first UTC day with recorded traffic.", today_utc: day, totals, by_day, callers }, null, 2), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
   }
 }
