@@ -16,9 +16,9 @@ Base URL: https://api-router.instinctagentai.workers.dev
 - /llms.txt : discovery file for AI tools
 
 ## MCP
-`npx mcp-api-router` (version 0.2.0)
+`npx mcp-api-router` (version 0.2.4)
 
-Tools: best_route, catalog, find_fastest_healthy_provider, json_repair, page_to_markdown
+Tools: best_route, catalog, find_fastest_healthy_provider, json_repair, page_to_markdown, check_quote, check_url, check_email, convert_time, convert_units, convert_currency
 
 Example client config:
 
@@ -28,6 +28,18 @@ Example client config:
 
 Daily benchmark: benchmarks/latest.md
 
+## Use it from an agent (copy and paste)
+
+Add the MCP server (no API key):
+
+```json
+{ "mcpServers": { "api-router": { "command": "npx", "args": ["-y", "mcp-api-router"] } } }
+```
+
+Or the remote endpoint: `https://api-router.instinctagentai.workers.dev/mcp` (agent tool names) or `https://api-router.instinctagentai.workers.dev/mcp/ask` (same tools, question-style names such as `fix_broken_json`, `does_this_url_work`). For the stdio server use `npx -y mcp-api-router --names=ask` for the question-style names.
+
+One-line description for a tool list: "api-router: free, no-key tools for agents (fix broken JSON, check a URL or email, convert time zones, units and currency) and a dated, source-linked table of API free tiers. Some signup links are referral links and are labelled." JSON results include a `source` field with the service name and URL.
+
 ## Remote MCP endpoint
 
 Streamable HTTP, no auth: https://api-router.instinctagentai.workers.dev/mcp
@@ -35,6 +47,7 @@ Streamable HTTP, no auth: https://api-router.instinctagentai.workers.dev/mcp
 ## Live comparison pages and examples
 
 - https://api-router.instinctagentai.workers.dev/compare (LLM, scraping, proxy, GPU: pricing model, free-tier notes, live status; referral links are marked)
+- https://api-router.instinctagentai.workers.dev/free-tiers (dated, source-linked free tiers, prices and limits) and /ask (short answers with example calls)
 - examples/ : Claude Desktop, Cursor, curl, Python and LangChain
 
 ## Where it is listed
