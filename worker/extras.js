@@ -470,6 +470,7 @@ Base URL: ${BASE}
 ## Endpoints
 - GET /v1/catalog : all providers with free-tier notes and health
 - GET /v1/changes and /feed.xml : newest and re-verified catalog rows (JSON and Atom)
+- GET /v1/pick?need=login%20for%20my%20app&limit=5 : keyword-matched catalog rows with source and read date (no LLM)
 - GET /openapi.json : OpenAPI description of the main endpoints
 - GET /v1/best-route?task=inference|scraping|gpu|storage|proxy&budget=low|fast : best provider for a task
 - GET /v1/health-route?category=llm|scraping|proxy|gpu : fastest healthy provider
@@ -528,16 +529,36 @@ export const openApi = () => ({ openapi: "3.0.3", info: { title: "api-router", v
   "/v1/catalog": { get: { summary: "All providers with free-tier notes, source links and health", responses: { 200: { description: "JSON catalog" } } } },
   "/v1/best-route": { get: { summary: "Pick a provider for a task", parameters: [{ name: "task", in: "query", schema: { type: "string" } }, { name: "budget", in: "query", schema: { type: "string", enum: ["low", "fast"] } }], responses: { 200: { description: "Recommendation" } } } },
   "/v1/health-route": { get: { summary: "Fastest healthy provider in a category", parameters: [{ name: "category", in: "query", schema: { type: "string" } }], responses: { 200: { description: "Provider" } } } },
+  "/v1/pick": { get: { summary: "Keyword-matched catalog rows for a task, with source and read date", parameters: [{ name: "need", in: "query", schema: { type: "string" } }, { name: "limit", in: "query", schema: { type: "integer" } }], responses: { 200: { description: "Ranked rows" } } } },
   "/v1/changes": { get: { summary: "Newest and re-verified catalog rows", responses: { 200: { description: "JSON list" } } } },
   "/feed.xml": { get: { summary: "Atom feed of the same changes", responses: { 200: { description: "Atom" } } } },
   "/v1/json-repair": { post: { summary: "Repair broken JSON", responses: { 200: { description: "Repaired JSON" } } } },
   "/v1/convert-units": { get: { summary: "Convert units", responses: { 200: { description: "Result" } } } } } });
+
+const PICK_SYN = { auth: ["auth", "login", "signin", "sign", "oauth", "users", "authentication", "sso", "passwordless"], email: ["email", "mail", "smtp", "newsletter", "transactional", "emails"], database: ["database", "postgres", "sql", "redis", "db", "sqlite", "mongo", "nosql", "storage"], hosting: ["host", "hosting", "deploy", "deployment", "serverless", "app", "website", "frontend", "backend"], llm: ["llm", "inference", "model", "models", "gpt", "chat", "completion", "ai", "language"], scraping: ["scrape", "scraping", "crawl", "crawler", "extract", "html", "serp"], search: ["search", "retrieval", "rag"], storage: ["storage", "files", "file", "bucket", "object", "upload", "s3"], vector_db: ["vector", "embeddings", "embedding", "similarity", "rag"], embeddings: ["embedding", "embeddings", "rerank", "vector"], analytics: ["analytics", "tracking", "events"], error_monitoring: ["error", "errors", "crash", "exceptions", "bugs", "monitoring"], monitoring: ["uptime", "monitor", "monitoring", "cron", "heartbeat", "status"], queue: ["queue", "queues", "jobs", "background", "scheduler", "cron", "tasks"], ci: ["ci", "cd", "build", "pipeline", "actions", "deploy"], speech: ["speech", "voice", "tts", "stt", "transcribe", "transcription", "audio"], image: ["generate", "generation", "art", "diffusion"], stock_media: ["stock", "photo", "photos", "video", "pictures"], pdf: ["pdf", "document", "documents"], ocr: ["ocr", "scan", "text", "recognition"], forms: ["form", "forms", "contact", "submission", "submissions"], maps: ["map", "maps", "geocoding", "geocode", "location", "places", "address"], geoip: ["ip", "geolocation", "geoip"], weather: ["weather", "forecast"], news: ["news", "headlines", "articles"], screenshot: ["screenshot", "screenshots", "snapshot", "capture"], email_validation: ["validate", "validation", "verify"], phone_validation: ["phone", "number", "validation"], proxy: ["proxy", "proxies", "ip"], gpu: ["gpu", "training", "compute", "cuda"], cdn: ["cdn", "cache", "caching", "assets"] };
+const PICK_STOP = new Set(["a", "an", "the", "for", "to", "of", "and", "or", "in", "on", "my", "i", "need", "want", "free", "api", "service", "tool", "with", "that", "can", "app", "use", "using", "best", "good", "which", "what", "how", "something"]);
+export function pickProviders(need, limit) {
+  const toks = String(need || "").toLowerCase().split(/[^a-z0-9]+/).filter((w) => w && !PICK_STOP.has(w)).slice(0, 20);
+  const lim = Math.min(Math.max(parseInt(limit, 10) || 5, 1), 8);
+  const scored = partners.providers.map((x, idx) => {
+    let s = 0; const why = [];
+    const syn = PICK_SYN[x.category] || [x.category];
+    for (const t of toks) {
+      if (syn.includes(t) || x.category === t) { s += 5; why.push("category:" + x.category); }
+      if (String(x.name).toLowerCase().includes(t)) { s += 3; why.push("name:" + t); }
+      else if (String(x.price_summary || "").toLowerCase().includes(t)) { s += 1; why.push("summary:" + t); }
+    }
+    return { x, idx, s, why: [...new Set(why)] };
+  }).filter((r) => r.s > 0).sort((a, b) => b.s - a.s || a.idx - b.idx).slice(0, lim);
+  return { need, keywords: toks, matches: scored.map(({ x, s, why }) => ({ id: x.id, name: x.name, category: x.category, score: s, matched_on: why, price_summary: x.price_summary, price_source: x.price_source, checked: x.price_checked, signup_url: x.referral_url || x.signup_url, referral_link_is_ours: !!(x.referral_url && x.referral_url !== x.signup_url) })), categories_available: [...new Set(partners.providers.map((x) => x.category))].sort(), note: "Keyword match against our catalog categories, names and price notes. Not a quality ranking. Each row's price_summary comes from the page in price_source on the checked date; anything unread says not verified. Some signup links are the operator's affiliate links (referral_link_is_ours)." };
+}
 
 export function routeExtras(req, u) {
   const p = u.pathname;
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (p === "/.well-known/agent-card.json" || p === "/.well-known/agent.json") return J(agentCard());
   if (p === "/.well-known/ai-catalog.json") return J(aiCatalog());
+  if (p === "/v1/pick") return J(pickProviders(u.searchParams.get("need"), u.searchParams.get("limit")), 200, { "cache-control": "public, max-age=300" });
   if (p === "/v1/changes") return J(changesDoc(), 200, { "cache-control": "public, max-age=900" });
   if (p === "/feed.xml") return T(feedXml(), "application/atom+xml; charset=utf-8");
   if (p === "/openapi.json") return J(openApi());
