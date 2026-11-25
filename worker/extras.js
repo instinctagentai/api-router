@@ -296,6 +296,118 @@ export async function handleCheckUrl(req, u) {
   return J({ url: t.href, resolves: r.status < 400, status: r.status, final_url: cur.href, redirects: chain, content_type: ct.split(";")[0] || null, title, ms: Date.now() - t0, checked_at: new Date().toISOString(), remaining_today: rl.remaining });
 }
 
+// ---------- More free checkers: email, time, units, currency ----------
+const ROLE = new Set(["admin", "administrator", "postmaster", "hostmaster", "webmaster", "abuse", "noreply", "no-reply", "info", "support", "sales", "contact", "billing", "help", "office", "hello", "team"]);
+const DISPOSABLE = new Set(["mailinator.com", "guerrillamail.com", "10minutemail.com", "tempmail.com", "yopmail.com", "trashmail.com", "sharklasers.com", "throwawaymail.com", "temp-mail.org", "getnada.com"]);
+async function doh(name, type) {
+  const r = await fetch("https://cloudflare-dns.com/dns-query?name=" + encodeURIComponent(name) + "&type=" + type, { headers: { accept: "application/dns-json" }, signal: AbortSignal.timeout(5000) });
+  if (!r.ok) throw new Error("dns " + r.status);
+  return r.json();
+}
+export async function handleCheckEmail(req, u) {
+  let email = u.searchParams.get("email");
+  if (!email && req.method === "POST") { try { email = (await req.json()).email; } catch (e) {} }
+  if (typeof email !== "string" || !email) return J({ usage: "GET /v1/check-email?email=name@example.com : syntax, domain DNS and mail server (MX) check. Does not contact the mailbox, so it cannot prove an address exists. Free, shares the " + DAILY_LIMIT + "/day limit." }, 400);
+  email = email.trim();
+  const out = { email, syntax_valid: false };
+  const at = email.lastIndexOf("@");
+  if (email.length > 254 || at < 1) return J({ ...out, reason: "must look like name@domain" });
+  const local = email.slice(0, at), domain = email.slice(at + 1).toLowerCase();
+  const labels = domain.split(".");
+  const okLocal = local.length <= 64 && /^[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+(\.[A-Za-z0-9!#$%&'*+\/=?^_`{|}~-]+)*$/.test(local);
+  const okDomain = labels.length >= 2 && labels.every((l) => /^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/.test(l)) && /^[a-z]{2,}$|^xn--/.test(labels[labels.length - 1]);
+  if (!okLocal) return J({ ...out, reason: "invalid local part" });
+  if (!okDomain) return J({ ...out, reason: "invalid domain" });
+  out.syntax_valid = true; out.normalized = local + "@" + domain; out.domain = domain;
+  out.role_account = ROLE.has(local.toLowerCase());
+  out.known_disposable_domain = DISPOSABLE.has(domain);
+  const rl = await rateLimit(req);
+  if (!rl.ok) return J({ error: "daily free limit reached", limit_per_day: DAILY_LIMIT }, 429);
+  try {
+    const mx = await doh(domain, "MX");
+    if (mx.Status === 3) { out.domain_exists = false; out.accepts_mail = false; out.reason = "domain does not exist (NXDOMAIN)"; }
+    else {
+      const recs = (mx.Answer || []).filter((a) => a.type === 15).map((a) => a.data.trim());
+      out.domain_exists = true; out.mx = recs.slice(0, 5);
+      if (recs.length === 1 && /^0\s+\.?$/.test(recs[0])) { out.accepts_mail = false; out.reason = "domain publishes a null MX (accepts no mail)"; }
+      else if (recs.length) out.accepts_mail = true;
+      else { const a = await doh(domain, "A"); out.accepts_mail = (a.Answer || []).some((x) => x.type === 1); out.reason = out.accepts_mail ? "no MX record, falls back to the domain's A record" : "no MX or A record"; }
+    }
+  } catch (e) { out.dns_error = "DNS lookup failed; syntax result still valid"; }
+  out.note = "A passing check means the domain can receive mail, not that this mailbox exists. Disposable list is small and incomplete.";
+  out.remaining_today = rl.remaining;
+  return J(out);
+}
+
+function tzOffsetMs(ts, tz) {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: tz, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }).formatToParts(new Date(ts)).filter((x) => x.type !== "literal").map((x) => [x.type, +x.value]));
+  return Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second) - Math.floor(ts / 1000) * 1000;
+}
+const fmtOff = (ms) => { const m = Math.round(ms / 60000), s = m < 0 ? "-" : "+", a = Math.abs(m); return s + String(Math.floor(a / 60)).padStart(2, "0") + ":" + String(a % 60).padStart(2, "0"); };
+const validTz = (tz) => { try { new Intl.DateTimeFormat("en-US", { timeZone: tz }); return true; } catch (e) { return false; } };
+export function convertTime(time, from, to) {
+  if (!validTz(to) || (from && !validTz(from))) return { error: "unknown time zone; use IANA names such as Asia/Qatar or America/New_York" };
+  let utc;
+  if (!time) utc = Date.now();
+  else {
+    const m = String(time).trim().match(/^(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2})(?::(\d{2}))?\s*(Z|[+-]\d{2}:?\d{2})?$/);
+    if (!m) return { error: "time must look like 2026-11-25T14:30 (optionally with Z or +03:00)" };
+    const loc = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +(m[6] || 0));
+    if (m[7]) { const o = m[7] === "Z" ? 0 : (m[7][0] === "-" ? -1 : 1) * (+m[7].slice(1, 3) * 60 + +m[7].slice(-2)) * 60000; utc = loc - o; }
+    else { if (!from) return { error: "give a from time zone, or an offset in the time" }; utc = loc - tzOffsetMs(loc, from); utc = loc - tzOffsetMs(utc, from); }
+  }
+  const f = (tz) => { const o = tzOffsetMs(utc, tz), d = new Date(utc + o).toISOString().slice(0, 19); return { time_zone: tz, local_time: d, offset: fmtOff(o), iso: d + fmtOff(o) }; };
+  return { utc: new Date(utc).toISOString(), ...(from ? { from: f(from) } : {}), to: f(to), note: "Uses the IANA time zone rules built into the runtime. For a local time skipped or repeated by a DST change the result picks one valid instant." };
+}
+export function handleConvertTime(u) {
+  const to = u.searchParams.get("to");
+  if (!to) return J({ usage: "GET /v1/convert-time?time=2026-11-25T14:30&from=Asia/Qatar&to=America/New_York (time optional, defaults to now)" }, 400);
+  const r = convertTime(u.searchParams.get("time"), u.searchParams.get("from"), to);
+  return J(r, r.error ? 400 : 200);
+}
+
+const UNITS = {
+  length: { m: 1, km: 1000, cm: 0.01, mm: 0.001, mi: 1609.344, yd: 0.9144, ft: 0.3048, in: 0.0254, nmi: 1852 },
+  mass: { kg: 1, g: 0.001, mg: 1e-6, t: 1000, lb: 0.45359237, oz: 0.028349523125 },
+  volume: { l: 1, ml: 0.001, m3: 1000, gal: 3.785411784, qt: 0.946352946, pt: 0.473176473, cup: 0.2365882365, floz: 0.0295735295625 },
+  area: { m2: 1, km2: 1e6, ha: 1e4, ft2: 0.09290304, ac: 4046.8564224 },
+  speed: { "m/s": 1, "km/h": 1 / 3.6, mph: 0.44704, kn: 1852 / 3600 },
+  data: { B: 1, KB: 1e3, MB: 1e6, GB: 1e9, TB: 1e12, KiB: 1024, MiB: 1048576, GiB: 1073741824 },
+  time: { s: 1, min: 60, h: 3600, d: 86400 },
+};
+export function convertUnits(value, from, to) {
+  if (!isFinite(value)) return { error: "value must be a number" };
+  const tf = ["C", "F", "K"];
+  if (tf.includes(from) || tf.includes(to)) {
+    if (!tf.includes(from) || !tf.includes(to)) return { error: "cannot convert between temperature and other units" };
+    const k = from === "C" ? value + 273.15 : from === "F" ? (value - 32) * 5 / 9 + 273.15 : value;
+    if (k < 0) return { error: "below absolute zero" };
+    const r = to === "C" ? k - 273.15 : to === "F" ? (k - 273.15) * 9 / 5 + 32 : k;
+    return { value, from, to, result: +r.toPrecision(12), category: "temperature" };
+  }
+  for (const [cat, t] of Object.entries(UNITS)) if (from in t && to in t) return { value, from, to, result: +(value * t[from] / t[to]).toPrecision(12), category: cat, note: cat === "volume" ? "gal, qt, pt, cup, floz are US units" : cat === "data" ? "KB/MB/GB are decimal (1000); KiB/MiB/GiB are binary (1024)" : undefined };
+  return { error: "unsupported or mismatched units", supported: { ...Object.fromEntries(Object.entries(UNITS).map(([k, v]) => [k, Object.keys(v)])), temperature: tf } };
+}
+export function handleConvertUnits(u) {
+  const v = u.searchParams.get("value"), from = u.searchParams.get("from"), to = u.searchParams.get("to");
+  if (v === null || !from || !to) return J({ usage: "GET /v1/convert-units?value=10&from=km&to=mi", supported: { ...Object.fromEntries(Object.entries(UNITS).map(([k, x]) => [k, Object.keys(x)])), temperature: ["C", "F", "K"] } }, 400);
+  const r = convertUnits(Number(v), from, to);
+  return J(r, r.error ? 400 : 200);
+}
+
+export async function handleConvertCurrency(req, u) {
+  const amount = Number(u.searchParams.get("amount") ?? "1"), from = (u.searchParams.get("from") || "").toUpperCase(), to = (u.searchParams.get("to") || "").toUpperCase();
+  if (!/^[A-Z]{3}$/.test(from) || !/^[A-Z]{3}$/.test(to) || !isFinite(amount)) return J({ usage: "GET /v1/convert-currency?amount=100&from=USD&to=EUR . Reference rates from central banks via frankfurter.dev, for information only, not a trading or payment rate. Free, shares the " + DAILY_LIMIT + "/day limit." }, 400);
+  const rl = await rateLimit(req);
+  if (!rl.ok) return J({ error: "daily free limit reached", limit_per_day: DAILY_LIMIT }, 429);
+  if (from === to) return J({ amount, from, to, result: amount, rate: 1, remaining_today: rl.remaining });
+  let j;
+  try { const r = await fetch("https://api.frankfurter.dev/v1/latest?base=" + from + "&symbols=" + to, { signal: AbortSignal.timeout(6000), cf: { cacheTtl: 3600, cacheEverything: true } }); if (!r.ok) return J({ error: "currency not supported by the rate source (" + r.status + ")" }, 400); j = await r.json(); } catch (e) { return J({ error: "rate source unavailable" }, 502); }
+  const rate = j.rates && j.rates[to];
+  if (!rate) return J({ error: "currency not supported by the rate source" }, 400);
+  return J({ amount, from, to, rate, result: +(amount * rate).toFixed(6), rate_date: j.date, source: "frankfurter.dev (central bank reference rates)", note: "Reference rate for information only. Not the rate a bank or exchange will give you.", remaining_today: rl.remaining });
+}
+
 export const agentCard = () => ({
   protocolVersion: "0.3.0",
   name: "API Router",
@@ -316,6 +428,10 @@ export const agentCard = () => ({
     { id: "json-repair", name: "JSON repair and validate", description: "Fix broken JSON (comments, trailing commas, single quotes, fences, truncation) and optionally validate against a JSON Schema subset.", tags: ["json", "validation"], inputModes: ["application/json", "text/plain"], examples: ["POST /v1/json-repair {\"text\":\"{a:1,}\"}"] },
     { id: "check-quote", name: "Quote checker", description: "Check whether a quote appears in a source text or URL. Returns exact, near, partial or not_found, with missing numbers. Matches wording only, not truth.", tags: ["verification", "citation", "hallucination"], inputModes: ["application/json"], examples: ["POST /v1/check-quote {\"quote\":\"...\",\"url\":\"https://example.com\"}"] },
     { id: "check-url", name: "URL checker", description: "Does a URL resolve: final status, redirect chain, content type and title. Free, 30 per IP per day.", tags: ["verification", "links"], examples: ["GET /v1/check-url?url=https://example.com"] },
+    {"id":"check-email","name":"Email checker","description":"Syntax, domain and mail server (MX) check for an email address. Does not prove the mailbox exists.","tags":["verification","email"],"examples":["GET /v1/check-email?email=name@example.com"]},
+    {"id":"convert-time","name":"Time zone converter","description":"Convert a date and time between IANA time zones.","tags":["time","timezone"],"examples":["GET /v1/convert-time?time=2026-11-25T14:30&from=Asia/Qatar&to=America/New_York"]},
+    {"id":"convert-units","name":"Unit converter","description":"Convert length, mass, volume, area, speed, data, time and temperature units.","tags":["units","conversion"],"examples":["GET /v1/convert-units?value=10&from=km&to=mi"]},
+    {"id":"convert-currency","name":"Currency converter","description":"Convert currencies with central bank reference rates (information only). 30 per IP per day.","tags":["currency","conversion"],"examples":["GET /v1/convert-currency?amount=100&from=USD&to=EUR"]},
     { id: "page-to-markdown", name: "Page to markdown", description: "Fetch a public web page and return clean markdown. Free, 30 requests per IP per day.", tags: ["web", "markdown", "extraction"], examples: ["GET /v1/page-to-markdown?url=https://example.com"] },
   ],
 });
@@ -335,6 +451,11 @@ Base URL: ${BASE}
 
 - POST /v1/check-quote : body {"quote": "...", "text": "..."} or {"quote": "...", "url": "..."} returns exact|near|partial|not_found (wording match only, not truth)
 - GET /v1/check-url?url=... : does a URL resolve, status, redirects, content type, title (30 per IP per day, shared)
+
+- GET /v1/check-email?email=... : syntax, domain and MX check (does not prove the mailbox exists; 30 per IP per day, shared)
+- GET /v1/convert-time?time=2026-11-25T14:30&from=Asia/Qatar&to=America/New_York : time zone conversion
+- GET /v1/convert-units?value=10&from=km&to=mi : unit conversion
+- GET /v1/convert-currency?amount=100&from=USD&to=EUR : central bank reference rates, information only (30 per IP per day, shared)
 
 ## Discovery
 - Agent card: ${BASE}/.well-known/agent-card.json
@@ -361,5 +482,9 @@ export function routeExtras(req, u) {
   if (p === "/v1/page-to-markdown") return handleMarkdown(req, u);
   if (p === "/v1/check-quote") return handleCheckQuote(req);
   if (p === "/v1/check-url") return handleCheckUrl(req, u);
+  if (p === "/v1/check-email") return handleCheckEmail(req, u);
+  if (p === "/v1/convert-time") return handleConvertTime(u);
+  if (p === "/v1/convert-units") return handleConvertUnits(u);
+  if (p === "/v1/convert-currency") return handleConvertCurrency(req, u);
   return null;
 }
