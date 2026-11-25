@@ -30,7 +30,7 @@ const worker = {
     if (u.pathname === "/v1/stats") { const c = counter(env); return c ? c.fetch("https://counter/stats?days=" + (u.searchParams.get("days") || "14")) : J({ error: "counters not enabled" }, 503); }
     // Count only top-level requests (ctx is set); internal self-dispatch calls carry no ctx. Known paths only, no IPs or user agents stored.
     let evt = null;
-    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.replace(/\.md$/, "").replace(/\/+$/, "") === "/ask" || u.pathname.startsWith("/ask/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
+    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.replace(/\.md$/, "").replace(/\/+$/, "") === "/ask" || u.pathname.startsWith("/ask/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
       const cip = req.headers.get("cf-connecting-ip") || "", cls = family(ua);
@@ -38,7 +38,7 @@ const worker = {
       record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: cls }, ...caller(1, 0)]);
       evt = (key) => record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : [])]);
     }
-    if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/")) { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
+    if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/")) { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/ask" || u.pathname.startsWith("/ask/")) { const as = await handleAsk(u, req); if (as) return as; }
     if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
