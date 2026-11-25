@@ -8,13 +8,13 @@
     "source": "github",
     "subfolder": "mcp"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "websiteUrl": "https://api-router.instinctagentai.workers.dev",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "mcp-api-router",
-      "version": "0.2.3",
+      "version": "0.2.4",
       "transport": {
         "type": "stdio"
       }
