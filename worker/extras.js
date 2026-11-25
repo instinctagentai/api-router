@@ -437,6 +437,22 @@ export const agentCard = () => ({
   ],
 });
 
+export const aiCatalog = () => ({
+  name: "api-router",
+  description: "Free, source-linked and dated free-tier facts for AI and developer API providers, plus free utility tools for agents. No API key, no LLM in the request path.",
+  note: "Simple index of this site's resources. Not a formal standard we verified; read /llms.txt for the same list in prose.",
+  url: BASE,
+  entries: [
+    { type: "mcp-server", name: "api-router (agent tool names)", url: BASE + "/mcp", transport: "streamable-http", auth: "none" },
+    { type: "mcp-server", name: "api-router (question-style tool names)", url: BASE + "/mcp/ask", transport: "streamable-http", auth: "none" },
+    { type: "dataset", name: "Provider catalog (JSON)", url: BASE + "/v1/catalog", media_type: "application/json" },
+    { type: "document", name: "Free-tier cheat sheet", url: BASE + "/free-tiers", markdown: BASE + "/free-tiers.md" },
+    { type: "document", name: "Free stack for vibe-coded apps", url: BASE + "/best/free-stack-for-vibe-coded-apps", markdown: BASE + "/best/free-stack-for-vibe-coded-apps.md" },
+    { type: "agent-card", name: "Agent card", url: BASE + "/.well-known/agent-card.json" },
+    { type: "documentation", name: "llms.txt", url: BASE + "/llms.txt" },
+    { type: "source", name: "Source code", url: "https://github.com/instinctagentai/api-router" }
+  ]
+});
 export const llmsTxt = () => `# API Router
 
 > Free, deterministic HTTP API and MCP server for AI agents. Compare LLM, scraping, proxy and GPU providers by free tier, health and latency; repair broken JSON; convert web pages to markdown. No LLM in the request path, no API key needed.
@@ -477,6 +493,9 @@ Base URL: ${BASE}
 
 ## Comparison roundups (dated, source-linked, no rankings)
 - ${BASE}/best/free-llm-api , /best/free-gpu-cloud , /best/web-scraping-api , /best/pdf-api , /best/free-uptime-monitoring (add .md for markdown)
+- More categories: ${BASE}/best/free-database , /best/free-auth , /best/free-app-hosting , /best/free-speech-api , /best/free-object-storage , /best/free-search-api , /best/free-vector-database , /best/free-email-api , /best/free-ocr-api , /best/free-embeddings-api
+- For vibe coders (people building apps with AI tools): ${BASE}/best/free-stack-for-vibe-coded-apps (includes copy-paste prompts for your AI coding tool)
+- Machine-readable index of these resources: ${BASE}/.well-known/ai-catalog.json
 
 ## Questions people ask (HTML + .md, with example calls)
 - ${BASE}/ask : index (also /ask.md)
@@ -494,6 +513,7 @@ export function routeExtras(req, u) {
   const p = u.pathname;
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
   if (p === "/.well-known/agent-card.json" || p === "/.well-known/agent.json") return J(agentCard());
+  if (p === "/.well-known/ai-catalog.json") return J(aiCatalog());
   if (p === "/llms.txt") return T(llmsTxt(), "text/plain; charset=utf-8");
   if (p === "/v1/json-repair") return handleJsonRepair(req);
   if (p === "/v1/page-to-markdown") return handleMarkdown(req, u);
