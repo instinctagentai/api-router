@@ -1907,6 +1907,23 @@
       "price_summary": "Free plan lists 1 project (paused after 1 week of inactivity), 1 GB database, 1 GB storage and 5 GB egress. Other limits were not verified",
       "price_source": "https://nhost.io/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "tavily",
+      "name": "Tavily (search API for agents)",
+      "category": "search",
+      "probe_url": "https://api.tavily.com",
+      "signup_url": "https://app.tavily.com",
+      "referral_url": "https://app.tavily.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, pay as you go and subscriptions",
+      "halal_screen": "ok",
+      "price_summary": "Free Researcher plan: 1,000 API credits per month, no credit card required",
+      "price_source": "https://www.tavily.com/pricing",
+      "price_checked": "2026-11-25",
+      "terms_url": "https://www.tavily.com/terms",
+      "terms_url_read": "2026-11-25"
     }
   ]
 }
