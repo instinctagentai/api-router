@@ -478,6 +478,21 @@
       "price_summary": "Free plan: $10 of credits per month (about 2,500 Lite searches) plus a $10 bonus, no payment method required",
       "price_source": "https://exa.ai/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "railway",
+      "name": "Railway",
+      "category": "hosting",
+      "probe_url": "https://railway.com",
+      "signup_url": "https://railway.com",
+      "referral_url": "https://railway.com?referralCode=u6CRXQ",
+      "user_bonus_description": "Anyone who signs up with the referral link gets $20 in credits per the Railway referral page",
+      "bonus_verified": false,
+      "pricing_note": "Free trial, Free, Hobby $5/month, Pro $20/month plus usage",
+      "halal_screen": "ok",
+      "price_summary": "Free Trial: $5 one-time credit for 30 days, no card. Free plan: $0 with $1/month usage credit, services sleep after inactivity. Hobby $5/month, Pro $20/month per workspace",
+      "price_source": "https://railway.com/pricing",
+      "price_checked": "2026-11-25"
     }
   ]
 }
