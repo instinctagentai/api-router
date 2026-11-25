@@ -1063,6 +1063,21 @@
       "price_summary": "On the Workers Free plan: 30 million queried vector dimensions a month and 5 million stored vector dimensions. Cloudflare says the free tier will always allow prototyping",
       "price_source": "https://developers.cloudflare.com/vectorize/platform/pricing/",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "crawio",
+      "name": "Crawio (web scraping API)",
+      "category": "scraping",
+      "probe_url": "https://crawio.com",
+      "signup_url": "https://crawio.com",
+      "referral_url": "https://crawio.com/?via=instinctagentai",
+      "user_bonus_description": "Referred customers get 10,000 bonus credits in their first paid month (stated on Crawio's affiliate page)",
+      "bonus_verified": false,
+      "pricing_note": "Free trial: 500 credits, no card needed",
+      "halal_screen": "ok",
+      "price_summary": "Free trial of 500 credits, no card needed (a trial, not a recurring free plan). Paid plan prices not verified",
+      "price_source": "https://crawio.com/affiliates/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
