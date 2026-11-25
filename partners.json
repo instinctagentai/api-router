@@ -438,15 +438,15 @@
       "id": "backblaze-b2",
       "name": "Backblaze B2 (object storage)",
       "category": "storage",
-      "probe_url": "https://www.backblaze.com",
-      "signup_url": "https://www.backblaze.com/sign-up/cloud-storage",
-      "referral_url": "https://www.backblaze.com/sign-up/cloud-storage",
+      "probe_url": "https://www.backblaze.com/cloud-storage",
+      "signup_url": "https://www.backblaze.com/cloud-storage",
+      "referral_url": "https://www.backblaze.com/cloud-storage",
       "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
       "bonus_verified": false,
-      "pricing_note": "Per TB per month",
+      "pricing_note": "First 10 GB of storage free; then from $6.95 per TB per month",
       "halal_screen": "ok",
-      "price_summary": "Pay as you go from $6.95 per TB per month listed, free egress up to 3x storage and free transactions. A free storage allowance is not verified",
-      "price_source": "https://www.backblaze.com/cloud-storage/pricing",
+      "price_summary": "The first 10 GB of storage is always free, and Class A, B and C API calls are free for pay-as-you-go customers. Beyond that, pay as you go from $6.95 per TB per month is listed, with free egress up to 3x storage",
+      "price_source": "https://backblaze.com/cloud-storage/pricing",
       "price_checked": "2026-11-25"
     },
     {
@@ -1032,21 +1032,6 @@
       "halal_screen": "ok",
       "price_summary": "Free plan: unlimited forms and domains, 250 submissions a month, with spam protection and hCaptcha integration. Paid prices not verified",
       "price_source": "https://web3forms.com/pricing",
-      "price_checked": "2026-11-25"
-    },
-    {
-      "id": "backblaze-b2",
-      "name": "Backblaze B2 (object storage)",
-      "category": "storage",
-      "probe_url": "https://www.backblaze.com/cloud-storage",
-      "signup_url": "https://www.backblaze.com/cloud-storage",
-      "referral_url": "https://www.backblaze.com/cloud-storage",
-      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
-      "bonus_verified": false,
-      "pricing_note": "First 10 GB of storage free",
-      "halal_screen": "ok",
-      "price_summary": "The first 10 GB of storage is always free, and Class A, B and C API calls are free for pay-as-you-go customers. Rates above the free amount not verified",
-      "price_source": "https://backblaze.com/cloud-storage/pricing",
       "price_checked": "2026-11-25"
     },
     {
