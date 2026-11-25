@@ -26,11 +26,29 @@ const BEST = [
   { slug: "web-scraping-api", cat: "scraping", title: "Web scraping APIs compared (2026): free plans and prices", q: "Which web scraping API has a free plan, and what do the paid plans cost?", intro: "scraping APIs we check" },
   { slug: "pdf-api", cat: "pdf", title: "PDF APIs compared (2026): free plans and prices", q: "Which PDF API has a free plan?", intro: "PDF APIs we check" },
   { slug: "free-uptime-monitoring", cat: "monitoring", title: "Uptime monitoring services compared (2026): free plans", q: "Which uptime monitoring service has a free plan?", intro: "uptime monitors we check" },
+  { slug: "free-database", cat: "database", title: "Free databases for apps compared (2026): Postgres and Redis free plans", q: "Which hosted database has a free plan?", intro: "hosted databases we check" },
+  { slug: "free-auth", cat: "auth", title: "Auth providers compared (2026): free plans", q: "Which auth service has a free plan?", intro: "auth services we check" },
+  { slug: "free-app-hosting", cat: "hosting", title: "App hosting compared (2026): free plans and trials", q: "Where can I host an app for free?", intro: "hosting services we check" },
+  { slug: "free-speech-api", cat: "speech", title: "Speech APIs compared (2026): free credits and plans", q: "Which speech to text or text to speech API has a free tier?", intro: "speech APIs we check" },
+  { slug: "free-object-storage", cat: "storage", title: "Object storage compared (2026): free allowances", q: "Which object storage has a free tier?", intro: "storage services we check" },
+  { slug: "free-search-api", cat: "search", title: "Search APIs for AI agents compared (2026): free plans", q: "Which search API for AI agents has a free plan?", intro: "search APIs we check" },
+  { slug: "free-vector-database", cat: "vector_db", title: "Vector databases compared (2026): free plans", q: "Which vector database has a free plan?", intro: "vector databases we check" },
+  { slug: "free-email-api", cat: "email", title: "Email APIs compared (2026): free plans", q: "Which transactional email API has a free plan?", intro: "email APIs we check" },
+  { slug: "free-ocr-api", cat: "ocr", title: "OCR APIs compared (2026): free plans", q: "Which OCR API has a free plan?", intro: "OCR APIs we check" },
+  { slug: "free-embeddings-api", cat: "embeddings", title: "Embeddings and rerank APIs compared (2026): free keys", q: "Which embeddings API has a free tier?", intro: "embeddings APIs we check" },
+  { slug: "free-stack-for-vibe-coded-apps", cats: ["hosting", "database", "auth", "email", "llm", "storage", "search"], title: "Which free APIs and services should my vibe-coded app use? (2026)", q: "Which free API should my vibe-coded app use?", intro: "services we check for vibe-coded apps", prompts: true },
 ];
-const FREE_IDS = new Set(["openrouter", "firecrawl", "modal", "pdfops", "uptimerobot"]);
+const FREE_IDS = new Set(["openrouter", "firecrawl", "modal", "pdfops", "uptimerobot", "gemini", "cloudflare-workers-ai", "cerebras", "supabase", "neon", "upstash-redis", "pinecone", "resend", "tavily", "cohere", "deepgram", "assemblyai", "elevenlabs", "ocrspace", "huggingface-spaces", "vercel", "netlify", "cloudflare-r2", "clerk", "exa", "railway"]);
+const PROMPTS = [
+  ["Pick a free service for a feature", "Before you choose a database, auth, hosting, email, search or LLM service for this app, read https://api-router.instinctagentai.workers.dev/free-tiers.md. Prefer services with a free plan. For every limit you quote, give the source URL and read date from that page. If a row says not verified, say so and do not guess."],
+  ["Connect the MCP server (Claude Code)", "Run: claude mcp add --transport http api-router https://api-router.instinctagentai.workers.dev/mcp/ask . Then, when I ask which API to use, call the compare_api_providers tool and show me the source and read date for each answer."],
+  ["Keep it free", "Use only free plans for this project. List each paid-only feature you were about to use and ask me before you add it."],
+];
+const promptsMd = () => "## Copy-paste prompts for your AI coding tool\n\n" + PROMPTS.map(([t, p]) => `### ${t}\n\n\`\`\`\n${p}\n\`\`\``).join("\n\n") + "\n\nThese prompts only point your tool at our public pages. Nothing here is a guarantee of what a provider will charge.\n";
+const promptsHtml = () => "<h2>Copy-paste prompts for your AI coding tool</h2>" + PROMPTS.map(([t, p]) => `<h3>${esc(t)}</h3><pre style="white-space:pre-wrap;background:#f5f5f5;padding:.75rem;border-radius:6px">${esc(p)}</pre>`).join("") + "<p><small>These prompts only point your tool at our public pages. Nothing here is a guarantee of what a provider will charge.</small></p>";
 export const bestPaths = () => BEST.map((b) => "/best/" + b.slug);
 async function bestPage(b, p, wantMd, env, getHealth) {
-  const list = withPrice().filter((x) => x.category === b.cat);
+  const list = withPrice().filter((x) => b.cats ? b.cats.includes(x.category) : x.category === b.cat);
   const hs = await Promise.all(list.map((x) => getHealth(env, x.id)));
   const rows = list.map((x, i) => ({ x, h: hs[i] }));
   const free = rows.filter((r) => FREE_IDS.has(r.x.id)), other = rows.filter((r) => !FREE_IDS.has(r.x.id));
@@ -50,11 +68,11 @@ ${[["Free plan or credit stated in the source we read", free], ["Other " + b.int
 
 ${g.map((r) => `- **${r.x.name}**: ${line(r)}. Source: ${r.x.price_source} (read ${r.x.price_checked}). Status: ${state(r.h)}. Sign up: ${isRef(r.x) ? r.x.referral_url + " (referral link)" : r.x.signup_url}. Details: ${BASE}/answers/${slugOf(r.x)}`).join("\n")}`).join("\n\n")}
 
-All providers: ${BASE}/free-tiers
+${b.prompts ? "\n" + promptsMd() + "\n" : ""}All providers: ${BASE}/free-tiers
 `);
   const li = (r) => `<li><strong><a href="/answers/${slugOf(r.x)}">${esc(r.x.name)}</a></strong>: ${esc(line(r))}. <small>Source: <a href="${esc(r.x.price_source)}" rel="nofollow noopener">${esc(r.x.price_source)}</a>, read ${esc(r.x.price_checked)}. Status: ${esc(state(r.h))}.</small> ${isRef(r.x) ? `<a href="${esc(r.x.referral_url)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(r.x.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(r.x.signup_url)}" rel="nofollow noopener">Provider site</a>`}</li>`;
   const grp = [["Free plan or credit stated in the source we read", free], ["Other " + b.intro, other]].filter(([, g]) => g.length).map(([t, g]) => `<h2>${esc(t)}</h2><ul>${g.map(li).join("")}</ul>`).join("");
-  return shell(`${b.title} | api-router`, short.slice(0, 155), p, `<h1>${esc(b.title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p><small>${esc(note)}</small></p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p>${grp}<p><small>All providers: <a href="/free-tiers">free-tier cheat sheet</a>. Plain-text version: <a href="${p}.md">${p}.md</a>.</small></p>`,
+  return shell(`${b.title} | api-router`, short.slice(0, 155), p, `<h1>${esc(b.title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p><small>${esc(note)}</small></p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p>${grp}${b.prompts ? promptsHtml() : ""}<p><small>All providers: <a href="/free-tiers">free-tier cheat sheet</a>. Plain-text version: <a href="${p}.md">${p}.md</a>.</small></p>`,
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: b.q, acceptedAnswer: { "@type": "Answer", text: short } }] });
 }
 export async function handleAnswers(u, env, getHealth, req) {
