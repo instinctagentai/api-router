@@ -868,6 +868,66 @@
       "price_summary": "Free plan: 100 request credits, no credit card required. Lite is $40 a month with 200,000 request credits",
       "price_source": "https://www.scrapingdog.com/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "grafana-cloud",
+      "name": "Grafana Cloud (monitoring)",
+      "category": "monitoring",
+      "probe_url": "https://grafana.com",
+      "signup_url": "https://grafana.com/auth/sign-up/create-user",
+      "referral_url": "https://grafana.com/auth/sign-up/create-user",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, always $0",
+      "halal_screen": "ok",
+      "price_summary": "Free plan is listed as always $0, with all Grafana Cloud services under usage limits and 14 days retention for metrics, logs, traces and profiles. Exact usage limits not verified",
+      "price_source": "https://grafana.com/pricing/",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "checkly",
+      "name": "Checkly (monitoring)",
+      "category": "monitoring",
+      "probe_url": "https://www.checklyhq.com",
+      "signup_url": "https://www.checklyhq.com/",
+      "referral_url": "https://www.checklyhq.com/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobby plan $0/month",
+      "halal_screen": "ok",
+      "price_summary": "Hobby plan is $0 a month: 10 uptime monitors at a 2 minute maximum frequency from 6 locations, with 1,000 browser/Playwright checks and 10,000 API checks listed. The billing period for those check counts is not verified",
+      "price_source": "https://www.checklyhq.com/pricing/",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "healthchecks",
+      "name": "Healthchecks.io (cron job monitoring)",
+      "category": "monitoring",
+      "probe_url": "https://healthchecks.io",
+      "signup_url": "https://healthchecks.io/",
+      "referral_url": "https://healthchecks.io/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobbyist plan $0/month",
+      "halal_screen": "ok",
+      "price_summary": "Hobbyist plan is $0 a month. Its check limits were not read from the page, so they are not verified. The page says Hobbyist and Supporter have the same limits, and multiple accounts to get around them count as abuse",
+      "price_source": "https://healthchecks.io/pricing/",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "cloudflare-queues",
+      "name": "Cloudflare Queues",
+      "category": "queue",
+      "probe_url": "https://developers.cloudflare.com/queues/",
+      "signup_url": "https://developers.cloudflare.com/queues/",
+      "referral_url": "https://developers.cloudflare.com/queues/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Included on Workers Free: 10,000 operations/day",
+      "halal_screen": "ok",
+      "price_summary": "On the Workers Free plan: 10,000 standard operations a day, up to 10,000 queues per account and 24 hour message retention (not configurable). Paid plan has 1,000,000 operations a month then $0.40 per million",
+      "price_source": "https://developers.cloudflare.com/queues/platform/pricing/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
