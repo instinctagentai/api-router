@@ -19,10 +19,50 @@ const qa = (p) => {
   const a = `${p.price_summary}. Source: ${p.price_source} (read ${p.price_checked}).${stale(p)} ${bonus(p)}`;
   return [q, a];
 };
+
+const BEST = [
+  { slug: "free-llm-api", cat: "llm", title: "Free LLM APIs compared (2026): limits and prices", q: "Which LLM API has a free tier?", intro: "LLM inference APIs we check" },
+  { slug: "free-gpu-cloud", cat: "gpu", title: "Free GPU cloud options compared (2026)", q: "Is there a free GPU cloud for developers?", intro: "GPU clouds we check" },
+  { slug: "web-scraping-api", cat: "scraping", title: "Web scraping APIs compared (2026): free plans and prices", q: "Which web scraping API has a free plan, and what do the paid plans cost?", intro: "scraping APIs we check" },
+  { slug: "pdf-api", cat: "pdf", title: "PDF APIs compared (2026): free plans and prices", q: "Which PDF API has a free plan?", intro: "PDF APIs we check" },
+  { slug: "free-uptime-monitoring", cat: "monitoring", title: "Uptime monitoring services compared (2026): free plans", q: "Which uptime monitoring service has a free plan?", intro: "uptime monitors we check" },
+];
+const FREE_IDS = new Set(["openrouter", "firecrawl", "modal", "pdfops", "uptimerobot"]);
+export const bestPaths = () => BEST.map((b) => "/best/" + b.slug);
+async function bestPage(b, p, wantMd, env, getHealth) {
+  const list = withPrice().filter((x) => x.category === b.cat);
+  const hs = await Promise.all(list.map((x) => getHealth(env, x.id)));
+  const rows = list.map((x, i) => ({ x, h: hs[i] }));
+  const free = rows.filter((r) => FREE_IDS.has(r.x.id)), other = rows.filter((r) => !FREE_IDS.has(r.x.id));
+  const dates = list.map((x) => x.price_checked).sort();
+  const short = free.length ? `${free.map((r) => r.x.name).join(", ")} ${free.length === 1 ? "has" : "have"} a free plan, free credit or free usage in the pricing source we read. ${other.length ? other.map((r) => r.x.name).join(", ") + " " + (other.length === 1 ? "is" : "are") + " listed below with the prices or limits we read; we have not verified a free plan for " + (other.length === 1 ? "it" : "them") + "." : ""}` : `We did not find a free plan in the pricing sources we read for these providers.`;
+  const note = `Read from each provider's own page ${dates[0] === dates[dates.length - 1] ? "on " + dates[0] : "between " + dates[0] + " and " + dates[dates.length - 1]}. Prices change often, so check the source. We do not rank by price, and we make no "cheapest" claim, because plans are not comparable one to one. Providers where we could not verify a price are left out.`;
+  const line = (r) => `${r.x.price_summary}${r.x.bonus_verified ? ". " + r.x.user_bonus_description : ""}`;
+  if (wantMd) return mdRes(`# ${b.title}
+
+**Short answer:** ${short}
+
+${note}
+
+> Disclosure: ${DISC}
+
+${[["Free plan or credit stated in the source we read", free], ["Other " + b.intro, other]].filter(([, g]) => g.length).map(([t, g]) => `## ${t}
+
+${g.map((r) => `- **${r.x.name}**: ${line(r)}. Source: ${r.x.price_source} (read ${r.x.price_checked}). Status: ${state(r.h)}. Sign up: ${isRef(r.x) ? r.x.referral_url + " (referral link)" : r.x.signup_url}. Details: ${BASE}/answers/${slugOf(r.x)}`).join("\n")}`).join("\n\n")}
+
+All providers: ${BASE}/free-tiers
+`);
+  const li = (r) => `<li><strong><a href="/answers/${slugOf(r.x)}">${esc(r.x.name)}</a></strong>: ${esc(line(r))}. <small>Source: <a href="${esc(r.x.price_source)}" rel="nofollow noopener">${esc(r.x.price_source)}</a>, read ${esc(r.x.price_checked)}. Status: ${esc(state(r.h))}.</small> ${isRef(r.x) ? `<a href="${esc(r.x.referral_url)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(r.x.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(r.x.signup_url)}" rel="nofollow noopener">Provider site</a>`}</li>`;
+  const grp = [["Free plan or credit stated in the source we read", free], ["Other " + b.intro, other]].filter(([, g]) => g.length).map(([t, g]) => `<h2>${esc(t)}</h2><ul>${g.map(li).join("")}</ul>`).join("");
+  return shell(`${b.title} | api-router`, short.slice(0, 155), p, `<h1>${esc(b.title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p><small>${esc(note)}</small></p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p>${grp}<p><small>All providers: <a href="/free-tiers">free-tier cheat sheet</a>. Plain-text version: <a href="${p}.md">${p}.md</a>.</small></p>`,
+    { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: b.q, acceptedAnswer: { "@type": "Answer", text: short } }] });
+}
 export async function handleAnswers(u, env, getHealth, req) {
   let p = u.pathname.replace(/\/+$/, "");
   const wantMd = p.endsWith(".md") || /text\/markdown/i.test((req && req.headers.get("accept")) || "");
   if (p.endsWith(".md")) p = p.slice(0, -3);
+  const bm = p.match(/^\/best\/([a-z-]+)$/);
+  if (bm) { const b = BEST.find((y) => y.slug === bm[1]); return b ? bestPage(b, p, wantMd, env, getHealth) : null; }
   const list = withPrice();
   if (p === "/free-tiers") {
     const hs = await Promise.all(list.map((x) => getHealth(env, x.id)));
