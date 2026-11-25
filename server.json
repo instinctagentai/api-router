@@ -2,19 +2,19 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.instinctagentai/mcp-api-router",
   "title": "API Router",
-  "description": "Compare AI API providers by health and latency. Free JSON repair, page-to-markdown, quote check.",
+  "description": "Compare AI API providers by health and latency. Free JSON, quote, email, time, unit tools.",
   "repository": {
     "url": "https://github.com/instinctagentai/api-router",
     "source": "github",
     "subfolder": "mcp"
   },
-  "version": "0.2.2",
+  "version": "0.2.3",
   "websiteUrl": "https://api-router.instinctagentai.workers.dev",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "mcp-api-router",
-      "version": "0.2.2",
+      "version": "0.2.3",
       "transport": {
         "type": "stdio"
       }
