@@ -475,6 +475,11 @@ Base URL: ${BASE}
 - ${BASE}/answers/<provider>-free-tier-and-pricing : one page per provider, for example ${BASE}/answers/openrouter-free-tier-and-pricing (add .md for markdown)
 - Only providers with a price read from their own page are listed; each row has a source link and read date
 
+## Questions people ask (HTML + .md, with example calls)
+- ${BASE}/ask : index (also /ask.md)
+- ${BASE}/ask/how-do-i-fix-broken-json-from-an-llm , /ask/is-this-url-working , /ask/is-this-email-address-valid , /ask/how-do-i-convert-time-zones , /ask/how-do-i-convert-units , /ask/what-is-the-exchange-rate-between-two-currencies , /ask/which-ai-api-has-a-free-tier
+- MCP with question-style tool names (same functions): ${BASE}/mcp/ask ; the agent-named version stays at ${BASE}/mcp
+
 ## Health rule
 Provider status uses four states: up (HTTP 200-399), degraded (4xx on the probe URL), rate_limited (429), down (5xx or no answer). Only up counts as healthy. See ${BASE}/uptime.
 
