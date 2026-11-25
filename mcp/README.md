@@ -20,6 +20,16 @@ MCP server that helps AI agents pick an API provider (LLM inference, scraping, p
 { "mcpServers": { "api-router": { "command": "npx", "args": ["-y", "mcp-api-router"] } } }
 ```
 
+## Copy and paste
+
+Add the MCP server (no API key):
+
+```json
+{ "mcpServers": { "api-router": { "command": "npx", "args": ["-y", "mcp-api-router"] } } }
+```
+
+Question-style names (same tools): `npx -y mcp-api-router --names=ask` or set `MCP_API_ROUTER_NAMES=ask`. Remote: https://api-router.instinctagentai.workers.dev/mcp and /mcp/ask. JSON results include a `source` field with the service name and URL.
+
 ## Disclosure
 Some provider signup links are referral links. Results include a referral_url and a bonus field; the author may earn a commission if you sign up through them. Every result also lists the plain facts (free tier, health, latency) so you can compare without using any link.
 
