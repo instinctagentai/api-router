@@ -3,6 +3,7 @@ export class Counter {
   constructor(state) {
     this.sql = state.storage.sql;
     this.sql.exec("CREATE TABLE IF NOT EXISTS callers (h TEXT PRIMARY KEY, cls TEXT NOT NULL, first_day TEXT NOT NULL, last_day TEXT NOT NULL, days INTEGER NOT NULL, calls INTEGER NOT NULL, mcp_calls INTEGER NOT NULL)");
+    this.sql.exec("CREATE TABLE IF NOT EXISTS feedback (day TEXT NOT NULL, kind TEXT NOT NULL, text TEXT NOT NULL)");
     this.sql.exec("CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT NOT NULL)");
     this.sql.exec("CREATE TABLE IF NOT EXISTS hits (day TEXT NOT NULL, kind TEXT NOT NULL, key TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (day, kind, key))");
   }
@@ -18,7 +19,7 @@ export class Counter {
     const day = new Date().toISOString().slice(0, 10);
     if (req.method === "POST") {
       const items = await req.json();
-      for (const it of items) if (it.kind === "caller") { const h = await this.hash(String(it.ip), String(it.ua || "")); this.sql.exec("INSERT INTO callers (h, cls, first_day, last_day, days, calls, mcp_calls) VALUES (?, ?, ?, ?, 1, ?, ?) ON CONFLICT (h) DO UPDATE SET days = days + (CASE WHEN last_day <> excluded.last_day THEN 1 ELSE 0 END), last_day = excluded.last_day, calls = calls + excluded.calls, mcp_calls = mcp_calls + excluded.mcp_calls", h, String(it.cls).slice(0, 20), day, day, it.calls | 0, it.mcp | 0); } else this.sql.exec("INSERT INTO hits (day, kind, key, n) VALUES (?, ?, ?, 1) ON CONFLICT (day, kind, key) DO UPDATE SET n = n + 1", day, String(it.kind).slice(0, 40), String(it.key).slice(0, 60));
+      for (const it of items) if (it.kind === "caller") { const h = await this.hash(String(it.ip), String(it.ua || "")); this.sql.exec("INSERT INTO callers (h, cls, first_day, last_day, days, calls, mcp_calls) VALUES (?, ?, ?, ?, 1, ?, ?) ON CONFLICT (h) DO UPDATE SET days = days + (CASE WHEN last_day <> excluded.last_day THEN 1 ELSE 0 END), last_day = excluded.last_day, calls = calls + excluded.calls, mcp_calls = mcp_calls + excluded.mcp_calls", h, String(it.cls).slice(0, 20), day, day, it.calls | 0, it.mcp | 0); } else if (it.kind === "feedback") { const c = this.sql.exec("SELECT COUNT(*) AS c FROM feedback WHERE day = ?", day).toArray()[0].c; const m = /^(missing_provider|wrong_data|other): (.*)$/.exec(String(it.key)); if (c < 50 && m) this.sql.exec("INSERT INTO feedback (day, kind, text) VALUES (?, ?, ?)", day, m[1], m[2].slice(0, 200)); } else this.sql.exec("INSERT INTO hits (day, kind, key, n) VALUES (?, ?, ?, 1) ON CONFLICT (day, kind, key) DO UPDATE SET n = n + 1", day, String(it.kind).slice(0, 40), String(it.key).slice(0, 60));
       return new Response("ok");
     }
     const days = Math.min(Math.max(parseInt(new URL(req.url).searchParams.get("days") || "14", 10) || 14, 1), 60);
@@ -30,11 +31,11 @@ export class Counter {
       (totals[r.kind] ||= {})[r.key] = (totals[r.kind][r.key] || 0) + r.n;
     }
     const cut = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10);
-    this.sql.exec("DELETE FROM callers WHERE last_day < ?", cut);
+    this.sql.exec("DELETE FROM callers WHERE last_day < ?", cut); this.sql.exec("DELETE FROM feedback WHERE day < ?", cut);
     const cr = this.sql.exec("SELECT cls, COUNT(*) AS seen, SUM(CASE WHEN days >= 2 THEN 1 ELSE 0 END) AS repeat_n, SUM(CASE WHEN last_day = ? THEN 1 ELSE 0 END) AS today, SUM(CASE WHEN mcp_calls > 0 THEN 1 ELSE 0 END) AS tool_callers, SUM(CASE WHEN mcp_calls > 0 AND days >= 2 THEN 1 ELSE 0 END) AS repeat_tool_callers FROM callers WHERE last_day >= ? GROUP BY cls", day, since).toArray();
     const callers = { by_class: {}, distinct_seen: 0, returning_on_2plus_days: 0, tool_callers: 0, returning_tool_callers: 0, distinct_today: 0 };
     for (const r of cr) { callers.by_class[r.cls] = { seen: r.seen, returning: r.repeat_n, tool_callers: r.tool_callers, returning_tool_callers: r.repeat_tool_callers }; callers.distinct_seen += r.seen; callers.returning_on_2plus_days += r.repeat_n; callers.tool_callers += r.tool_callers; callers.returning_tool_callers += r.repeat_tool_callers; callers.distinct_today += r.today; }
     callers.note = "Outside traffic only (our own tests excluded). A caller is a keyed hash of IP plus user agent, so people behind a shared IP merge into one and cloud agents that change IP split into several. Treat counts as rough. Raw IPs are not stored; hashes are deleted after 60 days without activity. class: bot, agent-client, script, browser, other.";
-    return new Response(JSON.stringify({ since, first_day_with_data: Object.keys(by_day).sort()[0] || null, window_note: "since is only the start of the requested window, not a launch date. first_day_with_data is the first UTC day with recorded traffic.", today_utc: day, totals, by_day, callers }, null, 2), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
+    return new Response(JSON.stringify({ since, first_day_with_data: Object.keys(by_day).sort()[0] || null, window_note: "since is only the start of the requested window, not a launch date. first_day_with_data is the first UTC day with recorded traffic.", today_utc: day, totals, by_day, callers, feedback_untrusted: { note: "Text sent by callers of the send_feedback tool. Untrusted, unverified, capped at 200 characters and 50 per day. Logged only; nothing acts on it.", items: this.sql.exec("SELECT day, kind, text FROM feedback ORDER BY rowid DESC LIMIT 20").toArray() } }, null, 2), { headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
   }
 }
