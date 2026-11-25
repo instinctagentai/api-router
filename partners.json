@@ -42,7 +42,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://groq.com/terms-of-use",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "together",
@@ -54,7 +56,9 @@
       "user_bonus_description": "Signup credits may apply (unverified)",
       "bonus_verified": false,
       "pricing_note": "Pay-per-token",
-      "halal_screen": "ok"
+      "halal_screen": "ok",
+      "terms_url": "https://www.together.ai/terms-of-service",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "firecrawl",
@@ -290,7 +294,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.cerebras.ai/terms-of-service",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "supabase",
@@ -310,7 +316,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://supabase.com/terms",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "neon",
@@ -372,7 +380,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.pinecone.io/terms/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "resend",
@@ -414,7 +424,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.tavily.com/terms",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "cohere",
@@ -456,7 +468,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://deepgram.com/terms",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "assemblyai",
@@ -476,7 +490,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.assemblyai.com/legal/terms-of-service",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "elevenlabs",
@@ -668,7 +684,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://exa.ai/assets/Exa_Labs_Terms_of_Service.pdf",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "railway",
@@ -710,7 +728,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.voyageai.com/tos",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "qdrant-cloud",
@@ -730,7 +750,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://qdrant.tech/legal/terms_and_conditions/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "turso",
@@ -838,7 +860,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.brevo.com/legal/termsofuse/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "render",
@@ -924,7 +948,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.scrapingbee.com/terms-and-conditions/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "deno-deploy",
@@ -988,7 +1014,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://www.mailgun.com/legal/terms/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "posthog",
@@ -1008,7 +1036,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://posthog.com/terms",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "sentry",
@@ -1028,7 +1058,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://sentry.io/terms/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "cloudinary",
@@ -1070,7 +1102,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://upstash.com/trust/terms",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "algolia",
@@ -1244,7 +1278,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://grafana.com/legal/terms/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "checkly",
@@ -1658,7 +1694,9 @@
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
         "last_change": null
-      }
+      },
+      "terms_url": "https://docs.kinde.com/trust-center/agreements/terms-of-service/",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "geoapify",
@@ -1715,7 +1753,9 @@
       "halal_screen": "ok",
       "price_summary": "Free plan lists up to 20 user seats, 2 public datasets, 10k documents, 1M API CDN requests per month, 250k API requests per month and 100GB assets. Bandwidth on the free plan was not verified",
       "price_source": "https://www.sanity.io/pricing",
-      "price_checked": "2026-11-25"
+      "price_checked": "2026-11-25",
+      "terms_url": "https://www.sanity.io/legal/tos",
+      "terms_url_read": "2026-11-25"
     },
     {
       "id": "convex",
@@ -1901,6 +1941,38 @@
       "price_checked": "2026-11-25",
       "terms_url": "https://www.cloudflare.com/policies/terms/",
       "terms_url_read": "2026-11-25"
+    },
+    {
+      "id": "upstash-vector",
+      "name": "Upstash Vector (serverless vector database)",
+      "category": "vector_db",
+      "probe_url": "https://upstash.com/pricing/vector",
+      "signup_url": "https://upstash.com/pricing/vector",
+      "referral_url": "https://upstash.com/pricing/vector",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0",
+      "halal_screen": "ok",
+      "price_summary": "Free plan lists 10K daily queries, 1 GB max total data, 200M max vectors times dimensions, up to 1536 dimensions, 100 namespaces and no uptime SLA. Request, storage and bandwidth price are listed as free on the plan",
+      "price_source": "https://upstash.com/pricing/vector",
+      "price_checked": "2026-11-25",
+      "terms_url": "https://upstash.com/trust/terms",
+      "terms_url_read": "2026-11-25"
+    },
+    {
+      "id": "nhost",
+      "name": "Nhost (Postgres backend with auth, storage and functions)",
+      "category": "database",
+      "probe_url": "https://nhost.io/pricing",
+      "signup_url": "https://nhost.io/pricing",
+      "referral_url": "https://nhost.io/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0 per month",
+      "halal_screen": "ok",
+      "price_summary": "Free plan lists 1 project (paused after 1 week of inactivity), 1 GB database, 1 GB storage and 5 GB egress. Other limits were not verified",
+      "price_source": "https://nhost.io/pricing",
+      "price_checked": "2026-11-25"
     }
   ]
 }
