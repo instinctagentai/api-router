@@ -2,6 +2,7 @@
 import partners from "../partners.json";
 import { HEALTH_RULE } from "./extras.js";
 import { answerPaths } from "./answers.js";
+import { askPaths } from "./asks.js";
 const BASE = "https://api-router.instinctagentai.workers.dev";
 const CATS = {
   llm: { title: "LLM inference APIs", task: "inference", blurb: "Hosted model APIs for chat and completion." },
@@ -53,7 +54,7 @@ export async function handlePages(u, env, getHealth, req) {
   if (p.endsWith(".md")) p = p.slice(0, -3);
   if (p === "/uptime") return uptimePage(env, wantMd);
   if (p === "/robots.txt") return new Response(`User-agent: *\nAllow: /\nSitemap: ${BASE}/sitemap.xml\n`, { headers: { "content-type": "text/plain" } });
-  if (p === "/sitemap.xml") return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/compare", "/uptime"].concat(Object.keys(CATS).map((k) => "/compare/" + k), answerPaths()).map((x) => `<url><loc>${BASE}${x}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`, { headers: { "content-type": "application/xml" } });
+  if (p === "/sitemap.xml") return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/compare", "/uptime"].concat(Object.keys(CATS).map((k) => "/compare/" + k), answerPaths(), askPaths()).map((x) => `<url><loc>${BASE}${x}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`, { headers: { "content-type": "application/xml" } });
   if (p === "/compare") {
     const li = Object.entries(CATS).map(([k, c]) => `<li><a href="/compare/${k}">${esc(c.title)}</a>: ${esc(c.blurb)}</li>`).join("");
     if (wantMd) return md(`# API provider comparisons with live status\n\n${Object.entries(CATS).map(([k, c]) => `- ${c.title}: ${BASE}/compare/${k}`).join("\n")}\n\nStatus and latency come from a probe that runs every 15 minutes. Some signup links are referral links and are marked.\n`);
