@@ -838,6 +838,21 @@
       "price_summary": "Free plan at $0 a month, described as for personal or hobby projects that are not business-critical. Individual limits not verified",
       "price_source": "https://www.cloudflare.com/plans/",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "mixedbread",
+      "name": "Mixedbread (embeddings and reranking)",
+      "category": "embeddings",
+      "probe_url": "https://www.mixedbread.com",
+      "signup_url": "https://www.mixedbread.com",
+      "referral_url": "https://www.mixedbread.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Starter plan: $5 one-time credits, no card",
+      "halal_screen": "ok",
+      "price_summary": "Starter plan is free with $5 in one-time credits and no card required. Paid plan is $20 a month, then pay-as-you-go. Per-model rates not copied here",
+      "price_source": "https://www.mixedbread.com/pricing",
+      "price_checked": "2026-11-25"
     }
   ]
 }
