@@ -1348,6 +1348,21 @@
       "price_summary": "Developer plan lists 10,000 sends per month at $0, with journeys, broadcasts and SDKs. Business is $0.005 per send. Other limits were not verified",
       "price_source": "https://www.courier.com/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "microsoft-clarity",
+      "name": "Microsoft Clarity (free heatmaps and session recordings)",
+      "category": "analytics",
+      "probe_url": "https://clarity.microsoft.com/",
+      "signup_url": "https://clarity.microsoft.com/",
+      "referral_url": "https://clarity.microsoft.com/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free forever per the product page",
+      "halal_screen": "ok",
+      "price_summary": "The product page says free forever with no limits on traffic. Data retention and any fair-use limits were not verified",
+      "price_source": "https://clarity.microsoft.com/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
