@@ -1363,6 +1363,21 @@
       "price_summary": "The product page says free forever with no limits on traffic. Data retention and any fair-use limits were not verified",
       "price_source": "https://clarity.microsoft.com/",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "cloudflare-pages",
+      "name": "Cloudflare Pages (static site hosting)",
+      "category": "hosting",
+      "probe_url": "https://developers.cloudflare.com/pages/platform/limits/",
+      "signup_url": "https://pages.cloudflare.com/",
+      "referral_url": "https://pages.cloudflare.com/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan limits from the Pages docs",
+      "halal_screen": "ok",
+      "price_summary": "Free plan limits per the Pages docs: 500 builds per month, 1 build at a time, 100 custom domains per project, up to 20,000 files per site and 25 MiB per file. Pages Functions count toward Workers request quotas",
+      "price_source": "https://developers.cloudflare.com/pages/platform/limits/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
