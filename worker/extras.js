@@ -1,4 +1,5 @@
 // Deterministic helpers: JSON repair/validate, page-to-markdown, agent card, llms.txt. No LLM, no paid services.
+export const HEALTH_RULE = "One HEAD request per provider every 15 minutes from a Cloudflare Worker. state=up: HTTP 200-399. state=degraded: the host answered but the probe URL returned a 4xx status (for example 401, 403, 404 or 405). That often just means the root path needs a key or does not exist, so it is a warning, not proof the API is broken. state=rate_limited: HTTP 429. state=down: HTTP 500 or higher, a timeout or no answer. is_healthy is true only for state=up. This measures whether the API host answers, not real workload success, price or quality.";
 export const BASE = "https://api-router.instinctagentai.workers.dev";
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "GET,POST,OPTIONS", "access-control-allow-headers": "content-type" };
 export const J = (o, s = 200, extra = {}) => new Response(JSON.stringify(o, null, 2), { status: s, headers: { "content-type": "application/json", ...CORS, ...extra } });
@@ -468,6 +469,9 @@ Base URL: ${BASE}
 - ${BASE}/compare/llm , /compare/scraping , /compare/proxy , /compare/gpu , /compare/pdf , /compare/monitoring
 - Each category page also has a plain markdown version: add .md (for example ${BASE}/compare/scraping.md) or send Accept: text/markdown
 - Pages start with a short answer, show when the data was last checked, and mark referral links
+
+## Health rule
+Provider status uses four states: up (HTTP 200-399), degraded (4xx on the probe URL), rate_limited (429), down (5xx or no answer). Only up counts as healthy. See ${BASE}/uptime.
 
 ## Notes
 Some provider links are referral links of the operator. Each provider entry says whether a user bonus is verified (bonus_verified).
