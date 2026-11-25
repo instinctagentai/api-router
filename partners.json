@@ -1228,6 +1228,51 @@
       "price_summary": "Free & Starter includes 1M function calls, 0.5 GB database storage, 1 GB file storage, 1 GB database I/O and 1 GB data egress per month, with pay-as-you-go overage rates listed on the page. Overage can be billed, so check the page before enabling it",
       "price_source": "https://www.convex.dev/pricing",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "inngest",
+      "name": "Inngest (background jobs and workflows)",
+      "category": "background_jobs",
+      "probe_url": "https://www.inngest.com/pricing",
+      "signup_url": "https://www.inngest.com/pricing",
+      "referral_url": "https://www.inngest.com/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0/mo, no credit card",
+      "halal_screen": "ok",
+      "price_summary": "Free plan lists 5 seats, 50k executions and 5 concurrent steps per month, with no credit card required. Usage limits beyond those were not verified",
+      "price_source": "https://www.inngest.com/pricing",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "trigger-dev",
+      "name": "Trigger.dev (background jobs)",
+      "category": "background_jobs",
+      "probe_url": "https://trigger.dev/pricing",
+      "signup_url": "https://trigger.dev/pricing",
+      "referral_url": "https://trigger.dev/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0/month, no credit card",
+      "halal_screen": "ok",
+      "price_summary": "Free plan includes $5 of compute credits per month, 20 concurrent runs, unlimited tasks and 5 team members, with no credit card required. Compute beyond the credit is billed on paid plans",
+      "price_source": "https://trigger.dev/pricing",
+      "price_checked": "2026-11-25"
+    },
+    {
+      "id": "pusher-channels",
+      "name": "Pusher Channels (realtime messaging)",
+      "category": "realtime",
+      "probe_url": "https://pusher.com/channels/pricing/",
+      "signup_url": "https://pusher.com/channels/pricing/",
+      "referral_url": "https://pusher.com/channels/pricing/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free Sandbox plan",
+      "halal_screen": "ok",
+      "price_summary": "Sandbox plan lists 200k messages per day and 100 concurrent connections. Other plan details were not verified",
+      "price_source": "https://pusher.com/channels/pricing/",
+      "price_checked": "2026-11-25"
     }
   ]
 }
