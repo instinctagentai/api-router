@@ -1,4 +1,5 @@
 {
+  "health_rule": "One HEAD request per provider every 45 minutes from a Cloudflare Worker. state=up: HTTP 200-399. state=degraded: the host answered but the probe URL returned a 4xx status (for example 401, 403, 404 or 405). That often just means the root path needs a key or does not exist, so it is a warning, not proof the API is broken. state=rate_limited: HTTP 429. state=down: HTTP 500 or higher, a timeout or no answer. is_healthy is true only for state=up. This measures whether the API host answers, not real workload success, price or quality.",
   "providers": [
     {
       "id": "openrouter",
@@ -10,11 +11,13 @@
       "bonus_verified": false,
       "pricing_note": "Pay-per-token, varies by model; see provider page",
       "health": {
+        "state": "up",
         "status_code": 200,
-        "latency_ms": 7,
+        "latency_ms": 6,
         "is_healthy": true,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:03.304Z"
+        "last_checked_utc": "2026-11-26T03:45:02.486Z"
       }
     },
     {
@@ -27,11 +30,13 @@
       "bonus_verified": false,
       "pricing_note": "Free tier plus pay-per-token",
       "health": {
+        "state": "degraded",
         "status_code": 404,
-        "latency_ms": 169,
-        "is_healthy": true,
+        "latency_ms": 77,
+        "is_healthy": false,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:03.816Z"
+        "last_checked_utc": "2026-11-26T04:00:02.578Z"
       }
     },
     {
@@ -44,11 +49,13 @@
       "bonus_verified": false,
       "pricing_note": "Pay-per-token",
       "health": {
+        "state": "degraded",
         "status_code": 401,
-        "latency_ms": 234,
-        "is_healthy": true,
+        "latency_ms": 679,
+        "is_healthy": false,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:04.413Z"
+        "last_checked_utc": "2026-11-26T04:15:03.163Z"
       }
     },
     {
@@ -61,11 +68,13 @@
       "bonus_verified": true,
       "pricing_note": "Credit-based plans",
       "health": {
+        "state": "up",
         "status_code": 200,
-        "latency_ms": 968,
+        "latency_ms": 487,
         "is_healthy": true,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:05.721Z"
+        "last_checked_utc": "2026-11-26T03:45:02.967Z"
       }
     },
     {
@@ -78,28 +87,13 @@
       "bonus_verified": false,
       "pricing_note": "Request-based plans",
       "health": {
+        "state": "degraded",
         "status_code": 404,
-        "latency_ms": 266,
-        "is_healthy": true,
+        "latency_ms": 116,
+        "is_healthy": false,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:06.334Z"
-      }
-    },
-    {
-      "id": "brightdata",
-      "name": "Bright Data",
-      "category": "proxy",
-      "signup_url": "https://brightdata.com",
-      "referral_url": "https://brightdata.com",
-      "user_bonus_description": "Trial credit may apply (unverified)",
-      "bonus_verified": false,
-      "pricing_note": "Per-GB / per-request",
-      "health": {
-        "status_code": 200,
-        "latency_ms": 334,
-        "is_healthy": true,
-        "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:07.013Z"
+        "last_checked_utc": "2026-11-26T04:00:02.617Z"
       }
     },
     {
@@ -112,11 +106,13 @@
       "bonus_verified": true,
       "pricing_note": "Per-hour GPU pricing",
       "health": {
+        "state": "degraded",
         "status_code": 404,
-        "latency_ms": 251,
-        "is_healthy": true,
+        "latency_ms": 131,
+        "is_healthy": false,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:07.600Z"
+        "last_checked_utc": "2026-11-26T04:15:02.615Z"
       }
     },
     {
@@ -129,11 +125,13 @@
       "bonus_verified": false,
       "pricing_note": "Per-second serverless GPU",
       "health": {
+        "state": "up",
         "status_code": 200,
-        "latency_ms": 982,
+        "latency_ms": 720,
         "is_healthy": true,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:08.929Z"
+        "last_checked_utc": "2026-11-26T03:45:03.200Z"
       }
     },
     {
@@ -146,28 +144,13 @@
       "bonus_verified": false,
       "pricing_note": "Subscription plans with API credits; see provider page",
       "health": {
+        "state": "degraded",
         "status_code": 404,
-        "latency_ms": 733,
-        "is_healthy": true,
+        "latency_ms": 310,
+        "is_healthy": false,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:10.007Z"
-      }
-    },
-    {
-      "id": "pdfops",
-      "name": "PDFops",
-      "category": "pdf",
-      "signup_url": "https://pdfops.dev",
-      "referral_url": "https://pdfops.dev/?atp=instinctagentai",
-      "user_bonus_description": "Free API key with 250 requests per month and no card; 100 requests per IP per month with no key (per pdfops.dev, read 2026-11-24)",
-      "bonus_verified": true,
-      "pricing_note": "Flat monthly tiers by request count; see provider page",
-      "health": {
-        "status_code": 200,
-        "latency_ms": 661,
-        "is_healthy": true,
-        "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:11.028Z"
+        "last_checked_utc": "2026-11-26T04:00:02.811Z"
       }
     },
     {
@@ -180,11 +163,1628 @@
       "bonus_verified": false,
       "pricing_note": "Free plan plus paid subscriptions; see provider page",
       "health": {
+        "state": "up",
         "status_code": 200,
-        "latency_ms": 385,
+        "latency_ms": 338,
         "is_healthy": true,
+        "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-25T04:15:11.764Z"
+        "last_checked_utc": "2026-11-26T04:15:02.822Z"
+      }
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini API",
+      "category": "llm",
+      "signup_url": "https://aistudio.google.com",
+      "referral_url": "https://aistudio.google.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free tier plus prepaid and pay-as-you-go per 1M tokens",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 153,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.633Z"
+      }
+    },
+    {
+      "id": "cloudflare-workers-ai",
+      "name": "Cloudflare Workers AI",
+      "category": "llm",
+      "signup_url": "https://dash.cloudflare.com/sign-up",
+      "referral_url": "https://dash.cloudflare.com/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Neuron-based, per model",
+      "health": {
+        "state": "up",
+        "status_code": 301,
+        "latency_ms": 7,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.508Z"
+      }
+    },
+    {
+      "id": "cerebras",
+      "name": "Cerebras Inference",
+      "category": "llm",
+      "signup_url": "https://cloud.cerebras.ai",
+      "referral_url": "https://cloud.cerebras.ai",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free trial credit, then pay as you go",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 136,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.620Z"
+      }
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "database",
+      "signup_url": "https://supabase.com/dashboard",
+      "referral_url": "https://supabase.com/dashboard",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, Pro, Team and Enterprise plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 185,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.665Z"
+      }
+    },
+    {
+      "id": "neon",
+      "name": "Neon (Postgres)",
+      "category": "database",
+      "signup_url": "https://console.neon.tech",
+      "referral_url": "https://console.neon.tech",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then usage-based",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 167,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.668Z"
+      }
+    },
+    {
+      "id": "upstash-redis",
+      "name": "Upstash Redis",
+      "category": "database",
+      "signup_url": "https://console.upstash.com",
+      "referral_url": "https://console.upstash.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, pay as you go and fixed plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 161,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.645Z"
+      }
+    },
+    {
+      "id": "resend",
+      "name": "Resend (email API)",
+      "category": "email",
+      "signup_url": "https://resend.com/signup",
+      "referral_url": "https://resend.com/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then monthly plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 139,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.619Z"
+      }
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "category": "embeddings",
+      "signup_url": "https://dashboard.cohere.com",
+      "referral_url": "https://dashboard.cohere.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free trial keys, paid production keys",
+      "health": {
+        "state": "degraded",
+        "status_code": 405,
+        "latency_ms": 54,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.555Z"
+      }
+    },
+    {
+      "id": "deepgram",
+      "name": "Deepgram (speech to text)",
+      "category": "speech",
+      "signup_url": "https://console.deepgram.com/signup",
+      "referral_url": "https://console.deepgram.com/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free credit, then pay as you go",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 753,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.237Z"
+      }
+    },
+    {
+      "id": "assemblyai",
+      "name": "AssemblyAI (speech to text)",
+      "category": "speech",
+      "signup_url": "https://www.assemblyai.com/dashboard/signup",
+      "referral_url": "https://www.assemblyai.com/dashboard/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free credit, then pay as you go",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 380,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.860Z"
+      }
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs API (text to speech)",
+      "category": "speech",
+      "signup_url": "https://elevenlabs.io/app/sign-up",
+      "referral_url": "https://elevenlabs.io/app/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then usage pricing",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 58,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.559Z"
+      }
+    },
+    {
+      "id": "ocrspace",
+      "name": "OCR.space",
+      "category": "ocr",
+      "signup_url": "https://ocr.space/ocrapi",
+      "referral_url": "https://ocr.space/ocrapi",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan and paid plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 179,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.663Z"
+      }
+    },
+    {
+      "id": "huggingface-spaces",
+      "name": "Hugging Face Spaces",
+      "category": "hosting",
+      "signup_url": "https://huggingface.co/join",
+      "referral_url": "https://huggingface.co/join",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free CPU, paid hardware by the hour",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 147,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.627Z"
+      }
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "hosting",
+      "signup_url": "https://vercel.com/signup",
+      "referral_url": "https://vercel.com/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobby, Pro, Enterprise",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 139,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.640Z"
+      }
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "category": "hosting",
+      "signup_url": "https://app.netlify.com/signup",
+      "referral_url": "https://app.netlify.com/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then credit-based plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 99,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.583Z"
+      }
+    },
+    {
+      "id": "cloudflare-r2",
+      "name": "Cloudflare R2 (object storage)",
+      "category": "storage",
+      "signup_url": "https://dash.cloudflare.com/sign-up",
+      "referral_url": "https://dash.cloudflare.com/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free allowance, then per GB and per operation",
+      "health": {
+        "state": "up",
+        "status_code": 301,
+        "latency_ms": 3,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.483Z"
+      }
+    },
+    {
+      "id": "backblaze-b2",
+      "name": "Backblaze B2 (object storage)",
+      "category": "storage",
+      "signup_url": "https://www.backblaze.com/cloud-storage",
+      "referral_url": "https://www.backblaze.com/cloud-storage",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "First 10 GB of storage free; then from $6.95 per TB per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 67,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.568Z"
+      }
+    },
+    {
+      "id": "clerk",
+      "name": "Clerk (auth)",
+      "category": "auth",
+      "signup_url": "https://dashboard.clerk.com/sign-up",
+      "referral_url": "https://dashboard.clerk.com/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, Pro, Business",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 708,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.192Z"
+      }
+    },
+    {
+      "id": "exa",
+      "name": "Exa (search API)",
+      "category": "search",
+      "signup_url": "https://dashboard.exa.ai",
+      "referral_url": "https://dashboard.exa.ai",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free credits, then usage pricing",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 180,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.660Z"
+      }
+    },
+    {
+      "id": "railway",
+      "name": "Railway",
+      "category": "hosting",
+      "signup_url": "https://railway.com",
+      "referral_url": "https://railway.com?referralCode=u6CRXQ",
+      "user_bonus_description": "Anyone who signs up with the referral link gets $20 in credits per the Railway referral page",
+      "bonus_verified": false,
+      "pricing_note": "Free trial, Free, Hobby $5/month, Pro $20/month plus usage",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 64,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.565Z"
+      }
+    },
+    {
+      "id": "voyage-ai",
+      "name": "Voyage AI (embeddings and rerank)",
+      "category": "embeddings",
+      "signup_url": "https://dashboard.voyageai.com",
+      "referral_url": "https://dashboard.voyageai.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free tokens per account, then per token",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 829,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.313Z"
+      }
+    },
+    {
+      "id": "qdrant-cloud",
+      "name": "Qdrant Cloud (vector database)",
+      "category": "vector_db",
+      "signup_url": "https://cloud.qdrant.io/signup",
+      "referral_url": "https://cloud.qdrant.io/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free cluster, then paid",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 447,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.927Z"
+      }
+    },
+    {
+      "id": "turso",
+      "name": "Turso (SQLite database)",
+      "category": "database",
+      "signup_url": "https://turso.tech/app",
+      "referral_url": "https://turso.tech/app",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then usage-based",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 211,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.712Z"
+      }
+    },
+    {
+      "id": "mongodb-atlas",
+      "name": "MongoDB Atlas",
+      "category": "database",
+      "signup_url": "https://www.mongodb.com/cloud/atlas/register",
+      "referral_url": "https://www.mongodb.com/cloud/atlas/register",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free M0 cluster, then paid tiers",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 1368,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.852Z"
+      }
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase (Google)",
+      "category": "database",
+      "signup_url": "https://console.firebase.google.com",
+      "referral_url": "https://console.firebase.google.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Spark (no cost) and Blaze (pay as you go)",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 670,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.150Z"
+      }
+    },
+    {
+      "id": "auth0",
+      "name": "Auth0 (auth)",
+      "category": "auth",
+      "signup_url": "https://auth0.com/signup",
+      "referral_url": "https://auth0.com/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, Essentials, Professional, Enterprise",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 90,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.591Z"
+      }
+    },
+    {
+      "id": "brevo",
+      "name": "Brevo (email API)",
+      "category": "email",
+      "signup_url": "https://app.brevo.com/account/register",
+      "referral_url": "https://app.brevo.com/account/register",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then paid",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 58,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.542Z"
+      }
+    },
+    {
+      "id": "render",
+      "name": "Render (hosting)",
+      "category": "hosting",
+      "signup_url": "https://dashboard.render.com/register",
+      "referral_url": "https://dashboard.render.com/register",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobby workspace plus compute",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 193,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.673Z"
+      }
+    },
+    {
+      "id": "stability-ai",
+      "name": "Stability AI API (image)",
+      "category": "image",
+      "signup_url": "https://platform.stability.ai",
+      "referral_url": "https://platform.stability.ai",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Credits at $0.01 each",
+      "health": {
+        "state": "degraded",
+        "status_code": 405,
+        "latency_ms": 302,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.803Z"
+      }
+    },
+    {
+      "id": "apify",
+      "name": "Apify (scraping and automation)",
+      "category": "scraping",
+      "signup_url": "https://apify.com",
+      "referral_url": "https://apify.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then monthly plans plus usage",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 495,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.979Z"
+      }
+    },
+    {
+      "id": "scrapingbee",
+      "name": "ScrapingBee (scraping)",
+      "category": "scraping",
+      "signup_url": "https://www.scrapingbee.com",
+      "referral_url": "https://www.scrapingbee.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Monthly plans with API credits",
+      "health": {
+        "state": "up",
+        "status_code": 301,
+        "latency_ms": 156,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.636Z"
+      }
+    },
+    {
+      "id": "deno-deploy",
+      "name": "Deno Deploy (hosting)",
+      "category": "hosting",
+      "signup_url": "https://console.deno.com",
+      "referral_url": "https://console.deno.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, Pro, Builder",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 98,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.599Z"
+      }
+    },
+    {
+      "id": "postmark",
+      "name": "Postmark (email API)",
+      "category": "email",
+      "signup_url": "https://account.postmarkapp.com/sign_up",
+      "referral_url": "https://account.postmarkapp.com/sign_up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free test plan, then monthly plans",
+      "health": {
+        "state": "up",
+        "status_code": 302,
+        "latency_ms": 415,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.899Z"
+      }
+    },
+    {
+      "id": "mailgun",
+      "name": "Mailgun (email API)",
+      "category": "email",
+      "signup_url": "https://signup.mailgun.com/new/signup",
+      "referral_url": "https://signup.mailgun.com/new/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then monthly plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 580,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.060Z"
+      }
+    },
+    {
+      "id": "posthog",
+      "name": "PostHog (product analytics)",
+      "category": "analytics",
+      "signup_url": "https://posthog.com/signup",
+      "referral_url": "https://posthog.com/signup",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free allowance, then usage-based",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 61,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.562Z"
+      }
+    },
+    {
+      "id": "sentry",
+      "name": "Sentry (error monitoring)",
+      "category": "error_monitoring",
+      "signup_url": "https://sentry.io/signup/",
+      "referral_url": "https://sentry.io/signup/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free Developer plan, then paid",
+      "health": {
+        "state": "up",
+        "status_code": 302,
+        "latency_ms": 272,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.756Z"
+      }
+    },
+    {
+      "id": "upstash-qstash",
+      "name": "Upstash QStash (message queue)",
+      "category": "queue",
+      "signup_url": "https://console.upstash.com",
+      "referral_url": "https://console.upstash.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, pay as you go and fixed plans",
+      "health": {
+        "state": "degraded",
+        "status_code": 404,
+        "latency_ms": 110,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.590Z"
+      }
+    },
+    {
+      "id": "algolia",
+      "name": "Algolia (search)",
+      "category": "search",
+      "signup_url": "https://dashboard.algolia.com/users/sign_up",
+      "referral_url": "https://dashboard.algolia.com/users/sign_up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then usage-based",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 704,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:03.205Z"
+      }
+    },
+    {
+      "id": "meilisearch",
+      "name": "Meilisearch Cloud (search)",
+      "category": "search",
+      "signup_url": "https://cloud.meilisearch.com",
+      "referral_url": "https://cloud.meilisearch.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "14-day trial, then from $20/month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 207,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.691Z"
+      }
+    },
+    {
+      "id": "circleci",
+      "name": "CircleCI (CI/CD)",
+      "category": "ci",
+      "signup_url": "https://circleci.com/signup/",
+      "referral_url": "https://circleci.com/signup/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, no credit card",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 259,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.739Z"
+      }
+    },
+    {
+      "id": "github-actions",
+      "name": "GitHub Actions (CI/CD)",
+      "category": "ci",
+      "signup_url": "https://github.com/features/actions",
+      "referral_url": "https://github.com/features/actions",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free on public repos; $12 included usage on private repos",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 67,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.568Z"
+      }
+    },
+    {
+      "id": "cloudflare-cdn",
+      "name": "Cloudflare (CDN and DNS)",
+      "category": "cdn",
+      "signup_url": "https://dash.cloudflare.com/sign-up",
+      "referral_url": "https://dash.cloudflare.com/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan $0/month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 274,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.758Z"
+      }
+    },
+    {
+      "id": "mixedbread",
+      "name": "Mixedbread (embeddings and reranking)",
+      "category": "embeddings",
+      "signup_url": "https://www.mixedbread.com",
+      "referral_url": "https://www.mixedbread.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Starter plan: $5 one-time credits, no card",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 988,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.468Z"
+      }
+    },
+    {
+      "id": "scrapingdog",
+      "name": "Scrapingdog (web scraping API)",
+      "category": "scraping",
+      "signup_url": "https://www.scrapingdog.com",
+      "referral_url": "https://www.scrapingdog.com/?deal=instinctagentai-9d007f",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan 100 request credits, no card; Lite $40/month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 42,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.543Z"
+      }
+    },
+    {
+      "id": "grafana-cloud",
+      "name": "Grafana Cloud (monitoring)",
+      "category": "monitoring",
+      "signup_url": "https://grafana.com/auth/sign-up/create-user",
+      "referral_url": "https://grafana.com/auth/sign-up/create-user",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, always $0",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 266,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.750Z"
+      }
+    },
+    {
+      "id": "checkly",
+      "name": "Checkly (monitoring)",
+      "category": "monitoring",
+      "signup_url": "https://www.checklyhq.com/",
+      "referral_url": "https://www.checklyhq.com/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobby plan $0/month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 370,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.850Z"
+      }
+    },
+    {
+      "id": "healthchecks",
+      "name": "Healthchecks.io (cron job monitoring)",
+      "category": "monitoring",
+      "signup_url": "https://healthchecks.io/",
+      "referral_url": "https://healthchecks.io/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobbyist plan $0/month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 639,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:03.140Z"
+      }
+    },
+    {
+      "id": "cloudflare-queues",
+      "name": "Cloudflare Queues",
+      "category": "queue",
+      "signup_url": "https://developers.cloudflare.com/queues/",
+      "referral_url": "https://developers.cloudflare.com/queues/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Included on Workers Free: 10,000 operations/day",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 16,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.500Z"
+      }
+    },
+    {
+      "id": "scrapestack",
+      "name": "scrapestack (web scraping API)",
+      "category": "scraping",
+      "signup_url": "https://scrapestack.com",
+      "referral_url": "https://scrapestack.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-6527e5",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 API requests per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 461,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.941Z"
+      }
+    },
+    {
+      "id": "serpstack",
+      "name": "serpstack (Google search results API)",
+      "category": "search",
+      "signup_url": "https://serpstack.com",
+      "referral_url": "https://serpstack.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-d942d4",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 searches per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 610,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:03.111Z"
+      }
+    },
+    {
+      "id": "mediastack",
+      "name": "mediastack (news API)",
+      "category": "news",
+      "signup_url": "https://mediastack.com",
+      "referral_url": "https://mediastack.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-106415",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, $0 per month, 100 calls per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 647,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.131Z"
+      }
+    },
+    {
+      "id": "positionstack",
+      "name": "positionstack (geocoding API)",
+      "category": "geocoding",
+      "signup_url": "https://positionstack.com",
+      "referral_url": "https://positionstack.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-071a8f",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, $0 per month, 100 requests",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 554,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.034Z"
+      }
+    },
+    {
+      "id": "ipapi",
+      "name": "ipapi (IP geolocation API)",
+      "category": "geoip",
+      "signup_url": "https://ipapi.com",
+      "referral_url": "https://ipapi.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-138556",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free, $0 per month, 100 lookups",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 670,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:03.171Z"
+      }
+    },
+    {
+      "id": "formspree",
+      "name": "Formspree (form backend)",
+      "category": "forms",
+      "signup_url": "https://formspree.io",
+      "referral_url": "https://formspree.io",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 50 submissions per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 508,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.992Z"
+      }
+    },
+    {
+      "id": "web3forms",
+      "name": "Web3Forms (form backend)",
+      "category": "forms",
+      "signup_url": "https://web3forms.com",
+      "referral_url": "https://web3forms.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 250 submissions per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 192,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.672Z"
+      }
+    },
+    {
+      "id": "cloudflare-vectorize",
+      "name": "Cloudflare Vectorize (vector database)",
+      "category": "vector_db",
+      "signup_url": "https://developers.cloudflare.com/vectorize/",
+      "referral_url": "https://developers.cloudflare.com/vectorize/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Included on Workers Free",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 62,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.563Z"
+      }
+    },
+    {
+      "id": "crawio",
+      "name": "Crawio (web scraping API)",
+      "category": "scraping",
+      "signup_url": "https://crawio.com",
+      "referral_url": "https://crawio.com/?via=instinctagentai",
+      "user_bonus_description": "Referred customers get 10,000 bonus credits in their first paid month (stated on Crawio's affiliate page)",
+      "bonus_verified": false,
+      "pricing_note": "Free trial: 500 credits, no card needed",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 144,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.628Z"
+      }
+    },
+    {
+      "id": "pdflayer",
+      "name": "pdflayer (HTML to PDF API)",
+      "category": "pdf",
+      "signup_url": "https://pdflayer.com",
+      "referral_url": "https://pdflayer.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-9bbbc0",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 API requests per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 699,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.179Z"
+      }
+    },
+    {
+      "id": "screenshotlayer",
+      "name": "screenshotlayer (website screenshot API)",
+      "category": "screenshot",
+      "signup_url": "https://screenshotlayer.com",
+      "referral_url": "https://screenshotlayer.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-52ca41",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 snapshots per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 446,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.947Z"
+      }
+    },
+    {
+      "id": "weatherstack",
+      "name": "weatherstack (weather API)",
+      "category": "weather",
+      "signup_url": "https://weatherstack.com",
+      "referral_url": "https://weatherstack.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-d68ebb",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 API lookups per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 613,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.097Z"
+      }
+    },
+    {
+      "id": "mailboxlayer",
+      "name": "mailboxlayer (email validation API)",
+      "category": "email_validation",
+      "signup_url": "https://mailboxlayer.com",
+      "referral_url": "https://mailboxlayer.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-14df0d",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 API requests per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 574,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.054Z"
+      }
+    },
+    {
+      "id": "numverify",
+      "name": "numverify (phone number validation API)",
+      "category": "phone_validation",
+      "signup_url": "https://numverify.com",
+      "referral_url": "https://numverify.com/?utm_source=FirstPromoter&utm_medium=Affiliate&fpr=instinctagentai-e404f5",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 100 API requests per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 728,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:03.229Z"
+      }
+    },
+    {
+      "id": "stytch",
+      "name": "Stytch (auth)",
+      "category": "auth",
+      "signup_url": "https://stytch.com",
+      "referral_url": "https://stytch.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Always free: 10,000 monthly active members included",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 1223,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.707Z"
+      }
+    },
+    {
+      "id": "kinde",
+      "name": "Kinde (auth)",
+      "category": "auth",
+      "signup_url": "https://kinde.com",
+      "referral_url": "https://kinde.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan: 10,500 monthly active users, no card",
+      "health": {
+        "state": "up",
+        "status_code": 202,
+        "latency_ms": 383,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.863Z"
+      }
+    },
+    {
+      "id": "geoapify",
+      "name": "Geoapify (maps and geocoding API)",
+      "category": "maps",
+      "signup_url": "https://www.geoapify.com",
+      "referral_url": "https://www.geoapify.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan: 3,000 credits per day",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 495,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.996Z"
+      }
+    },
+    {
+      "id": "pexels",
+      "name": "Pexels API (free stock photos and video)",
+      "category": "stock_media",
+      "signup_url": "https://www.pexels.com/api/",
+      "referral_url": "https://www.pexels.com/api/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free API key, attribution required",
+      "health": {
+        "state": "degraded",
+        "status_code": 403,
+        "latency_ms": 140,
+        "is_healthy": false,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.624Z"
+      }
+    },
+    {
+      "id": "sanity",
+      "name": "Sanity (headless CMS)",
+      "category": "cms",
+      "signup_url": "https://www.sanity.io/pricing",
+      "referral_url": "https://www.sanity.io/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0 forever",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 548,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.028Z"
+      }
+    },
+    {
+      "id": "convex",
+      "name": "Convex (reactive backend and database)",
+      "category": "backend",
+      "signup_url": "https://www.convex.dev/pricing",
+      "referral_url": "https://www.convex.dev/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free & Starter plan, $0/month then pay as you go",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 241,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.742Z"
+      }
+    },
+    {
+      "id": "inngest",
+      "name": "Inngest (background jobs and workflows)",
+      "category": "background_jobs",
+      "signup_url": "https://www.inngest.com/pricing",
+      "referral_url": "https://www.inngest.com/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0/mo, no credit card",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 429,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.913Z"
+      }
+    },
+    {
+      "id": "trigger-dev",
+      "name": "Trigger.dev (background jobs)",
+      "category": "background_jobs",
+      "signup_url": "https://trigger.dev/pricing",
+      "referral_url": "https://trigger.dev/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0/month, no credit card",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 542,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:03.022Z"
+      }
+    },
+    {
+      "id": "pusher-channels",
+      "name": "Pusher Channels (realtime messaging)",
+      "category": "realtime",
+      "signup_url": "https://pusher.com/channels/pricing/",
+      "referral_url": "https://pusher.com/channels/pricing/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free Sandbox plan",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 149,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.650Z"
+      }
+    },
+    {
+      "id": "loops",
+      "name": "Loops (email for SaaS)",
+      "category": "email",
+      "signup_url": "https://loops.so/pricing",
+      "referral_url": "https://loops.so/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 329,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.813Z"
+      }
+    },
+    {
+      "id": "mailjet",
+      "name": "Mailjet (email API)",
+      "category": "email",
+      "signup_url": "https://www.mailjet.com/pricing/",
+      "referral_url": "https://www.mailjet.com/pricing/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, no credit card required",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 359,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.839Z"
+      }
+    },
+    {
+      "id": "smtp2go",
+      "name": "SMTP2GO (email API)",
+      "category": "email",
+      "signup_url": "https://www.smtp2go.com/pricing/",
+      "referral_url": "https://www.smtp2go.com/pricing/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 165,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.666Z"
+      }
+    },
+    {
+      "id": "workos",
+      "name": "WorkOS AuthKit (auth)",
+      "category": "auth",
+      "signup_url": "https://workos.com/pricing",
+      "referral_url": "https://workos.com/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "First 1M monthly active users free",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 250,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.734Z"
+      }
+    },
+    {
+      "id": "courier",
+      "name": "Courier (notifications API)",
+      "category": "notifications",
+      "signup_url": "https://www.courier.com/pricing",
+      "referral_url": "https://www.courier.com/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Developer plan, free",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 290,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.770Z"
+      }
+    },
+    {
+      "id": "microsoft-clarity",
+      "name": "Microsoft Clarity (free heatmaps and session recordings)",
+      "category": "analytics",
+      "signup_url": "https://clarity.microsoft.com/",
+      "referral_url": "https://clarity.microsoft.com/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free forever per the product page",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 218,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.719Z"
+      }
+    },
+    {
+      "id": "cloudflare-pages",
+      "name": "Cloudflare Pages (static site hosting)",
+      "category": "hosting",
+      "signup_url": "https://pages.cloudflare.com/",
+      "referral_url": "https://pages.cloudflare.com/",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan limits from the Pages docs",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 192,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.676Z"
+      }
+    },
+    {
+      "id": "upstash-vector",
+      "name": "Upstash Vector (serverless vector database)",
+      "category": "vector_db",
+      "signup_url": "https://upstash.com/pricing/vector",
+      "referral_url": "https://upstash.com/pricing/vector",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 460,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.940Z"
+      }
+    },
+    {
+      "id": "nhost",
+      "name": "Nhost (Postgres backend with auth, storage and functions)",
+      "category": "database",
+      "signup_url": "https://nhost.io/pricing",
+      "referral_url": "https://nhost.io/pricing",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, $0 per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 216,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.717Z"
+      }
+    },
+    {
+      "id": "scrapingant",
+      "name": "ScrapingAnt (web scraping API)",
+      "category": "scraping",
+      "signup_url": "https://scrapingant.com",
+      "referral_url": "https://scrapingant.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, then paid credit plans",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 395,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:02.879Z"
+      }
+    },
+    {
+      "id": "cloudflare-d1",
+      "name": "Cloudflare D1 (serverless SQL database)",
+      "category": "database",
+      "signup_url": "https://dash.cloudflare.com/sign-up",
+      "referral_url": "https://dash.cloudflare.com/sign-up",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Included in the Workers Free plan",
+      "health": {
+        "state": "up",
+        "status_code": 301,
+        "latency_ms": 196,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.676Z"
+      }
+    },
+    {
+      "id": "hookdeck",
+      "name": "Hookdeck (webhook and event delivery)",
+      "category": "background_jobs",
+      "signup_url": "https://hookdeck.com",
+      "referral_url": "https://hookdeck.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Developer plan, $0 per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 220,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:00:02.721Z"
+      }
+    },
+    {
+      "id": "tidb-cloud",
+      "name": "TiDB Cloud Starter (serverless MySQL-compatible database)",
+      "category": "database",
+      "signup_url": "https://tidbcloud.com",
+      "referral_url": "https://tidbcloud.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Starter plan, $0 per month with usage beyond the free allowance billed",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 541,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T04:15:03.025Z"
+      }
+    },
+    {
+      "id": "imagekit",
+      "name": "ImageKit (image and video CDN and API)",
+      "category": "image",
+      "signup_url": "https://imagekit.io",
+      "referral_url": "https://imagekit.io",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Forever free plan, $0 per month",
+      "health": {
+        "state": "up",
+        "status_code": 200,
+        "latency_ms": 411,
+        "is_healthy": true,
+        "reachable": true,
+        "rate_limited": false,
+        "last_checked_utc": "2026-11-26T03:45:02.891Z"
       }
     }
   ]
