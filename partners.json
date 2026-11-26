@@ -1944,6 +1944,36 @@
       "price_summary": "Forever free plan $0 per month lists 20 GB bandwidth and 3 GB DAM storage. Other limits (such as purge requests) were not read reliably, not verified",
       "price_source": "https://imagekit.io/plans/",
       "price_checked": "2026-11-25"
+    },
+    {
+      "id": "supertokens",
+      "name": "SuperTokens (auth)",
+      "category": "auth",
+      "probe_url": "https://supertokens.com",
+      "signup_url": "https://supertokens.com",
+      "referral_url": "https://supertokens.com",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Managed service free under 5K MAUs; open source self-host free",
+      "halal_screen": "ok",
+      "price_summary": "Managed service is free under 5K monthly active users, then $0.02 per MAU on the listed plan. Self-hosting the open source features is free with no listed limit. Add-ons such as multi-factor auth are priced separately ($0.01 per MAU, $100 minimum listed)",
+      "price_source": "https://supertokens.com/pricing",
+      "price_checked": "2026-11-26"
+    },
+    {
+      "id": "mailtrap",
+      "name": "Mailtrap (email sending and sandbox)",
+      "category": "email",
+      "probe_url": "https://mailtrap.io",
+      "signup_url": "https://mailtrap.io",
+      "referral_url": "https://mailtrap.io",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Free plan, 4,000 emails per month",
+      "halal_screen": "ok",
+      "price_summary": "Email Live Sending free plan is $0 per month with up to 4,000 emails and 150 emails per day. Email Sandbox and Email Marketing have separate free plans that were not read here. Paid plan prices not verified",
+      "price_source": "https://mailtrap.io/pricing/",
+      "price_checked": "2026-11-26"
     }
   ]
 }
