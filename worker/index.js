@@ -77,7 +77,7 @@ const worker = {
       const budget = u.searchParams.get("budget") || "low";
       if (budget !== "fast") scored.sort((a, b) => (a.free_tier_and_limits === "not verified") - (b.free_tier_and_limits === "not verified") || a.name.localeCompare(b.name));
       if (budget === "fast") scored.sort((a, b) => (a.health?.latency_ms ?? 1e9) - (b.health?.latency_ms ?? 1e9));
-      return J({ task: u.searchParams.get("task"), budget, order: budget === "fast" ? "lowest measured probe latency first" : "rows with a verified free tier first, then alphabetical; commission and referral links play no part", disclosure: "Some signup_url values are referral links of the site operator, flagged by signup_url_is_referral.", best: scored[0] || null, alternatives: scored.slice(1) });
+      return J({ task: u.searchParams.get("task"), budget, order: budget === "fast" ? "lowest measured probe latency first" : "rows with a verified free tier first, then alphabetical; commission and referral links play no part", disclosure: "Some signup_url values are referral links of the site operator, flagged by signup_url_is_referral.", best: scored[0] || null, best_note: "best is only the first row in the stated order, not a judgement of quality or price", alternatives: scored.slice(1) });
     }
     if (u.pathname === "/v1/health-route") {
       const cat = u.searchParams.get("category"); if (!CATS.includes(cat)) return J({ error: "category must be one of " + CATS.join("|") }, 400);
