@@ -1,7 +1,7 @@
 // Public comparison pages generated from the live catalog and health data. No LLM, no invented numbers.
 import partners from "../partners.json";
 import { HEALTH_RULE, REFRESH_MIN } from "./extras.js";
-import { answerPaths, bestPaths } from "./answers.js";
+import { answerPaths, bestPaths, vsPaths } from "./answers.js";
 import { askPaths } from "./asks.js";
 const BASE = "https://api-router.instinctagentai.workers.dev";
 const CATS = {
@@ -53,8 +53,8 @@ export async function handlePages(u, env, getHealth, req) {
   const wantMd = p.endsWith(".md") || /text\/markdown/i.test((req && req.headers.get("accept")) || "");
   if (p.endsWith(".md")) p = p.slice(0, -3);
   if (p === "/uptime") return uptimePage(env, wantMd);
-  if (p === "/robots.txt") return new Response(`User-agent: *\nAllow: /\nSitemap: ${BASE}/sitemap.xml\n`, { headers: { "content-type": "text/plain" } });
-  if (p === "/sitemap.xml") return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/compare", "/uptime"].concat(Object.keys(CATS).map((k) => "/compare/" + k), answerPaths(), bestPaths(), askPaths()).map((x) => `<url><loc>${BASE}${x}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`, { headers: { "content-type": "application/xml" } });
+  if (p === "/robots.txt") return new Response(`User-agent: *\nAllow: /\nDisallow: /go/\nSitemap: ${BASE}/sitemap.xml\n`, { headers: { "content-type": "text/plain" } });
+  if (p === "/sitemap.xml") return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/compare", "/uptime"].concat(Object.keys(CATS).map((k) => "/compare/" + k), answerPaths(), bestPaths(), vsPaths(), askPaths()).map((x) => `<url><loc>${BASE}${x}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`, { headers: { "content-type": "application/xml" } });
   if (p === "/compare") {
     const li = Object.entries(CATS).map(([k, c]) => `<li><a href="/compare/${k}">${esc(c.title)}</a>: ${esc(c.blurb)}</li>`).join("");
     if (wantMd) return md(`# API provider comparisons with live status\n\n${Object.entries(CATS).map(([k, c]) => `- ${c.title}: ${BASE}/compare/${k}`).join("\n")}\n\nStatus and latency come from a probe that runs every ${REFRESH_MIN} minutes. Some signup links are referral links and are marked.\n`);
@@ -67,7 +67,7 @@ export async function handlePages(u, env, getHealth, req) {
   if (wantMd) return md(mdPage(c, k, d));
   const tr = d.rows.map(({ pr, h }) => {
     const ref = pr.referral_url && pr.referral_url !== pr.signup_url;
-    const link = ref ? `<a href="${esc(pr.referral_url)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(pr.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(pr.signup_url)}" rel="nofollow noopener" aria-label="${esc(pr.name)} provider site">Provider site</a>`;
+    const link = ref ? `<a href="/go/${esc(pr.id)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(pr.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(pr.signup_url)}" rel="nofollow noopener" aria-label="${esc(pr.name)} provider site">Provider site</a>`;
     return `<tr><th scope="row">${esc(pr.name)}</th><td>${esc(pr.pricing_note)}</td><td>${pr.price_summary ? `${esc(pr.price_summary)} <small>(<a href="${esc(pr.price_source)}" rel="nofollow noopener">source</a>, read ${esc(pr.price_checked)})</small>` : "not verified"}</td><td>${esc(pr.user_bonus_description)}${pr.bonus_verified || /unverified/i.test(pr.user_bonus_description) ? "" : " <small>(unverified)</small>"}</td><td>${fmt(h)}</td><td>${link}</td></tr>`;
   }).join("");
   const faq = FAQ(c, k, d).map(([q, a]) => `<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join("");
