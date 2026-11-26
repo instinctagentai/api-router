@@ -53,7 +53,7 @@ export async function handleMcp(req, dispatch, onEvent, ask) {
   if (req.method !== "POST") return new Response("Method Not Allowed", { status: 405, headers: { ...CORS, allow: "POST, OPTIONS" } });
   let body; try { body = await req.json(); } catch { return out({ jsonrpc: "2.0", id: null, error: { code: -32700, message: "parse error" } }, 400); }
   const ip = req.headers.get("cf-connecting-ip");
-  if (onEvent) { try { for (const m of (Array.isArray(body) ? body : [body])) onEvent(m && m.method === "tools/call" ? "tool:" + String(m.params && m.params.name).slice(0, 40) : "method:" + String(m && m.method).slice(0, 40)); } catch {} }
+  if (onEvent) { try { for (const m of (Array.isArray(body) ? body : [body])) { onEvent(m && m.method === "tools/call" ? "tool:" + String(m.params && m.params.name).slice(0, 40) : "method:" + String(m && m.method).slice(0, 40)); if (m && m.method === "tools/call" && m.params && m.params.arguments) { const a = m.params.arguments, n = m.params.name; if (n === "best_route" && ["inference", "scraping", "gpu", "storage", "proxy", "pdf", "monitoring"].includes(a.task)) onEvent("arg:best_route:" + a.task); if (n === "find_fastest_healthy_provider" && ["llm", "scraping", "proxy", "gpu"].includes(a.category)) onEvent("arg:fastest:" + a.category); } } } catch {} }
   if (Array.isArray(body)) {
     const rs = (await Promise.all(body.map((m) => one(m, dispatch, ip, ask, onEvent)))).filter(Boolean);
     return rs.length ? out(rs) : new Response(null, { status: 202, headers: CORS });
