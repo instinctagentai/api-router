@@ -41,7 +41,14 @@ const worker = {
     if (u.pathname === "/v1/stats") { const c = counter(env); return c ? c.fetch("https://counter/stats?days=" + (u.searchParams.get("days") || "14")) : J({ error: "counters not enabled" }, 503); }
     // Count only top-level requests (ctx is set); internal self-dispatch calls carry no ctx. Known paths only, no IPs or user agents stored.
     let evt = null;
-    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.replace(/\.md$/, "").replace(/\/+$/, "") === "/ask" || u.pathname.startsWith("/ask/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
+    if (u.pathname.startsWith("/go/")) {
+      const gp = partners.providers.find((y) => y.id === u.pathname.slice(4).replace(/\/+$/, ""));
+      if (!gp) return new Response("Not found", { status: 404 });
+      const gua = req.headers.get("user-agent") || "";
+      if (ctx && !gua.startsWith("api-router-internal")) record(env, ctx, [{ kind: "click:outside", key: gp.id }, { kind: "click_client", key: family(gua) }]);
+      return new Response(null, { status: 302, headers: { location: gp.referral_url || gp.signup_url, "cache-control": "no-store", "referrer-policy": "no-referrer", "x-robots-tag": "noindex" } });
+    }
+    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.startsWith("/vs/") || u.pathname.replace(/\.md$/, "").replace(/\/+$/, "") === "/ask" || u.pathname.startsWith("/ask/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
       const cip = req.headers.get("cf-connecting-ip") || "", cls = family(ua);
@@ -49,7 +56,7 @@ const worker = {
       record(env, ctx, [{ kind: "path:" + who, key: u.pathname }, { kind: "client:" + who, key: cls }, ...caller(1, 0)]);
       evt = (key) => key.startsWith("feedback:") ? record(env, ctx, [{ kind: who === "outside" ? "feedback" : "feedback_internal", key: key.slice(9) }]) : record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : []), ...(key.startsWith("tool:") ? [{ kind: "toolcalls:" + who + ":client", key: cls }] : [])]);
     }
-    if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/")) { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
+    if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.startsWith("/vs/")) { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/ask" || u.pathname.startsWith("/ask/")) { const as = await handleAsk(u, req); if (as) return as; }
     if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
