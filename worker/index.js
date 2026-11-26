@@ -58,7 +58,7 @@ const worker = {
     }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.startsWith("/vs/") || u.pathname.startsWith("/ending/") || u.pathname.replace(/\.md$/, "") === "/llm-limits" || u.pathname === "/ar" || u.pathname.startsWith("/ar/") || u.pathname === "/newsletter" || u.pathname.replace(/\.md$/, "") === "/weekly") { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/ask" || u.pathname.startsWith("/ask/")) { const as = await handleAsk(u, req); if (as) return as; }
-    if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
+    if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname === "/uptime.json" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
     if (u.pathname === "/mcp/ask") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt, true);
     const extra = routeExtras(req, u); if (extra) return extra;
