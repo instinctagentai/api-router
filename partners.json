@@ -53,12 +53,15 @@
       "probe_url": "https://api.together.xyz/v1/models",
       "signup_url": "https://api.together.ai",
       "referral_url": "https://api.together.ai",
-      "user_bonus_description": "Signup credits may apply (unverified)",
-      "bonus_verified": false,
-      "pricing_note": "Pay-per-token",
+      "user_bonus_description": "No signup credits (Together support: free-credit promotions have ended)",
+      "bonus_verified": true,
+      "pricing_note": "Pay-per-token, prepaid credits",
       "halal_screen": "ok",
       "terms_url": "https://www.together.ai/terms-of-service",
-      "terms_url_read": "2026-11-25"
+      "terms_url_read": "2026-11-25",
+      "price_summary": "No free tier or trial. Access needs a credit purchase, with a $15 minimum for the first purchase (Together changelog, 2 Oct 2026)",
+      "price_source": "https://docs.together.ai/docs/changelog",
+      "price_checked": "2026-11-26"
     },
     {
       "id": "firecrawl",
@@ -677,9 +680,9 @@
       "bonus_verified": false,
       "pricing_note": "Free plan, then usage-based",
       "halal_screen": "ok",
-      "price_summary": "Free plan $0/month, no credit card required. Exact free-plan limits not verified: the pricing table could not be read cleanly",
+      "price_summary": "Free plan $0/month, no credit card: 100 databases, 5GB storage, 500 million rows read, 10 million rows written and 3GB syncs per month. Developer plan $4.99/month",
       "price_source": "https://turso.tech/pricing",
-      "price_checked": "2026-11-25",
+      "price_checked": "2026-11-26",
       "watch": {
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
@@ -965,7 +968,7 @@
       "halal_screen": "ok",
       "price_summary": "Developer plan is free for solo developers (one user, error monitoring and tracing). Event quotas not verified here",
       "price_source": "https://sentry.io/pricing/",
-      "price_checked": "2026-11-25",
+      "price_checked": "2026-11-26",
       "watch": {
         "monitored_since": "2026-11-25",
         "method": "price and limit text of price_source compared between reads",
