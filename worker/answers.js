@@ -130,7 +130,7 @@ async function arShell(title, desc, p, body) { const r = shell(title, desc, p, b
 async function arPage(p, env, getHealth) {
   if (p === "/ar") {
     const items = withPrice().map((x) => `<li><a href="/ar/ending/${esc(x.id)}">${bd(x.name)}</a></li>`).join("");
-    return arShell("أدلة الواجهات المجانية بالعربية | api-router", "صفحات عربية عن حدود الطبقات المجانية للواجهات وماذا تفعل إذا تغيّرت.", p, `<h1>أدلة الواجهات المجانية بالعربية</h1><p>الشرح بالعربية. الأرقام وأسماء الخطط تبقى بالإنجليزية كما وردت في صفحة المزوّد الرسمية، مع رابط المصدر وتاريخ القراءة.</p><p class="note"><strong>إفصاح:</strong> ${esc(DISC_AR)}</p><ul><li><a href="/ar/llm-limits">متتبّع حدود واجهات LLM المجانية</a></li><li><a href="/newsletter">متابعة تغييرات الأسعار عبر RSS</a></li></ul><h2>ماذا تفعل إذا تغيّرت الطبقة المجانية</h2><ul>${items}</ul>`);
+    return arShell("أدلة الواجهات المجانية بالعربية | api-router", "صفحات عربية عن حدود الطبقات المجانية للواجهات وماذا تفعل إذا تغيّرت.", p, `<h1>أدلة الواجهات المجانية بالعربية</h1><p>الشرح بالعربية. الأرقام وأسماء الخطط تبقى بالإنجليزية كما وردت في صفحة المزوّد الرسمية، مع رابط المصدر وتاريخ القراءة.</p><p class="note"><strong>إفصاح:</strong> ${esc(DISC_AR)}</p><ul><li><a href="/ar/llm-limits">متتبّع حدود واجهات LLM المجانية</a></li><li><a href="/ar/best/free-llm-api">واجهات LLM المجانية</a></li><li><a href="/ar/best/web-scraping-api">واجهات استخلاص بيانات الويب</a></li><li><a href="/ar/best/free-database">قواعد بيانات مجانية</a></li><li><a href="/ar/best/free-app-hosting">استضافة التطبيقات</a></li><li><a href="/ar/best/free-auth">خدمات المصادقة</a></li><li><a href="/ar/best/free-email-api">واجهات البريد الإلكتروني</a></li><li><a href="/newsletter">متابعة تغييرات الأسعار عبر RSS</a></li></ul><h2>ماذا تفعل إذا تغيّرت الطبقة المجانية</h2><ul>${items}</ul>`);
   }
   if (p === "/ar/llm-limits") {
     const rows = llmRows(); const hs = await Promise.all(rows.map((x) => getHealth(env, x.id)));
@@ -150,11 +150,34 @@ async function arPage(p, env, getHealth) {
 function newsletterPage(p) {
   return shell("Free API price changes: follow by RSS | api-router", "Follow free-tier and pricing changes by RSS. No email, no account.", p, `<h1>Free API price changes: follow by RSS</h1><p><strong>Short answer:</strong> we publish new and re-verified free-tier rows as an RSS feed. There is no email signup and no account, and we collect no personal data. Add the feed to any feed reader.</p><ul><li><a href="/feed.xml">RSS feed</a></li><li><a href="/v1/changes">Changes as JSON</a> (for scripts and agents)</li><li><a href="/free-tiers">All free tiers with sources and read dates</a></li></ul><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><p><small>An email version is not offered. If we add one later it will be opt-in only.</small></p>`, null);
 }
+
+const AR_BEST = { "free-llm-api": "واجهات LLM المجانية: الحدود والأسعار (2026)", "web-scraping-api": "واجهات استخلاص بيانات الويب: الخطط المجانية والأسعار (2026)", "free-database": "قواعد بيانات مجانية للتطبيقات: خطط Postgres وRedis المجانية (2026)", "free-app-hosting": "استضافة التطبيقات: الخطط المجانية والتجريبية (2026)", "free-auth": "خدمات المصادقة: الخطط المجانية (2026)", "free-email-api": "واجهات البريد الإلكتروني: الخطط المجانية (2026)" };
+export const arBestPaths = () => Object.keys(AR_BEST).map((k) => "/ar/best/" + k);
+const isoDay = (d) => new Date(Date.now() - d * 86400000).toISOString().slice(0, 10);
+async function arBestPage(p, env, getHealth) {
+  const m = p.match(/^\/ar\/best\/([a-z-]+)$/); const b = m && BEST.find((y) => y.slug === m[1] && AR_BEST[y.slug]);
+  if (!b) return null;
+  const rows = withPrice().filter((x) => x.category === b.cat); const hs = await Promise.all(rows.map((x) => getHealth(env, x.id)));
+  const title = AR_BEST[b.slug];
+  const short = `ملخص: حقائق الخطط المجانية والأسعار لـ ${rows.length} مزوّدين، منقولة من صفحة كل مزوّد الرسمية بتاريخ القراءة الموضّح. لا نرتّب المزوّدين ولا ندّعي "الأرخص" أو "الأفضل" لأن الخطط لا تقارَن واحدة بواحدة. الأرقام وأسماء الخطط تبقى بالإنجليزية كما وردت في المصدر.`;
+  const tr = rows.map((x, i) => `<tr><th scope="row"><a href="/ar/ending/${esc(x.id)}">${bd(x.name)}</a></th><td>${bd(x.price_summary)}</td><td><a href="${esc(x.price_source)}" rel="nofollow noopener">المصدر</a> (قُرئ ${esc(x.price_checked)})</td><td>${bd(state(hs[i]))}</td><td>${isRef(x) ? `<a href="/go/${esc(x.id)}" rel="sponsored nofollow noopener" aria-label="تسجيل في ${esc(x.name)} (رابط إحالة)">تسجيل (رابط إحالة)</a>` : `<a href="${esc(x.signup_url)}" rel="nofollow noopener">الموقع</a>`}</td></tr>`).join("");
+  return arShell(title + " | api-router", short.slice(0, 155), p, `<h1>${esc(title)}</h1><p><strong>الخلاصة:</strong> ${esc(short)}</p><p class="note"><strong>إفصاح:</strong> ${esc(DISC_AR)}</p><table><caption>${esc(title)}</caption><thead><tr><th scope="col">المزوّد</th><th scope="col">الطبقة المجانية والسعر</th><th scope="col">المصدر</th><th scope="col">الحالة</th><th scope="col">الرابط</th></tr></thead><tbody>${tr}</tbody></table><p><small>الأسعار تتغير كثيرا، فتحقق من المصدر قبل أي قرار. النسخة الإنجليزية: <a href="/best/${esc(b.slug)}">/best/${esc(b.slug)}</a>.</small></p>`);
+}
+export const weeklyPath = () => ["/weekly"];
+async function weeklyPage(p, wantMd) {
+  const since = isoDay(7);
+  const rows = withPrice().filter((x) => x.price_checked >= since).sort((x, y) => y.price_checked.localeCompare(x.price_checked));
+  const short = `${rows.length} catalog rows were added or re-read from the provider's own page in the last 7 days (since ${since}). We record the date we read each source, not a before and after diff, so this list says "re-read", not "changed". Open the source to see the current terms.`;
+  if (wantMd) return mdRes(`# Free API tiers: added or re-read this week\\n\\n**Short answer:** ${short}\\n\\n> Disclosure: ${DISC}\\n\\n${rows.map((x) => `- ${x.name} (${x.category}), read ${x.price_checked}: ${x.price_summary} Source: ${x.price_source}`).join("\\n")}\\n\\nFeed: ${BASE}/feed.xml\\n`);
+  return shell("Free API tiers: added or re-read this week | api-router", short.slice(0, 155), p, `<h1>Free API tiers: added or re-read this week</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><ul>${rows.map((x) => `<li><a href="/answers/${slugOf(x)}">${esc(x.name)}</a> (${esc(x.category)}), read ${esc(x.price_checked)}: ${esc(x.price_summary)} <small><a href="${esc(x.price_source)}" rel="nofollow noopener">source</a></small></li>`).join("")}</ul><p><small>Follow by RSS: <a href="/feed.xml">/feed.xml</a>. Machine-readable: <a href="/v1/changes">/v1/changes</a>. See also <a href="/newsletter">/newsletter</a>.</small></p>`, null);
+}
 export async function handleAnswers(u, env, getHealth, req) {
   let p = u.pathname.replace(/\/+$/, "");
   const wantMd = p.endsWith(".md") || /text\/markdown/i.test((req && req.headers.get("accept")) || "");
   if (p.endsWith(".md")) p = p.slice(0, -3);
   if (p === "/newsletter") return newsletterPage(p);
+  if (p === "/weekly") return weeklyPage(p, wantMd);
+  if (p.startsWith("/ar/best/")) return arBestPage(p, env, getHealth);
   if (p === "/ar" || p.startsWith("/ar/")) return arPage(p, env, getHealth);
   if (p === "/llm-limits") return llmPage(p, wantMd, env, getHealth);
   if (p.startsWith("/ending/")) return endPage(p, wantMd, env, getHealth);
