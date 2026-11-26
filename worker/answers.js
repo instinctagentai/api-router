@@ -99,10 +99,35 @@ async function vsPage(p, wantMd, env, getHealth) {
     `<h1>${esc(title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><table><caption>${esc(x.name)} and ${esc(y.name)}</caption><thead><tr><th scope="col"></th><th scope="col"><a href="/answers/${slugOf(x)}">${esc(x.name)}</a></th><th scope="col"><a href="/answers/${slugOf(y)}">${esc(y.name)}</a></th></tr></thead><tbody><tr><th scope="row">Free tier and price</th>${col(x)}${col(y)}</tr><tr><th scope="row">Source (read date)</th><td><a href="${esc(x.price_source)}" rel="nofollow noopener">source</a> (${esc(x.price_checked)})</td><td><a href="${esc(y.price_source)}" rel="nofollow noopener">source</a> (${esc(y.price_checked)})</td></tr><tr><th scope="row">Live status</th><td>${esc(state(hx))}</td><td>${esc(state(hy))}</td></tr><tr><th scope="row">Sign up</th><td>${lk(x)}</td><td>${lk(y)}</td></tr></tbody></table><p><small>Prices change often, so check the source before you rely on a number. <a href="/free-tiers">All providers</a>.</small></p>`,
     null);
 }
+
+export const endPaths = () => withPrice().map((p) => "/ending/" + p.id);
+const llmRows = () => partners.providers.filter((p) => p.category === "llm");
+async function llmPage(p, wantMd, env, getHealth) {
+  const rows = llmRows(); const hs = await Promise.all(rows.map((x) => getHealth(env, x.id)));
+  const short = `Free-tier facts for ${rows.length} LLM API providers, copied from each provider's own page on the read date shown. Limits change often and per-model limits differ, so check the source before you build on a number. Providers without a verified figure say so. No "cheapest" or "best" claim.`;
+  const line = (x) => x.price_summary ? x.price_summary : "No verified free-tier figure yet. Check the provider's page.";
+  if (wantMd) return mdRes(`# Free LLM API limits tracker\n\n**Short answer:** ${short}\n\n> Disclosure: ${DISC}\n\n| Provider | Free tier and limits | Source (read date) | Age | Live status | Sign up |\n|---|---|---|---|---|---|\n${rows.map((x, i) => `| ${x.name} | ${line(x)} | ${x.price_source || "not verified"} (${x.price_checked || "n/a"}) | ${x.price_checked ? ageDays(x.price_checked) + " days" : "n/a"} | ${state(hs[i])} | ${isRef(x) ? BASE + "/go/" + x.id + " (referral link)" : x.signup_url} |`).join("\n")}\n\nChanges feed: ${BASE}/v1/changes\n`);
+  const tr = rows.map((x, i) => `<tr><th scope="row">${x.price_summary ? `<a href="/answers/${slugOf(x)}">${esc(x.name)}</a>` : esc(x.name)}</th><td>${esc(line(x))}</td><td>${x.price_source ? `<a href="${esc(x.price_source)}" rel="nofollow noopener">source</a> (read ${esc(x.price_checked)})` : "not verified"}</td><td>${x.price_checked ? ageDays(x.price_checked) + " days" : "n/a"}</td><td>${esc(state(hs[i]))}</td><td>${isRef(x) ? `<a href="/go/${esc(x.id)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(x.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(x.signup_url)}" rel="nofollow noopener">site</a>`}</td></tr>`).join("");
+  return shell("Free LLM API limits tracker | api-router", short.slice(0, 155), p, `<h1>Free LLM API limits tracker</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><table><caption>Free LLM API tiers</caption><thead><tr><th scope="col">Provider</th><th scope="col">Free tier and limits</th><th scope="col">Source</th><th scope="col">Age of read</th><th scope="col">Live status</th><th scope="col">Link</th></tr></thead><tbody>${tr}</tbody></table><p><small>Status is one HEAD request every ${REFRESH_MIN} minutes, not a test of real workloads. Machine-readable: <a href="/v1/catalog">/v1/catalog</a>, changes: <a href="/v1/changes">/v1/changes</a>.</small></p>`, null);
+}
+async function endPage(p, wantMd, env, getHealth) {
+  const m = p.match(/^\/ending\/([a-z0-9-]+)$/); const x = m && withPrice().find((y) => y.id === m[1]);
+  if (!x) return null;
+  const alts = withPrice().filter((y) => y.id !== x.id && y.category === x.category).slice(0, 5);
+  const title = `If ${x.name}'s free tier changes or ends: what to do`;
+  const short = `We have no news that ${x.name} is ending its free tier. This is a checklist for if that happens. Last read: ${x.price_summary} (read ${x.price_checked}).`;
+  const steps = ["Re-read the provider's pricing page and changelog to see exactly what changed and when it starts.", "Check whether your usage fits the new free limits. Look at your own usage dashboard, not a guess.", "Export your data and config now (database dump, API keys list, settings), before any cutoff.", "Pick an alternative below and test it on a small slice first. Free tiers differ in limits, so compare the source pages, not the headlines.", "Add a usage alert or a hard cap so a paid plan can never start without you choosing it."];
+  const altLine = (y) => `${y.name}: ${y.price_summary} (source ${y.price_source}, read ${y.price_checked})`;
+  if (wantMd) return mdRes(`# ${title}\n\n**Short answer:** ${short}\n\n> Disclosure: ${DISC}\n\n## Steps\n\n${steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}\n\n## Alternatives in the same category\n\n${alts.length ? alts.map((y) => `- ${altLine(y)}${isRef(y) ? " " + BASE + "/go/" + y.id + " (referral link)" : ""}`).join("\n") : "No other verified provider in this category in our catalog yet."}\n\nCurrent facts: ${BASE}/answers/${slugOf(x)}\n`);
+  const al = alts.length ? `<ul>${alts.map((y) => `<li><a href="/answers/${slugOf(y)}">${esc(y.name)}</a>: ${esc(y.price_summary)} <small>(<a href="${esc(y.price_source)}" rel="nofollow noopener">source</a>, read ${esc(y.price_checked)})</small> ${isRef(y) ? `<a href="/go/${esc(y.id)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(y.name)} (referral link)">Sign up (referral link)</a>` : ""}</li>`).join("")}</ul>` : "<p>No other verified provider in this category in our catalog yet.</p>";
+  return shell(title + " | api-router", short.slice(0, 155), p, `<h1>${esc(title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><h2>Steps</h2><ol>${steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol><h2>Alternatives in the same category</h2>${al}<p><small>Current facts for ${esc(x.name)}: <a href="/answers/${slugOf(x)}">/answers/${esc(slugOf(x))}</a>. Prices change often, so check each source.</small></p>`, null);
+}
 export async function handleAnswers(u, env, getHealth, req) {
   let p = u.pathname.replace(/\/+$/, "");
   const wantMd = p.endsWith(".md") || /text\/markdown/i.test((req && req.headers.get("accept")) || "");
   if (p.endsWith(".md")) p = p.slice(0, -3);
+  if (p === "/llm-limits") return llmPage(p, wantMd, env, getHealth);
+  if (p.startsWith("/ending/")) return endPage(p, wantMd, env, getHealth);
   if (p.startsWith("/vs/")) return vsPage(p, wantMd, env, getHealth);
   const bm = p.match(/^\/best\/([a-z-]+)$/);
   if (bm) { const b = BEST.find((y) => y.slug === bm[1]); return b ? bestPage(b, p, wantMd, env, getHealth) : null; }
