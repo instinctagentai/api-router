@@ -13,7 +13,8 @@ const record = (env, ctx, items) => { const c = counter(env); if (c && ctx) ctx.
 const J = (o, s = 200) => new Response(JSON.stringify(o, null, 2), { status: s, headers: { "content-type": "application/json", "access-control-allow-origin": "*" } });
 const CATS = ["llm", "scraping", "proxy", "gpu", "pdf", "monitoring"];
 const TASK = { inference: "llm", scraping: "scraping", gpu: "gpu", proxy: "proxy", storage: "gpu", pdf: "pdf", monitoring: "monitoring" };
-const shape = (p, h) => ({ id: p.id, name: p.name, category: p.category, signup_url: p.signup_url, referral_url: p.referral_url, user_bonus_description: p.user_bonus_description, bonus_verified: p.bonus_verified, pricing_note: p.pricing_note, health: h || null });
+const isRefP = (p) => !!(p.referral_url && p.referral_url !== p.signup_url);
+const shape = (p, h) => ({ id: p.id, name: p.name, category: p.category, signup_url: isRefP(p) ? p.referral_url : p.signup_url, signup_url_is_referral: isRefP(p), official_url: p.signup_url, referral_url: p.referral_url, referral_note: isRefP(p) ? "signup_url is a referral link of the site operator; it does not change the order of results" : undefined, free_tier_and_limits: p.price_summary || "not verified", limits_source: p.price_source || null, last_checked: p.price_checked || null, user_bonus_description: p.user_bonus_description, bonus_verified: p.bonus_verified, pricing_note: p.pricing_note, health: h || null });
 let HC = { t: 0, v: null };
 async function getHealth(env, id) {
   if (!env.HEALTH) return null;
@@ -24,7 +25,9 @@ async function getHealth(env, id) {
   } catch (e) {}
   return null;
 }
-async function probe(p) {
+let RETRY_LEFT = 5;
+async function probe(p, again) {
+  if (!again) { const r1 = await probe(p, true); if (r1.reachable || r1.skipped || RETRY_LEFT <= 0) return r1; RETRY_LEFT--; await new Promise((r) => setTimeout(r, 1500)); const r2 = await probe(p, true); return { ...r2, first_failure: r1.status_code, retried: true }; }
   const t = Date.now();
   try {
     const r = await fetch(p.probe_url, { method: "HEAD", signal: AbortSignal.timeout(8000), redirect: "manual" });
@@ -72,8 +75,9 @@ const worker = {
       const scored = [];
       for (const p of partners.providers.filter((x) => x.category === cat)) scored.push(shape(p, await getHealth(env, p.id)));
       const budget = u.searchParams.get("budget") || "low";
+      if (budget !== "fast") scored.sort((a, b) => (a.free_tier_and_limits === "not verified") - (b.free_tier_and_limits === "not verified") || a.name.localeCompare(b.name));
       if (budget === "fast") scored.sort((a, b) => (a.health?.latency_ms ?? 1e9) - (b.health?.latency_ms ?? 1e9));
-      return J({ task: u.searchParams.get("task"), budget, best: scored[0] || null, alternatives: scored.slice(1) });
+      return J({ task: u.searchParams.get("task"), budget, order: budget === "fast" ? "lowest measured probe latency first" : "rows with a verified free tier first, then alphabetical; commission and referral links play no part", disclosure: "Some signup_url values are referral links of the site operator, flagged by signup_url_is_referral.", best: scored[0] || null, alternatives: scored.slice(1) });
     }
     if (u.pathname === "/v1/health-route") {
       const cat = u.searchParams.get("category"); if (!CATS.includes(cat)) return J({ error: "category must be one of " + CATS.join("|") }, 400);
@@ -92,13 +96,13 @@ const worker = {
     const prev = JSON.parse((await env.HEALTH.get("h:all")) || "{}");
     const G = PROBE_GROUPS, slot = Math.floor(Date.now() / 900000) % G;
     const batch = partners.providers.filter((_, i) => i % G === slot).slice(0, MAX_PROBES);
-    const results = await Promise.all(batch.map(async (p) => [p.id, await probe(p)]));
+    RETRY_LEFT = 5; const results = await Promise.all(batch.map(async (p) => [p.id, await probe(p)]));
     const map = { ...prev };
     for (const [id, h] of results) { if (h.skipped) { if (map[id]) map[id] = { ...map[id], stale: true }; continue; } map[id] = h; }
     await env.HEALTH.put("h:all", JSON.stringify(map));
     const fresh = results.filter(([, h]) => !h.skipped).map(([id, h]) => ({ id, ...h }));
     const all = partners.providers.filter((p) => map[p.id]).map((p) => ({ id: p.id, ...map[p.id] }));
-    try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of fresh) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.reachable ? 1 : 0; c.n2 = (c.n2 || 0) + 1; c.ok = (c.ok || 0) + (h.is_healthy ? 1 : 0); c.lat += h.latency_ms; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
+    try { const day = new Date().toISOString().slice(0, 10); const cur = JSON.parse((await env.HEALTH.get("d:" + day)) || "{}"); for (const h of fresh) { const c = cur[h.id] || { n: 0, up: 0, lat: 0 }; c.n++; c.up += h.reachable ? 1 : 0; c.n2 = (c.n2 || 0) + 1; c.ok = (c.ok || 0) + (h.is_healthy ? 1 : 0); c.lat += h.latency_ms; if (!h.reachable) { c.f = c.f || {}; const k = String(h.status_code || "timeout"); c.f[k] = (c.f[k] || 0) + 1; } if (h.retried && h.reachable) c.rc = (c.rc || 0) + 1; cur[h.id] = c; } await env.HEALTH.put("d:" + day, JSON.stringify(cur), { expirationTtl: 60 * 86400 }); } catch (e) {}
     if (evt.cron === "0 3 * * *" && env.GITHUB_TOKEN && env.GITHUB_REPO) {
       const md = ["# State of AI APIs (auto-updated daily)", "", "| Provider | Category | Status | Latency ms | Free-credit link |", "|---|---|---|---|---|"]
         .concat(partners.providers.map((p) => { const h = all.find((x) => x.id === p.id) || { state: "no data", latency_ms: 0 }; return `| ${p.name} | ${p.category} | ${h.state} | ${h.latency_ms} | [${p.user_bonus_description}](${p.referral_url}) |`; })).join("\n") + `\n\nGenerated ${new Date().toISOString()}\n`;
