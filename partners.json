@@ -1974,6 +1974,21 @@
       "price_summary": "Email Live Sending free plan is $0 per month with up to 4,000 emails and 150 emails per day. Email Sandbox and Email Marketing have separate free plans that were not read here. Paid plan prices not verified",
       "price_source": "https://mailtrap.io/pricing/",
       "price_checked": "2026-11-26"
+    },
+    {
+      "id": "umami",
+      "name": "Umami Cloud (web analytics)",
+      "category": "analytics",
+      "probe_url": "https://umami.is",
+      "signup_url": "https://umami.is",
+      "referral_url": "https://umami.is",
+      "user_bonus_description": "See the verified price note and source (details not otherwise verified)",
+      "bonus_verified": false,
+      "pricing_note": "Hobby plan $0 per month, 100K events",
+      "halal_screen": "ok",
+      "price_summary": "Hobby plan is $0 per month and includes 100K events with 6 months of data retention; Pro starts at 1 million events. Other Hobby limits (such as number of websites) were not read here, not verified",
+      "price_source": "https://umami.is/pricing",
+      "price_checked": "2026-11-26"
     }
   ]
 }
