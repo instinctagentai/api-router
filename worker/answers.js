@@ -16,7 +16,7 @@ const state = (h) => !h ? "no live status yet" : h.is_healthy ? `up, ${h.latency
 export const shell = (title, desc, path, body, ld) => new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="canonical" href="${BASE}${path}"><link rel="alternate" type="text/markdown" href="${BASE}${path}.md">${ld ? `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>` : ""}<style>${CSS}</style></head><body><a class="skip" href="#main">Skip to main content</a><header><nav aria-label="Site"><a href="/free-tiers">Free-tier cheat sheet</a> | <a href="/compare">All comparisons</a> | <a href="/v1/catalog">Catalog (JSON)</a> | <a href="/mcp">MCP endpoint</a></nav></header><main id="main">${body}</main><footer><hr><p><small>Free, no API key, no LLM in the request path. <a href="https://github.com/instinctagentai/api-router">Source</a>.</small></p></footer></body></html>`, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=900", "access-control-allow-origin": "*" } });
 export const mdRes = (t) => new Response(t, { headers: { "content-type": "text/markdown; charset=utf-8", "cache-control": "public, max-age=900", "access-control-allow-origin": "*" } });
 const qa = (p) => {
-  const q = `What is ${p.name}'s free tier, pricing and rate limits?`;
+  const q = (/free|no card|\$0/i.test(p.price_summary || "") && !/^no free/i.test(p.price_summary || "")) ? `Is ${p.name}'s free tier still free in 2026? What are the limits?` : `Does ${p.name} have a free tier in 2026?`;
   const a = `${p.price_summary}. Source: ${p.price_source} (read ${p.price_checked}).${stale(p)} ${bonus(p)}`;
   return [q, a];
 };
@@ -79,18 +79,20 @@ ${b.prompts ? "\n" + promptsMd() + "\n" : ""}All providers: ${BASE}/free-tiers
 `);
   const li = (r) => `<li><strong><a href="/answers/${slugOf(r.x)}">${esc(r.x.name)}</a></strong>: ${esc(line(r))}. <small>Source: <a href="${esc(r.x.price_source)}" rel="nofollow noopener">${esc(r.x.price_source)}</a>, read ${esc(r.x.price_checked)}. Status: ${esc(state(r.h))}.</small> ${isRef(r.x) ? `<a href="/go/${esc(r.x.id)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(r.x.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(r.x.signup_url)}" rel="nofollow noopener">Provider site</a>`}</li>`;
   const grp = [["Free plan or credit stated in the source we read", free], ["Other " + b.intro, other]].filter(([, g]) => g.length).map(([t, g]) => `<h2>${esc(t)}</h2><ul>${g.map(li).join("")}</ul>`).join("");
-  return shell(`${b.title} | api-router`, short.slice(0, 155), p, `<h1>${esc(b.title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p><small>${esc(note)}</small></p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p>${grp}${b.prompts ? promptsHtml() : ""}<p><small>All providers: <a href="/free-tiers">free-tier cheat sheet</a>. Plain-text version: <a href="${p}.md">${p}.md</a>.</small></p>`,
+  return shell(`${b.q} Free plans compared, 2026 | api-router`, short.slice(0, 155), p, `<h1>${esc(b.title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p><small>${esc(note)}</small></p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p>${grp}${b.prompts ? promptsHtml() : ""}<p><small>All providers: <a href="/free-tiers">free-tier cheat sheet</a>. Plain-text version: <a href="${p}.md">${p}.md</a>.</small></p>`,
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: b.q, acceptedAnswer: { "@type": "Answer", text: short } }] });
 }
 
-const vsPairs = () => { const by = {}; for (const p of withPrice()) (by[p.category] = by[p.category] || []).push(p); const out = []; for (const k of Object.keys(by).sort()) { const l = by[k].slice(0, 4); for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length; j++) out.push([l[i], l[j]]); } return out; };
+const VS_KEEP = new Set("clerk-vs-auth0 supabase-vs-neon supabase-vs-upstash-redis neon-vs-turso resend-vs-postmark resend-vs-mailgun resend-vs-brevo vercel-vs-netlify vercel-vs-railway netlify-vs-railway openrouter-vs-groq groq-vs-gemini circleci-vs-github-actions firecrawl-vs-scraperapi firecrawl-vs-apify firecrawl-vs-scrapingbee scraperapi-vs-scrapingbee deepgram-vs-assemblyai cloudflare-r2-vs-backblaze-b2 posthog-vs-umami inngest-vs-trigger-dev uptimerobot-vs-healthchecks algolia-vs-meilisearch cohere-vs-voyage-ai runpod-vs-modal".split(" "));
+const vsAll = () => { const by = {}; for (const p of withPrice()) (by[p.category] = by[p.category] || []).push(p); const out = []; for (const k of Object.keys(by).sort()) { const l = by[k].slice(0, 4); for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length; j++) out.push([l[i], l[j]]); } return out; };
+const vsPairs = () => vsAll().filter(([x, y]) => VS_KEEP.has(x.id + "-vs-" + y.id));
 export const vsPaths = () => vsPairs().map(([x, y]) => "/vs/" + x.id + "-vs-" + y.id);
 async function vsPage(p, wantMd, env, getHealth) {
   const m = p.match(/^\/vs\/([a-z0-9-]+)-vs-([a-z0-9-]+)$/);
   const pr = m && vsPairs().find(([x, y]) => x.id === m[1] && y.id === m[2]);
-  if (!pr) return null;
+  if (!pr) { const old = m && vsAll().find(([x, y]) => x.id === m[1] && y.id === m[2]); if (!old) return null; const bs = BEST.find((b) => b.cat === old[0].category); return new Response(null, { status: 301, headers: { location: BASE + (bs ? "/best/" + bs.slug : "/answers/" + slugOf(old[0])) } }); }
   const [x, y] = pr; const [hx, hy] = await Promise.all([getHealth(env, x.id), getHealth(env, y.id)]);
-  const title = `${x.name} vs ${y.name}: free tier and pricing facts`;
+  const title = `${x.name} vs ${y.name} free tier: what does each include?`;
   const short = `${x.name}: ${x.price_summary}. ${y.name}: ${y.price_summary}. Each line is copied from the provider's own page on the read date shown. Plans are not comparable one to one, so we pick no winner and make no "cheapest" claim.`;
   if (wantMd) return mdRes(`# ${title}\n\n**Short answer:** ${short}\n\n> Disclosure: ${DISC}\n\n| | ${x.name} | ${y.name} |\n|---|---|---|\n| Category | ${x.category} | ${y.category} |\n| Free tier and price | ${x.price_summary} | ${y.price_summary} |\n| Source (read date) | ${x.price_source} (${x.price_checked}) | ${y.price_source} (${y.price_checked}) |\n| Live status | ${state(hx)} | ${state(hy)} |\n| Sign up | ${isRef(x) ? BASE + "/go/" + x.id + " (referral link)" : x.signup_url} | ${isRef(y) ? BASE + "/go/" + y.id + " (referral link)" : y.signup_url} |\n\nAll providers: ${BASE}/free-tiers\n`);
   const lk = (z) => isRef(z) ? `<a href="/go/${esc(z.id)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(z.name)} (referral link)">Sign up (referral link)</a>` : `<a href="${esc(z.signup_url)}" rel="nofollow noopener">${esc(z.name)} site</a>`;
@@ -100,7 +102,7 @@ async function vsPage(p, wantMd, env, getHealth) {
     null);
 }
 
-export const endPaths = () => withPrice().map((p) => "/ending/" + p.id);
+export const endPaths = () => [];
 const llmRows = () => partners.providers.filter((p) => p.category === "llm");
 async function llmPage(p, wantMd, env, getHealth) {
   const rows = llmRows(); const hs = await Promise.all(rows.map((x) => getHealth(env, x.id)));
@@ -111,6 +113,7 @@ async function llmPage(p, wantMd, env, getHealth) {
   return shell("Free LLM API limits tracker | api-router", short.slice(0, 155), p, `<h1>Free LLM API limits tracker</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><table><caption>Free LLM API tiers</caption><thead><tr><th scope="col">Provider</th><th scope="col">Free tier and limits</th><th scope="col">Source</th><th scope="col">Age of read</th><th scope="col">Live status</th><th scope="col">Link</th></tr></thead><tbody>${tr}</tbody></table><p><small>Status is one HEAD request every ${REFRESH_MIN} minutes, not a test of real workloads. Machine-readable: <a href="/v1/catalog">/v1/catalog</a>, changes: <a href="/v1/changes">/v1/changes</a>.</small></p>`, null);
 }
 async function endPage(p, wantMd, env, getHealth) {
+  { const mm = p.match(/^\/ending\/([a-z0-9-]+)$/); const xx = mm && partners.providers.find((y) => y.id === mm[1]); return xx ? new Response(null, { status: 301, headers: { location: BASE + "/answers/" + slugOf(xx) } }) : null; }
   const m = p.match(/^\/ending\/([a-z0-9-]+)$/); const x = m && withPrice().find((y) => y.id === m[1]);
   if (!x) return null;
   const alts = withPrice().filter((y) => y.id !== x.id && y.category === x.category).slice(0, 5);
@@ -123,13 +126,13 @@ async function endPage(p, wantMd, env, getHealth) {
   return shell(title + " | api-router", short.slice(0, 155), p, `<h1>${esc(title)}</h1><p><strong>Short answer:</strong> ${esc(short)}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><h2>Steps</h2><ol>${steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol><h2>Alternatives in the same category</h2>${al}<p><small>Current facts for ${esc(x.name)}: <a href="/answers/${slugOf(x)}">/answers/${esc(slugOf(x))}</a>. Prices change often, so check each source.</small></p>`, null);
 }
 
-export const arPaths = () => ["/ar", "/ar/llm-limits", "/newsletter"].concat(withPrice().map((p) => "/ar/ending/" + p.id));
+export const arPaths = () => ["/ar", "/ar/llm-limits", "/newsletter"];
 const DISC_AR = 'بعض روابط التسجيل في هذه الصفحة هي روابط إحالة يملكها مشغّل الموقع (مكتوب عليها "رابط إحالة"). قد تمنحه عمولة أو تمنحك مكافأة. لا تغيّر ما نذكره. نحسب النقرات على هذه الروابط لكل مزوّد، دون تخزين عنوان IP أو ملف تعريف ارتباط أو أي هوية.';
 const bd = (s) => `<bdi dir="ltr">${esc(s)}</bdi>`;
 async function arShell(title, desc, p, body) { const r = shell(title, desc, p, body, null); const t = (await r.text()).replace('<html lang="en">', '<html lang="ar" dir="rtl">'); return new Response(t, { status: 200, headers: r.headers }); }
 async function arPage(p, env, getHealth) {
   if (p === "/ar") {
-    const items = withPrice().map((x) => `<li><a href="/ar/ending/${esc(x.id)}">${bd(x.name)}</a></li>`).join("");
+    const items = withPrice().map((x) => `<li><a href="/answers/${esc(slugOf(x))}">${bd(x.name)}</a></li>`).join("");
     return arShell("أدلة الواجهات المجانية بالعربية | api-router", "صفحات عربية عن حدود الطبقات المجانية للواجهات وماذا تفعل إذا تغيّرت.", p, `<h1>أدلة الواجهات المجانية بالعربية</h1><p>الشرح بالعربية. الأرقام وأسماء الخطط تبقى بالإنجليزية كما وردت في صفحة المزوّد الرسمية، مع رابط المصدر وتاريخ القراءة.</p><p class="note"><strong>إفصاح:</strong> ${esc(DISC_AR)}</p><ul><li><a href="/ar/llm-limits">متتبّع حدود واجهات LLM المجانية</a></li>${Object.keys(AR_BEST).map((k) => `<li><a href="/ar/best/${k}">${esc(AR_BEST[k])}</a></li>`).join("")}<li><a href="/newsletter">متابعة تغييرات الأسعار عبر RSS</a></li></ul><h2>ماذا تفعل إذا تغيّرت الطبقة المجانية</h2><ul>${items}</ul>`);
   }
   if (p === "/ar/llm-limits") {
@@ -138,7 +141,7 @@ async function arPage(p, env, getHealth) {
     const tr = rows.map((x, i) => `<tr><th scope="row">${bd(x.name)}</th><td>${x.price_summary ? bd(x.price_summary) : "لا يوجد رقم موثّق بعد. راجع صفحة المزوّد."}</td><td>${x.price_source ? `<a href="${esc(x.price_source)}" rel="nofollow noopener">المصدر</a> (قُرئ ${esc(x.price_checked)})` : "غير موثّق"}</td><td>${x.price_checked ? ageDays(x.price_checked) + " يوم" : "-"}</td><td>${bd(state(hs[i]))}</td><td>${isRef(x) ? `<a href="/go/${esc(x.id)}" rel="sponsored nofollow noopener" aria-label="تسجيل في ${esc(x.name)} (رابط إحالة)">تسجيل (رابط إحالة)</a>` : `<a href="${esc(x.signup_url)}" rel="nofollow noopener">الموقع</a>`}</td></tr>`).join("");
     return arShell("متتبّع حدود واجهات LLM المجانية | api-router", short.slice(0, 155), p, `<h1>متتبّع حدود واجهات LLM المجانية</h1><p><strong>الخلاصة:</strong> ${esc(short)}</p><p class="note"><strong>إفصاح:</strong> ${esc(DISC_AR)}</p><table><caption>الطبقات المجانية لواجهات LLM</caption><thead><tr><th scope="col">المزوّد</th><th scope="col">الطبقة المجانية والحدود</th><th scope="col">المصدر</th><th scope="col">عمر القراءة</th><th scope="col">الحالة</th><th scope="col">الرابط</th></tr></thead><tbody>${tr}</tbody></table><p><small>الحالة طلب HEAD واحد كل ${REFRESH_MIN} دقيقة، وليست اختبارا لحمل عمل حقيقي. النسخة الإنجليزية: <a href="/llm-limits">/llm-limits</a>.</small></p>`);
   }
-  const m = p.match(/^\/ar\/ending\/([a-z0-9-]+)$/); const x = m && withPrice().find((y) => y.id === m[1]);
+  const m = p.match(/^\/ar\/ending\/([a-z0-9-]+)$/); const x = m && partners.providers.find((y) => y.id === m[1]); if (x) return new Response(null, { status: 301, headers: { location: BASE + "/answers/" + slugOf(x) } });
   if (!x) return null;
   const alts = withPrice().filter((y) => y.id !== x.id && y.category === x.category).slice(0, 5);
   const title = `إذا تغيّرت الطبقة المجانية في ${x.name} أو انتهت: ماذا تفعل`;
@@ -160,7 +163,7 @@ async function arBestPage(p, env, getHealth) {
   const rows = withPrice().filter((x) => x.category === b.cat); const hs = await Promise.all(rows.map((x) => getHealth(env, x.id)));
   const title = AR_BEST[b.slug];
   const short = `ملخص: حقائق الخطط المجانية والأسعار لـ ${rows.length} مزوّدين، منقولة من صفحة كل مزوّد الرسمية بتاريخ القراءة الموضّح. لا نرتّب المزوّدين ولا ندّعي "الأرخص" أو "الأفضل" لأن الخطط لا تقارَن واحدة بواحدة. الأرقام وأسماء الخطط تبقى بالإنجليزية كما وردت في المصدر.`;
-  const tr = rows.map((x, i) => `<tr><th scope="row"><a href="/ar/ending/${esc(x.id)}">${bd(x.name)}</a></th><td>${bd(x.price_summary)}</td><td><a href="${esc(x.price_source)}" rel="nofollow noopener">المصدر</a> (قُرئ ${esc(x.price_checked)})</td><td>${bd(state(hs[i]))}</td><td>${isRef(x) ? `<a href="/go/${esc(x.id)}" rel="sponsored nofollow noopener" aria-label="تسجيل في ${esc(x.name)} (رابط إحالة)">تسجيل (رابط إحالة)</a>` : `<a href="${esc(x.signup_url)}" rel="nofollow noopener">الموقع</a>`}</td></tr>`).join("");
+  const tr = rows.map((x, i) => `<tr><th scope="row"><a href="/answers/${esc(slugOf(x))}">${bd(x.name)}</a></th><td>${bd(x.price_summary)}</td><td><a href="${esc(x.price_source)}" rel="nofollow noopener">المصدر</a> (قُرئ ${esc(x.price_checked)})</td><td>${bd(state(hs[i]))}</td><td>${isRef(x) ? `<a href="/go/${esc(x.id)}" rel="sponsored nofollow noopener" aria-label="تسجيل في ${esc(x.name)} (رابط إحالة)">تسجيل (رابط إحالة)</a>` : `<a href="${esc(x.signup_url)}" rel="nofollow noopener">الموقع</a>`}</td></tr>`).join("");
   return arShell(title + " | api-router", short.slice(0, 155), p, `<h1>${esc(title)}</h1><p><strong>الخلاصة:</strong> ${esc(short)}</p><p class="note"><strong>إفصاح:</strong> ${esc(DISC_AR)}</p><table><caption>${esc(title)}</caption><thead><tr><th scope="col">المزوّد</th><th scope="col">الطبقة المجانية والسعر</th><th scope="col">المصدر</th><th scope="col">الحالة</th><th scope="col">الرابط</th></tr></thead><tbody>${tr}</tbody></table><p><small>الأسعار تتغير كثيرا، فتحقق من المصدر قبل أي قرار. النسخة الإنجليزية: <a href="/best/${esc(b.slug)}">/best/${esc(b.slug)}</a>.</small></p>`);
 }
 export const weeklyPath = () => ["/weekly"];
@@ -205,7 +208,7 @@ export async function handleAnswers(u, env, getHealth, req) {
   const others = list.filter((y) => y.id !== x.id && y.category === x.category);
   if (wantMd) return mdRes(`# ${q}\n\n**Short answer:** ${a}\n\n> Disclosure: ${DISC}\n\nLive status of ${x.name}'s API endpoint: ${state(h)}. One HEAD request every ${REFRESH_MIN} minutes, not a test of real workloads. See ${BASE}/uptime for the rule.\n\nSign up: ${isRef(x) ? x.referral_url + " (referral link)" : x.signup_url}\n\n${others.length ? "Same category: " + others.map((y) => `${y.name} ${BASE}/answers/${slugOf(y)}`).join(", ") + "\n\n" : ""}All providers: ${BASE}/free-tiers\n`);
   const link = isRef(x) ? `<a href="/go/${esc(x.id)}" rel="sponsored nofollow noopener" aria-label="Sign up for ${esc(x.name)} (referral link)">Sign up for ${esc(x.name)} (referral link)</a>` : `<a href="${esc(x.signup_url)}" rel="nofollow noopener">${esc(x.name)} site</a>`;
-  return shell(`${x.name} free tier, pricing and limits | api-router`, `${x.name}: ${x.price_summary}. Source and read date included.`, p,
+  return shell(`${q.slice(0, 70)} Read ${x.price_checked} | api-router`, `${x.name}: ${x.price_summary}. Source and read date included.`, p,
     `<h1>${esc(q)}</h1><p><strong>Short answer:</strong> ${esc(x.price_summary)}. Source: <a href="${esc(x.price_source)}" rel="nofollow noopener">${esc(x.price_source)}</a> (read ${esc(x.price_checked)}).${esc(stale(x))} ${esc(bonus(x))}</p><p class="note"><strong>Disclosure:</strong> ${esc(DISC)}</p><p>Live status of ${esc(x.name)}'s API endpoint: ${esc(state(h))}. This is one HEAD request every ${REFRESH_MIN} minutes, not a test of real workloads. <a href="/uptime">How we rate status</a>.</p><p>${link}</p><p><small>Prices change often, so check the source before you rely on a number. ${others.length ? "Same category: " + others.map((y) => `<a href="/answers/${slugOf(y)}">${esc(y.name)}</a>`).join(", ") + ". " : ""}All providers: <a href="/free-tiers">free-tier cheat sheet</a>. Plain-text version: <a href="${p}.md">${p}.md</a>.</small></p>`,
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [{ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } }] });
 }
