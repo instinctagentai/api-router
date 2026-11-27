@@ -65,6 +65,7 @@ const worker = {
     if (u.pathname === "/mcp") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt);
     if (u.pathname === "/mcp/ask") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt, true);
     const extra = routeExtras(req, u); if (extra) return extra;
+    if (u.pathname === "/24539698238d5a3ede67a0b10a429196.txt") return new Response("24539698238d5a3ede67a0b10a429196", { headers: { "content-type": "text/plain" } });
     if (u.pathname === "/" || u.pathname === "/v1/status") return J({ name: "api-router", endpoints: ["/v1/best-route", "/v1/catalog", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/llms.txt", "/.well-known/agent-card.json"], x402_mode: "standby" });
     if (u.pathname === "/v1/catalog") {
       const out = []; for (const p of partners.providers) out.push(shape(p, await getHealth(env, p.id)));
