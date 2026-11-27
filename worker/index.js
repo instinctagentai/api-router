@@ -1,4 +1,5 @@
 import partners from "../partners.json";
+import { LOGO_PNG_B64 } from "./logo.js";
 import { routeExtras, BASE, HEALTH_RULE, MAX_PROBES, PROBE_GROUPS } from "./extras.js";
 import { handleMcp } from "./mcp.js";
 import { Counter } from "./counter.js";
@@ -66,6 +67,7 @@ const worker = {
     if (u.pathname === "/mcp/ask") return handleMcp(req, (p, init) => worker.fetch(new Request(BASE + p, init), env), evt, true);
     const extra = routeExtras(req, u); if (extra) return extra;
     if (u.pathname === "/24539698238d5a3ede67a0b10a429196.txt") return new Response("24539698238d5a3ede67a0b10a429196", { headers: { "content-type": "text/plain" } });
+    if (u.pathname === "/logo.png" || u.pathname === "/favicon.ico") return new Response(Uint8Array.from(atob(LOGO_PNG_B64), (c) => c.charCodeAt(0)), { headers: { "content-type": "image/png", "cache-control": "public, max-age=86400" } });
     if (u.pathname === "/" || u.pathname === "/v1/status") return J({ name: "api-router", endpoints: ["/v1/best-route", "/v1/catalog", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/llms.txt", "/.well-known/agent-card.json"], x402_mode: "standby" });
     if (u.pathname === "/v1/catalog") {
       const out = []; for (const p of partners.providers) out.push(shape(p, await getHealth(env, p.id)));
