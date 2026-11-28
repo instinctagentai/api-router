@@ -429,6 +429,7 @@ export const agentCard = () => ({
   defaultOutputModes: ["application/json", "text/markdown"],
   skills: [
     { id: "best-route", name: "Best route", description: "Pick the best provider for a task (inference|scraping|gpu|storage|proxy).", tags: ["routing", "api", "pricing"], examples: ["GET /v1/best-route?task=inference&budget=low"] },
+    { id: "free-tier-alerts", name: "Free-tier change alerts", description: "Events when a provider's free tier ends, shrinks or is not found, with source, read date and free alternatives in the same category. RSS, JSON and signed webhook.", tags: ["alerts", "feed", "pricing"], examples: ["GET /alerts.json"] },
     { id: "catalog", name: "Provider catalog", description: "List providers with free tier notes and health.", tags: ["catalog", "api"], examples: ["GET /v1/catalog"] },
     { id: "health-route", name: "Fastest healthy provider", description: "Fastest healthy provider in a category (llm|scraping|proxy|gpu).", tags: ["health", "latency"], examples: ["GET /v1/health-route?category=llm"] },
     { id: "json-repair", name: "JSON repair and validate", description: "Fix broken JSON (comments, trailing commas, single quotes, fences, truncation) and optionally validate against a JSON Schema subset.", tags: ["json", "validation"], inputModes: ["application/json", "text/plain"], examples: ["POST /v1/json-repair {\"text\":\"{a:1,}\"}"] },
@@ -453,6 +454,8 @@ export const aiCatalog = () => ({
     { type: "dataset", name: "Provider catalog (JSON)", url: BASE + "/v1/catalog", media_type: "application/json" },
     { type: "feed", name: "New and re-verified rows (JSON)", url: BASE + "/v1/changes", media_type: "application/json" },
     { type: "feed", name: "New and re-verified rows (Atom)", url: BASE + "/feed.xml", media_type: "application/atom+xml" },
+    { type: "feed", name: "Free-tier change alerts (RSS)", url: BASE + "/alerts.xml", media_type: "application/rss+xml" },
+    { type: "feed", name: "Free-tier change alerts (JSON, with free alternatives)", url: BASE + "/alerts.json", media_type: "application/json" },
     { type: "openapi", name: "OpenAPI description", url: BASE + "/openapi.json", media_type: "application/json" },
     { type: "document", name: "Free-tier cheat sheet", url: BASE + "/free-tiers", markdown: BASE + "/free-tiers.md" },
     { type: "document", name: "Free stack for vibe-coded apps", url: BASE + "/best/free-stack-for-vibe-coded-apps", markdown: BASE + "/best/free-stack-for-vibe-coded-apps.md" },
@@ -470,6 +473,7 @@ Base URL: ${BASE}
 ## Endpoints
 - GET /v1/catalog : all providers with free-tier notes and health
 - GET /v1/changes and /feed.xml : newest and re-verified catalog rows (JSON and Atom)
+- GET /alerts.json and /alerts.xml : free-tier change events (ended, shrunk, no free tier found) with source, read date and free alternatives; webhook: POST /v1/alerts/subscribe (see /alerts)
 - GET /v1/pick?need=login%20for%20my%20app&limit=5 : keyword-matched catalog rows with source and read date (no LLM)
 - GET /openapi.json : OpenAPI description of the main endpoints
 - GET /v1/best-route?task=inference|scraping|gpu|storage|proxy&budget=low|fast : best provider for a task
