@@ -5,6 +5,7 @@ import { handleMcp } from "./mcp.js";
 import { Counter } from "./counter.js";
 import { handlePages } from "./pages.js";
 import { handleAnswers } from "./answers.js";
+import { handleAlerts, deliverAlerts } from "./alerts.js";
 import { handleAsk } from "./asks.js";
 export { Counter };
 const KNOWN = new Set(["/", "/v1/status", "/v1/catalog", "/v1/best-route", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/mcp/ask", "/v1/stats", "/v1/changes", "/v1/pick", "/feed.xml", "/openapi.json", "/llms.txt", "/llms-full.txt", "/agents", "/agents.md", "/.well-known/agent-card.json", "/.well-known/agent.json"]);
@@ -52,7 +53,7 @@ const worker = {
       if (ctx && !gua.startsWith("api-router-internal")) record(env, ctx, [{ kind: "click:outside", key: gp.id }, { kind: "click_client", key: family(gua) }]);
       return new Response(null, { status: 302, headers: { location: gp.referral_url || gp.signup_url, "cache-control": "no-store", "referrer-policy": "no-referrer", "x-robots-tag": "noindex" } });
     }
-    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.startsWith("/vs/") || u.pathname.startsWith("/ending/") || u.pathname.replace(/\.md$/, "") === "/llm-limits" || u.pathname === "/ar" || u.pathname.startsWith("/ar/") || u.pathname === "/newsletter" || u.pathname.replace(/\.md$/, "") === "/weekly" || u.pathname.replace(/\.md$/, "").replace(/\/+$/, "") === "/ask" || u.pathname.startsWith("/ask/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
+    if (ctx && req.method !== "OPTIONS" && (KNOWN.has(u.pathname) || u.pathname === "/free-tiers" || u.pathname.startsWith("/alerts") || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.startsWith("/vs/") || u.pathname.startsWith("/ending/") || u.pathname.replace(/\.md$/, "") === "/llm-limits" || u.pathname === "/ar" || u.pathname.startsWith("/ar/") || u.pathname === "/newsletter" || u.pathname.replace(/\.md$/, "") === "/weekly" || u.pathname.replace(/\.md$/, "").replace(/\/+$/, "") === "/ask" || u.pathname.startsWith("/ask/") || /^\/compare(\/(llm|scraping|proxy|gpu|pdf|monitoring))?(\.md)?$/.test(u.pathname.replace(/\/+$/, "")))) {
       const ua = req.headers.get("user-agent") || "";
       const who = ua.startsWith("api-router-internal") ? "internal" : "outside";
       const cip = req.headers.get("cf-connecting-ip") || "", cls = family(ua);
@@ -61,6 +62,7 @@ const worker = {
       const srcTag = (u.searchParams.get("src") || "").toLowerCase(); if (who === "outside" && ["devto", "github", "so", "forum", "directory", "social", "email", "other"].includes(srcTag)) record(env, ctx, [{ kind: "src", key: srcTag + "|" + cls }]);
       evt = (key) => key.startsWith("feedback:") ? record(env, ctx, [{ kind: who === "outside" ? "feedback" : "feedback_internal", key: key.slice(9) }]) : record(env, ctx, [{ kind: "mcp:" + who, key }, ...(key.startsWith("tool:") ? caller(0, 1) : []), ...(key.startsWith("tool:") ? [{ kind: "toolcalls:" + who + ":client", key: cls }] : [])]);
     }
+    if (u.pathname === "/alerts" || u.pathname.startsWith("/alerts/") || u.pathname === "/alerts.xml" || u.pathname === "/alerts.json" || u.pathname.startsWith("/v1/alerts")) { const al = await handleAlerts(req, u, env); if (al) return al; }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/free-tiers" || u.pathname.startsWith("/answers/") || u.pathname.startsWith("/best/") || u.pathname.startsWith("/vs/") || u.pathname.startsWith("/ending/") || u.pathname.replace(/\.md$/, "") === "/llm-limits" || u.pathname === "/ar" || u.pathname.startsWith("/ar/") || u.pathname === "/newsletter" || u.pathname.replace(/\.md$/, "") === "/weekly") { const an = await handleAnswers(u, env, getHealth, req); if (an) return an; }
     if (u.pathname.replace(/\/+$/, "").replace(/\.md$/, "") === "/ask" || u.pathname.startsWith("/ask/")) { const as = await handleAsk(u, req); if (as) return as; }
     if (u.pathname === "/compare" || u.pathname.replace(/\/+$/, "") === "/uptime" || u.pathname === "/uptime.md" || u.pathname === "/uptime.json" || u.pathname.startsWith("/compare/") || u.pathname === "/sitemap.xml" || u.pathname === "/robots.txt") { const pg = await handlePages(u, env, getHealth, req); if (pg) return pg; }
@@ -96,6 +98,7 @@ const worker = {
   },
   async scheduled(evt, env) {
     if (!env.HEALTH) return;
+    try { await deliverAlerts(env); } catch {}
     // Free plan limits: 50 subrequests per run and 1,000 KV writes per day. Probe one rotating group per 15-minute run, keep all statuses in one KV key.
     const prev = JSON.parse((await env.HEALTH.get("h:all")) || "{}");
     const G = PROBE_GROUPS, slot = Math.floor(Date.now() / 900000) % G;
