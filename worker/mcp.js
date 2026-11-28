@@ -18,7 +18,7 @@ async function one(m, dispatch, ip, ask, onEvent) {
   if (m.method === "tools/list") return { jsonrpc: "2.0", id: m.id, result: { tools: ask ? ASK_TOOLS : TOOLS } };
   if (m.method === "tools/call") {
     const name = (m.params && BACK[m.params.name]) || (m.params && m.params.name), a = (m.params && m.params.arguments) || {};
-    if (!TOOLS.find((t) => t.name === name)) return { jsonrpc: "2.0", id: m.id, error: { code: -32602, message: "unknown tool" } };
+    if (!TOOLS.find((t) => t.name === name)) { if (onEvent) { try { const un = String(name || "").toLowerCase(); onEvent("unknown_tool:" + (/^[a-z][a-z0-9_]{2,31}$/.test(un) ? un : "invalid")); } catch {} } return { jsonrpc: "2.0", id: m.id, error: { code: -32602, message: "unknown tool" } }; }
     if (name === "send_feedback") {
       const k = String(a.kind || "other"), kind = ["missing_provider", "wrong_data", "other"].includes(k) ? k : "other";
       const txt = String(a.text || "").replace(/https?:\/\/\S+/gi, "[link]").replace(/[^\x20-\x7E]/g, " ").replace(/\s+/g, " ").trim().slice(0, 200);
@@ -28,7 +28,12 @@ async function one(m, dispatch, ip, ask, onEvent) {
     try {
       const h = ip ? { "cf-connecting-ip": ip } : {};
       const r = name === "check_quote" ? await dispatch("/v1/check-quote", { method: "POST", headers: { "content-type": "application/json", ...h }, body: JSON.stringify({ quote: a.quote, ...(a.text ? { text: a.text } : {}), ...(a.url ? { url: a.url } : {}) }) }) : name === "json_repair" ? await dispatch("/v1/json-repair", { method: "POST", headers: { "content-type": "application/json", ...h }, body: JSON.stringify({ text: a.text, ...(a.schema ? { schema: a.schema } : {}) }) }) : await dispatch(route(name, a), { headers: h });
-      return { jsonrpc: "2.0", id: m.id, result: { content: [{ type: "text", text: withSource(await r.text()) }], isError: !r.ok } };
+      const bodyText = await r.text();
+      if (onEvent) { try {
+        if (!r.ok) onEvent("toolerr:" + name + ":" + (r.status === 429 ? "429" : r.status >= 500 ? "5xx" : "4xx"));
+        if (name === "pick_provider" && r.ok) { const pj = JSON.parse(bodyText); const mt = (pj && pj.matches) || []; if (!mt.length) onEvent("zero:pick_provider"); else if (/^[a-z_]{2,24}$/.test(String(mt[0].category))) onEvent("topic:" + mt[0].category); }
+      } catch {} }
+      return { jsonrpc: "2.0", id: m.id, result: { content: [{ type: "text", text: withSource(bodyText) }], isError: !r.ok } };
     } catch (e) { return { jsonrpc: "2.0", id: m.id, result: { isError: true, content: [{ type: "text", text: String(e) }] } }; }
   }
   if (m.id !== undefined && m.id !== null) return { jsonrpc: "2.0", id: m.id, error: { code: -32601, message: "method not found" } };
