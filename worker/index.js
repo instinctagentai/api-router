@@ -6,6 +6,7 @@ import { Counter } from "./counter.js";
 import { handlePages } from "./pages.js";
 import { handleAnswers } from "./answers.js";
 import { handleAlerts, deliverAlerts } from "./alerts.js";
+import { summarize } from "./analytics.js";
 import { handleAsk } from "./asks.js";
 export { Counter };
 const KNOWN = new Set(["/", "/v1/status", "/v1/catalog", "/v1/best-route", "/v1/health-route", "/v1/json-repair", "/v1/page-to-markdown", "/v1/check-quote", "/v1/check-url", "/v1/check-email", "/v1/convert-time", "/v1/convert-units", "/v1/convert-currency", "/mcp", "/mcp/ask", "/v1/stats", "/v1/changes", "/v1/pick", "/feed.xml", "/openapi.json", "/llms.txt", "/llms-full.txt", "/agents", "/agents.md", "/.well-known/agent-card.json", "/.well-known/agent.json"]);
@@ -43,6 +44,7 @@ async function probe(p, again) {
 const worker = {
   async fetch(req, env, ctx) {
     const u = new URL(req.url);
+    if (u.pathname === "/v1/agent-analytics") { const c = counter(env); if (!c) return J({ error: "counters not enabled" }, 503); const d = Math.min(Math.max(parseInt(u.searchParams.get("days") || "7", 10) || 7, 1), 30); const st = await (await c.fetch("https://counter/stats?days=" + d)).json(); return J(summarize(st), 200, { "cache-control": "public, max-age=300" }); }
     if (u.pathname === "/v1/stats") { const c = counter(env); return c ? c.fetch("https://counter/stats?days=" + (u.searchParams.get("days") || "14")) : J({ error: "counters not enabled" }, 503); }
     // Count only top-level requests (ctx is set); internal self-dispatch calls carry no ctx. Known paths only, no IPs or user agents stored.
     let evt = null;
