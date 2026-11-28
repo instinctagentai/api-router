@@ -18,11 +18,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 8,
+        "latency_ms": 10,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.631Z"
+        "last_checked_utc": "2026-11-28T03:45:02.479Z"
       }
     },
     {
@@ -42,11 +42,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 150,
+        "latency_ms": 236,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.523Z"
+        "last_checked_utc": "2026-11-28T04:00:02.730Z"
       }
     },
     {
@@ -67,11 +67,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 279,
+        "latency_ms": 273,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.904Z"
+        "last_checked_utc": "2026-11-28T04:15:02.902Z"
       }
     },
     {
@@ -92,11 +92,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 128,
+        "latency_ms": 96,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.751Z"
+        "last_checked_utc": "2026-11-28T03:45:02.565Z"
       }
     },
     {
@@ -117,11 +117,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 89,
+        "latency_ms": 169,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.462Z"
+        "last_checked_utc": "2026-11-28T04:00:02.663Z"
       }
     },
     {
@@ -141,11 +141,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 134,
+        "latency_ms": 333,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.759Z"
+        "last_checked_utc": "2026-11-28T04:15:02.962Z"
       }
     },
     {
@@ -166,11 +166,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 232,
+        "latency_ms": 399,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.855Z"
+        "last_checked_utc": "2026-11-28T03:45:02.868Z"
       }
     },
     {
@@ -191,11 +191,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 143,
+        "latency_ms": 199,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.516Z"
+        "last_checked_utc": "2026-11-28T04:00:02.693Z"
       }
     },
     {
@@ -215,11 +215,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 48,
+        "latency_ms": 47,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.673Z"
+        "last_checked_utc": "2026-11-28T04:15:02.676Z"
       }
     },
     {
@@ -239,11 +239,11 @@
       "health": {
         "state": "up",
         "status_code": 301,
-        "latency_ms": 7,
+        "latency_ms": 5,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.630Z"
+        "last_checked_utc": "2026-11-28T03:45:02.474Z"
       }
     },
     {
@@ -263,11 +263,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 101,
+        "latency_ms": 149,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.474Z"
+        "last_checked_utc": "2026-11-28T04:00:02.643Z"
       }
     },
     {
@@ -287,11 +287,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 108,
+        "latency_ms": 100,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.733Z"
+        "last_checked_utc": "2026-11-28T04:15:02.729Z"
       }
     },
     {
@@ -311,11 +311,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 104,
+        "latency_ms": 124,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.727Z"
+        "last_checked_utc": "2026-11-28T03:45:02.593Z"
       }
     },
     {
@@ -335,11 +335,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 138,
+        "latency_ms": 275,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.511Z"
+        "last_checked_utc": "2026-11-28T04:00:02.769Z"
       }
     },
     {
@@ -359,11 +359,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 87,
+        "latency_ms": 100,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.712Z"
+        "last_checked_utc": "2026-11-28T04:15:02.729Z"
       }
     },
     {
@@ -383,11 +383,11 @@
       "health": {
         "state": "degraded",
         "status_code": 405,
-        "latency_ms": 83,
+        "latency_ms": 56,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.706Z"
+        "last_checked_utc": "2026-11-28T03:45:02.525Z"
       }
     },
     {
@@ -407,11 +407,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 403,
+        "latency_ms": 688,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.776Z"
+        "last_checked_utc": "2026-11-28T04:00:03.182Z"
       }
     },
     {
@@ -431,11 +431,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 111,
+        "latency_ms": 118,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.736Z"
+        "last_checked_utc": "2026-11-28T04:15:02.747Z"
       }
     },
     {
@@ -455,11 +455,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 127,
+        "latency_ms": 99,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.750Z"
+        "last_checked_utc": "2026-11-28T03:45:02.568Z"
       }
     },
     {
@@ -479,11 +479,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 118,
+        "latency_ms": 191,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.491Z"
+        "last_checked_utc": "2026-11-28T04:00:02.685Z"
       }
     },
     {
@@ -503,11 +503,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 33,
+        "latency_ms": 55,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.658Z"
+        "last_checked_utc": "2026-11-28T04:15:02.684Z"
       }
     },
     {
@@ -527,11 +527,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 121,
+        "latency_ms": 135,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.744Z"
+        "last_checked_utc": "2026-11-28T03:45:02.604Z"
       }
     },
     {
@@ -551,11 +551,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 840,
+        "latency_ms": 100,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:03.213Z"
+        "last_checked_utc": "2026-11-28T04:00:02.594Z"
       }
     },
     {
@@ -579,7 +579,7 @@
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.635Z"
+        "last_checked_utc": "2026-11-28T04:15:02.639Z"
       }
     },
     {
@@ -599,11 +599,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 127,
+        "latency_ms": 81,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.750Z"
+        "last_checked_utc": "2026-11-28T03:45:02.550Z"
       }
     },
     {
@@ -623,11 +623,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 350,
+        "latency_ms": 186,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.723Z"
+        "last_checked_utc": "2026-11-28T04:00:02.680Z"
       }
     },
     {
@@ -647,11 +647,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 46,
+        "latency_ms": 44,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.671Z"
+        "last_checked_utc": "2026-11-28T04:15:02.673Z"
       }
     },
     {
@@ -672,11 +672,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 131,
+        "latency_ms": 64,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.754Z"
+        "last_checked_utc": "2026-11-28T03:45:02.533Z"
       }
     },
     {
@@ -696,11 +696,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 633,
+        "latency_ms": 821,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:03.006Z"
+        "last_checked_utc": "2026-11-28T04:00:03.315Z"
       }
     },
     {
@@ -720,11 +720,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 250,
+        "latency_ms": 226,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.875Z"
+        "last_checked_utc": "2026-11-28T04:15:02.855Z"
       }
     },
     {
@@ -744,11 +744,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 101,
+        "latency_ms": 160,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.724Z"
+        "last_checked_utc": "2026-11-28T03:45:02.629Z"
       }
     },
     {
@@ -768,11 +768,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 55,
+        "latency_ms": 344,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.428Z"
+        "last_checked_utc": "2026-11-28T04:00:02.838Z"
       }
     },
     {
@@ -792,11 +792,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 485,
+        "latency_ms": 366,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:03.110Z"
+        "last_checked_utc": "2026-11-28T04:15:02.995Z"
       }
     },
     {
@@ -816,11 +816,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 71,
+        "latency_ms": 68,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.694Z"
+        "last_checked_utc": "2026-11-28T03:45:02.537Z"
       }
     },
     {
@@ -840,11 +840,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 27,
+        "latency_ms": 141,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.400Z"
+        "last_checked_utc": "2026-11-28T04:00:02.635Z"
       }
     },
     {
@@ -864,11 +864,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 64,
+        "latency_ms": 65,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.689Z"
+        "last_checked_utc": "2026-11-28T04:15:02.694Z"
       }
     },
     {
@@ -888,11 +888,11 @@
       "health": {
         "state": "degraded",
         "status_code": 405,
-        "latency_ms": 47,
+        "latency_ms": 97,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.670Z"
+        "last_checked_utc": "2026-11-28T03:45:02.566Z"
       }
     },
     {
@@ -912,11 +912,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 399,
+        "latency_ms": 531,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.772Z"
+        "last_checked_utc": "2026-11-28T04:00:03.025Z"
       }
     },
     {
@@ -936,11 +936,11 @@
       "health": {
         "state": "up",
         "status_code": 301,
-        "latency_ms": 581,
+        "latency_ms": 596,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:03.206Z"
+        "last_checked_utc": "2026-11-28T04:15:03.225Z"
       }
     },
     {
@@ -960,11 +960,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 187,
+        "latency_ms": 64,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.810Z"
+        "last_checked_utc": "2026-11-28T03:45:02.533Z"
       }
     },
     {
@@ -984,11 +984,11 @@
       "health": {
         "state": "up",
         "status_code": 302,
-        "latency_ms": 315,
+        "latency_ms": 394,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.688Z"
+        "last_checked_utc": "2026-11-28T04:00:02.888Z"
       }
     },
     {
@@ -1008,11 +1008,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 101,
+        "latency_ms": 115,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.726Z"
+        "last_checked_utc": "2026-11-28T04:15:02.744Z"
       }
     },
     {
@@ -1032,11 +1032,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 228,
+        "latency_ms": 56,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.851Z"
+        "last_checked_utc": "2026-11-28T03:45:02.525Z"
       }
     },
     {
@@ -1056,11 +1056,11 @@
       "health": {
         "state": "up",
         "status_code": 302,
-        "latency_ms": 139,
+        "latency_ms": 279,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.512Z"
+        "last_checked_utc": "2026-11-28T04:00:02.773Z"
       }
     },
     {
@@ -1080,11 +1080,11 @@
       "health": {
         "state": "degraded",
         "status_code": 404,
-        "latency_ms": 485,
+        "latency_ms": 469,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:03.110Z"
+        "last_checked_utc": "2026-11-28T04:15:03.098Z"
       }
     },
     {
@@ -1104,11 +1104,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 325,
+        "latency_ms": 740,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.948Z"
+        "last_checked_utc": "2026-11-28T03:45:03.209Z"
       }
     },
     {
@@ -1128,11 +1128,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 76,
+        "latency_ms": 229,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.449Z"
+        "last_checked_utc": "2026-11-28T04:00:02.723Z"
       }
     },
     {
@@ -1152,11 +1152,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 169,
+        "latency_ms": 167,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.794Z"
+        "last_checked_utc": "2026-11-28T04:15:02.796Z"
       }
     },
     {
@@ -1176,11 +1176,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 51,
+        "latency_ms": 60,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.674Z"
+        "last_checked_utc": "2026-11-28T03:45:02.529Z"
       }
     },
     {
@@ -1200,11 +1200,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 140,
+        "latency_ms": 331,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.513Z"
+        "last_checked_utc": "2026-11-28T04:00:02.825Z"
       }
     },
     {
@@ -1224,11 +1224,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 439,
+        "latency_ms": 445,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:03.064Z"
+        "last_checked_utc": "2026-11-28T04:15:03.074Z"
       }
     },
     {
@@ -1249,11 +1249,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 15,
+        "latency_ms": 29,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.638Z"
+        "last_checked_utc": "2026-11-28T03:45:02.498Z"
       }
     },
     {
@@ -1273,11 +1273,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 68,
+        "latency_ms": 215,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.441Z"
+        "last_checked_utc": "2026-11-28T04:00:02.709Z"
       }
     },
     {
@@ -1297,11 +1297,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 134,
+        "latency_ms": 222,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.759Z"
+        "last_checked_utc": "2026-11-28T04:15:02.851Z"
       }
     },
     {
@@ -1321,11 +1321,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 692,
+        "latency_ms": 541,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:03.315Z"
+        "last_checked_utc": "2026-11-28T03:45:03.010Z"
       }
     },
     {
@@ -1345,11 +1345,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 17,
+        "latency_ms": 27,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.390Z"
+        "last_checked_utc": "2026-11-28T04:00:02.521Z"
       }
     },
     {
@@ -1370,11 +1370,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 334,
+        "latency_ms": 522,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.959Z"
+        "last_checked_utc": "2026-11-28T04:15:03.151Z"
       }
     },
     {
@@ -1395,11 +1395,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 368,
+        "latency_ms": 405,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.991Z"
+        "last_checked_utc": "2026-11-28T03:45:02.874Z"
       }
     },
     {
@@ -1420,11 +1420,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 784,
+        "latency_ms": 996,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:03.157Z"
+        "last_checked_utc": "2026-11-28T04:00:03.490Z"
       }
     },
     {
@@ -1445,11 +1445,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 358,
+        "latency_ms": 525,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.983Z"
+        "last_checked_utc": "2026-11-28T04:15:03.154Z"
       }
     },
     {
@@ -1470,11 +1470,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 298,
+        "latency_ms": 244,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.921Z"
+        "last_checked_utc": "2026-11-28T03:45:02.713Z"
       }
     },
     {
@@ -1494,11 +1494,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 142,
+        "latency_ms": 696,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.515Z"
+        "last_checked_utc": "2026-11-28T04:00:03.190Z"
       }
     },
     {
@@ -1518,11 +1518,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 128,
+        "latency_ms": 226,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.753Z"
+        "last_checked_utc": "2026-11-28T04:15:02.855Z"
       }
     },
     {
@@ -1542,11 +1542,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 27,
+        "latency_ms": 34,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.650Z"
+        "last_checked_utc": "2026-11-28T03:45:02.503Z"
       }
     },
     {
@@ -1567,11 +1567,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 68,
+        "latency_ms": 186,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.441Z"
+        "last_checked_utc": "2026-11-28T04:00:02.680Z"
       }
     },
     {
@@ -1592,11 +1592,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 405,
+        "latency_ms": 537,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:03.030Z"
+        "last_checked_utc": "2026-11-28T04:15:03.166Z"
       }
     },
     {
@@ -1617,11 +1617,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 429,
+        "latency_ms": 390,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:03.052Z"
+        "last_checked_utc": "2026-11-28T03:45:02.859Z"
       }
     },
     {
@@ -1642,11 +1642,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 772,
+        "latency_ms": 603,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:03.145Z"
+        "last_checked_utc": "2026-11-28T04:00:03.097Z"
       }
     },
     {
@@ -1671,7 +1671,7 @@
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.999Z"
+        "last_checked_utc": "2026-11-28T04:15:03.003Z"
       }
     },
     {
@@ -1692,11 +1692,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 454,
+        "latency_ms": 270,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:03.077Z"
+        "last_checked_utc": "2026-11-28T03:45:02.739Z"
       }
     },
     {
@@ -1716,11 +1716,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 956,
+        "latency_ms": 1268,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:03.329Z"
+        "last_checked_utc": "2026-11-28T04:00:03.762Z"
       }
     },
     {
@@ -1740,11 +1740,11 @@
       "health": {
         "state": "up",
         "status_code": 202,
-        "latency_ms": 86,
+        "latency_ms": 93,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.711Z"
+        "last_checked_utc": "2026-11-28T04:15:02.722Z"
       }
     },
     {
@@ -1764,11 +1764,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 668,
+        "latency_ms": 505,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:03.291Z"
+        "last_checked_utc": "2026-11-28T03:45:02.974Z"
       }
     },
     {
@@ -1788,11 +1788,11 @@
       "health": {
         "state": "degraded",
         "status_code": 403,
-        "latency_ms": 74,
+        "latency_ms": 201,
         "is_healthy": false,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.447Z"
+        "last_checked_utc": "2026-11-28T04:00:02.695Z"
       }
     },
     {
@@ -1812,11 +1812,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 224,
+        "latency_ms": 582,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.849Z"
+        "last_checked_utc": "2026-11-28T04:15:03.211Z"
       }
     },
     {
@@ -1836,11 +1836,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 179,
+        "latency_ms": 240,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.802Z"
+        "last_checked_utc": "2026-11-28T03:45:02.709Z"
       }
     },
     {
@@ -1860,11 +1860,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 172,
+        "latency_ms": 451,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.545Z"
+        "last_checked_utc": "2026-11-28T04:00:02.945Z"
       }
     },
     {
@@ -1884,11 +1884,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 299,
+        "latency_ms": 376,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.924Z"
+        "last_checked_utc": "2026-11-28T04:15:03.005Z"
       }
     },
     {
@@ -1908,11 +1908,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 320,
+        "latency_ms": 146,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.943Z"
+        "last_checked_utc": "2026-11-28T03:45:02.615Z"
       }
     },
     {
@@ -1932,11 +1932,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 313,
+        "latency_ms": 578,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.686Z"
+        "last_checked_utc": "2026-11-28T04:00:03.072Z"
       }
     },
     {
@@ -1956,11 +1956,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 99,
+        "latency_ms": 162,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.724Z"
+        "last_checked_utc": "2026-11-28T04:15:02.791Z"
       }
     },
     {
@@ -1980,11 +1980,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 264,
+        "latency_ms": 390,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.887Z"
+        "last_checked_utc": "2026-11-28T03:45:02.859Z"
       }
     },
     {
@@ -2004,11 +2004,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 155,
+        "latency_ms": 284,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.528Z"
+        "last_checked_utc": "2026-11-28T04:00:02.778Z"
       }
     },
     {
@@ -2028,11 +2028,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 118,
+        "latency_ms": 170,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.743Z"
+        "last_checked_utc": "2026-11-28T04:15:02.799Z"
       }
     },
     {
@@ -2052,11 +2052,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 288,
+        "latency_ms": 170,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.911Z"
+        "last_checked_utc": "2026-11-28T03:45:02.639Z"
       }
     },
     {
@@ -2076,11 +2076,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 121,
+        "latency_ms": 218,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.494Z"
+        "last_checked_utc": "2026-11-28T04:00:02.712Z"
       }
     },
     {
@@ -2100,11 +2100,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 193,
+        "latency_ms": 224,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.818Z"
+        "last_checked_utc": "2026-11-28T04:15:02.853Z"
       }
     },
     {
@@ -2124,11 +2124,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 174,
+        "latency_ms": 217,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.797Z"
+        "last_checked_utc": "2026-11-28T03:45:02.686Z"
       }
     },
     {
@@ -2148,11 +2148,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 219,
+        "latency_ms": 378,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.592Z"
+        "last_checked_utc": "2026-11-28T04:00:02.872Z"
       }
     },
     {
@@ -2172,11 +2172,11 @@
       "health": {
         "state": "up",
         "status_code": 301,
-        "latency_ms": 115,
+        "latency_ms": 124,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.740Z"
+        "last_checked_utc": "2026-11-28T04:15:02.753Z"
       }
     },
     {
@@ -2196,11 +2196,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 271,
+        "latency_ms": 236,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.894Z"
+        "last_checked_utc": "2026-11-28T03:45:02.705Z"
       }
     },
     {
@@ -2220,11 +2220,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 1095,
+        "latency_ms": 759,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:03.468Z"
+        "last_checked_utc": "2026-11-28T04:00:03.253Z"
       }
     },
     {
@@ -2244,11 +2244,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 394,
+        "latency_ms": 428,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:03.019Z"
+        "last_checked_utc": "2026-11-28T04:15:03.057Z"
       }
     },
     {
@@ -2268,11 +2268,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 197,
+        "latency_ms": 245,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T03:45:02.820Z"
+        "last_checked_utc": "2026-11-28T03:45:02.714Z"
       }
     },
     {
@@ -2292,11 +2292,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 559,
+        "latency_ms": 735,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:00:02.932Z"
+        "last_checked_utc": "2026-11-28T04:00:03.229Z"
       }
     },
     {
@@ -2316,11 +2316,11 @@
       "health": {
         "state": "up",
         "status_code": 200,
-        "latency_ms": 244,
+        "latency_ms": 260,
         "is_healthy": true,
         "reachable": true,
         "rate_limited": false,
-        "last_checked_utc": "2026-11-27T04:15:02.869Z"
+        "last_checked_utc": "2026-11-28T04:15:02.889Z"
       }
     }
   ]
