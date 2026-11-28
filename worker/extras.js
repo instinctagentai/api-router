@@ -407,6 +407,12 @@ export async function handleConvertCurrency(req, u) {
   const rl = await rateLimit(req);
   if (!rl.ok) return J({ error: "daily free limit reached", limit_per_day: DAILY_LIMIT }, 429);
   if (from === to) return J({ amount, from, to, result: amount, rate: 1, remaining_today: rl.remaining });
+  if (from === "QAR" || to === "QAR") {
+    const o = from === "QAR" ? to : from; let usd = 1, date = null;
+    if (o !== "USD") { try { const r = await fetch("https://api.frankfurter.dev/v1/latest?base=USD&symbols=" + o, { signal: AbortSignal.timeout(6000), cf: { cacheTtl: 3600, cacheEverything: true } }); if (!r.ok) return J({ error: "currency not supported by the rate source (" + r.status + ")" }, 400); const jj = await r.json(); usd = jj.rates && jj.rates[o]; date = jj.date; } catch (e) { return J({ error: "rate source unavailable" }, 502); } if (!usd) return J({ error: "currency not supported by the rate source" }, 400); }
+    const rate = from === "QAR" ? usd / 3.64 : 3.64 / usd;
+    return J({ amount, from, to, rate, result: +(amount * rate).toFixed(6), rate_date: date, source: "QAR leg: fixed peg of 3.64 riyals per US dollar (Qatar Central Bank, https://www.qcb.gov.qa/en/Pages/MonetaryPolicyTools.aspx)" + (o !== "USD" ? "; other leg: frankfurter.dev (central bank reference rates)" : ""), note: "Reference rate for information only. Not the rate a bank or exchange will give you.", remaining_today: rl.remaining });
+  }
   let j;
   try { const r = await fetch("https://api.frankfurter.dev/v1/latest?base=" + from + "&symbols=" + to, { signal: AbortSignal.timeout(6000), cf: { cacheTtl: 3600, cacheEverything: true } }); if (!r.ok) return J({ error: "currency not supported by the rate source (" + r.status + ")" }, 400); j = await r.json(); } catch (e) { return J({ error: "rate source unavailable" }, 502); }
   const rate = j.rates && j.rates[to];
