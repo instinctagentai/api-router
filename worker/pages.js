@@ -1,4 +1,5 @@
 // Public comparison pages generated from the live catalog and health data. No LLM, no invented numbers.
+import { alertPaths } from "./alerts.js";
 import partners from "../partners.json";
 import { HEALTH_RULE, REFRESH_MIN } from "./extras.js";
 import { answerPaths, bestPaths, vsPaths, endPaths, arPaths, arBestPaths, weeklyPath } from "./answers.js";
@@ -56,7 +57,7 @@ export async function handlePages(u, env, getHealth, req) {
   if (p === "/uptime.json") return uptimePage(env, false, true);
   if (p === "/uptime") return uptimePage(env, wantMd, false);
   if (p === "/robots.txt") return new Response(`User-agent: *\nAllow: /\nDisallow: /go/\nSitemap: ${BASE}/sitemap.xml\n`, { headers: { "content-type": "text/plain" } });
-  if (p === "/sitemap.xml") return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/compare", "/uptime"].concat(Object.keys(CATS).map((k) => "/compare/" + k), answerPaths(), bestPaths(), vsPaths(), endPaths(), ["/llm-limits"], arPaths(), arBestPaths(), weeklyPath(), askPaths()).map((x) => `<url><loc>${BASE}${x}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`, { headers: { "content-type": "application/xml" } });
+  if (p === "/sitemap.xml") return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${["/compare", "/uptime"].concat(Object.keys(CATS).map((k) => "/compare/" + k), answerPaths(), bestPaths(), vsPaths(), endPaths(), ["/llm-limits"], arPaths(), arBestPaths(), weeklyPath(), alertPaths(), askPaths()).map((x) => `<url><loc>${BASE}${x}</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>`).join("")}</urlset>`, { headers: { "content-type": "application/xml" } });
   if (p === "/compare") {
     const li = Object.entries(CATS).map(([k, c]) => `<li><a href="/compare/${k}">${esc(c.title)}</a>: ${esc(c.blurb)}</li>`).join("");
     if (wantMd) return md(`# API provider comparisons with live status\n\n${Object.entries(CATS).map(([k, c]) => `- ${c.title}: ${BASE}/compare/${k}`).join("\n")}\n\nStatus and latency come from a probe that runs every ${REFRESH_MIN} minutes. Some signup links are referral links and are marked.\n`);
