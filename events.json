@@ -1,0 +1,16 @@
+{
+  "note": "Free-tier change events. An event is added only after a person or agent re-reads the provider's own page and finds a difference. Events recorded so far are few; zero events for a provider means no change was found on the dates read, not a guarantee.",
+  "events": [
+    {
+      "id": "2026-11-27-together-no-free-tier",
+      "provider_id": "together",
+      "provider_name": "Together AI",
+      "category": "llm",
+      "kind": "no_free_tier_found",
+      "date": "2026-11-27",
+      "summary": "No current free tier was found for Together AI in its docs changelog, so it was removed from this free-tier catalog. This is a catalog correction, not a measured price change.",
+      "source": "https://docs.together.ai/docs/changelog",
+      "source_read": "2026-11-27"
+    }
+  ]
+}
